@@ -228,10 +228,10 @@ def main() -> int:
         f"touched over {ok_a} clips); it is not instrumented with iostat.",
     ]
 
-    REPORT = Path(args.out)
-    REPORT.parent.mkdir(parents=True, exist_ok=True)
-    REPORT.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"wrote {REPORT}")
+    out_path = Path(args.out)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(f"wrote {out_path}")
     print(f"(a) decode-on-the-fly : {clips_per_sec_a:.2f} clips/s ({ok_a}/{n})")
     print(f"(b) jpg reload        : {clips_per_sec_b:.2f} clips/s ({ok_b}/{n})")
     return 0

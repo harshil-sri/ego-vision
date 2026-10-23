@@ -1,0 +1,6 @@
+narration_id,video_id,verb,noun,start_frame,stop_frame,frames_expected,start_sec,duration_sec,frames_actual,out_path
+P01_107_0,P01_107,close,door,134,225,92,2.68,1.84,92,/home/harshil/ego-vision/reports/annotation_check/P01_107_0_close.mp4
+P01_107_20,P01_107,open,bag:cereal,1594,1872,279,31.88,5.58,279,/home/harshil/ego-vision/reports/annotation_check/P01_107_20_open.mp4
+P01_107_30,P01_107,close,cupboard,2854,2892,39,57.08,0.78,39,/home/harshil/ego-vision/reports/annotation_check/P01_107_30_close.mp4
+P01_107_50,P01_107,open,drawer,4980,5015,36,99.6,0.72,36,/home/harshil/ego-vision/reports/annotation_check/P01_107_50_open.mp4
+P01_107_9,P01_107,close,fridge,952,992,41,19.04,0.82,41,/home/harshil/ego-vision/reports/annotation_check/P01_107_9_close.mp4

@@ -77,6 +77,7 @@ def load_segments(split_csv: str | Path,
         df = df[df["video_id"].isin(video_ids)]
 
     df = df.copy()
+    df = df[SEGMENT_COLUMNS]  # usecols keeps CSV order; enforce contract order
     df["start_frame"] = df["start_frame"].astype("int64")
     df["stop_frame"] = df["stop_frame"].astype("int64")
     df["verb_class"] = df["verb_class"].astype("int64")
