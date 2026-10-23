@@ -1,0 +1,7 @@
+# Which implementation each core piece uses: "reference" (agent-written study
+# material) or "core" (owner's hand-written version; folder starts empty).
+metrics: reference
+frame_sampler: reference
+enrollment: reference
+temporal_attention: reference
+state_machine: reference

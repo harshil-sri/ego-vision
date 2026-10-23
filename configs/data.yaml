@@ -1,0 +1,12 @@
+# Data locations and subset policy. Paths are absolute on this machine.
+annotations_dir: /mnt/ssd/epic-tools/epic-kitchens-100-annotations
+videos_root: /mnt/ssd/epic-kitchens/EPIC-KITCHENS   # <Pxx>/videos/<id>.MP4 layout
+downscaled_root: /mnt/ssd/epic-kitchens/EPIC-256    # short side 256 copies
+selected_videos_csv: reports/selected_videos.csv
+
+# Internal held-out validation (V1 in DECISIONS_NEEDED.md): videos removed
+# from training and used as validation because the fast HF mirror carries
+# train-split videos only. Chosen: 2 participants fully held out.
+heldout_participants: [P22, P30]
+
+candidate_verbs: [take, put, wash, cut, open, close, mix, pour]

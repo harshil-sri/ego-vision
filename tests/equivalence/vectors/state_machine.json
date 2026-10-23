@@ -1,0 +1,86 @@
+{
+ "recipe": {
+  "name": "vector recipe",
+  "ingredients": [
+   "a",
+   "b"
+  ],
+  "verbs": [
+   "take",
+   "cut",
+   "put"
+  ],
+  "steps": [
+   {
+    "verb": "take",
+    "ingredient": "a",
+    "note": ""
+   },
+   {
+    "verb": "cut",
+    "ingredient": "a",
+    "note": ""
+   },
+   {
+    "verb": "take",
+    "ingredient": "b",
+    "note": ""
+   },
+   {
+    "verb": "put",
+    "ingredient": "b",
+    "note": ""
+   }
+  ]
+ },
+ "events": [
+  {
+   "verb": "take",
+   "ingredient": "b",
+   "kind": "wrong_order",
+   "step_index": 0
+  },
+  {
+   "verb": "take",
+   "ingredient": "a",
+   "kind": "advance",
+   "step_index": 0
+  },
+  {
+   "verb": "take",
+   "ingredient": "a",
+   "kind": "repeat",
+   "step_index": 0
+  },
+  {
+   "verb": "open",
+   "ingredient": "a",
+   "kind": "idle",
+   "step_index": -1
+  },
+  {
+   "verb": "cut",
+   "ingredient": "a",
+   "kind": "advance",
+   "step_index": 1
+  },
+  {
+   "verb": "take",
+   "ingredient": "b",
+   "kind": "advance",
+   "step_index": 2
+  },
+  {
+   "verb": "put",
+   "ingredient": "b",
+   "kind": "done",
+   "step_index": 3
+  },
+  {
+   "verb": "put",
+   "ingredient": "b",
+   "kind": "idle",
+   "step_index": -1
+  }
+ ]
+}
