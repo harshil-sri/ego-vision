@@ -3,11 +3,15 @@ import time
 
 import cv2
 
-from src.capture import CameraCapture, CameraConfig
+from src.camera_worker import CameraWorker
+from src.capture import CameraConfig
+from src.frame_buffer import LatestFrameBuffer
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Preview a camera stream.")
+    parser = argparse.ArgumentParser(
+        description="Preview a camera stream."
+    )
 
     parser.add_argument("--source", default="/dev/video0")
     parser.add_argument("--width", type=int, default=640)
@@ -23,75 +27,55 @@ def main() -> None:
         fps=args.fps,
     )
 
+    buffer = LatestFrameBuffer()
+    worker = CameraWorker(config, buffer)
+
+    worker.start()
+
     try:
-        with CameraCapture(config) as camera:
-            print(f"Camera: {config.source}")
-            print(
-                f"Requested: "
-                f"{config.width}x{config.height} @ {config.fps} FPS"
+        while True:
+            if worker.error is not None:
+                raise worker.error
+
+            packet = buffer.get(timeout=1.0)
+
+            if packet is None:
+                continue
+
+            frame = packet.image
+
+            cv2.putText(
+                frame,
+                f"Frame {packet.frame_id}",
+                (10, 30),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.8,
+                (0, 255, 0),
+                2,
             )
-            print(
-                f"Negotiated: "
-                f"{camera.actual_width}x{camera.actual_height} "
-                f"@ {camera.reported_fps:.2f} FPS"
-            )
-            print("Press 'q' or ESC to quit.")
 
-            frame_count = 0
-            fps_start = time.monotonic()
+            cv2.imshow("Ego Vision - Camera Preview", frame)
 
-            while True:
-                packet = camera.read()
+            key = cv2.waitKey(1) & 0xFF
 
-                if packet is None:
-                    print("Failed to read frame.")
-                    break
+            if key == ord("q") or key == 27:
+                break
 
-                frame = packet.image
-                frame_count += 1
-
-                cv2.putText(
-                    frame,
-                    f"Frame {packet.frame_id}",
-                    (10, 30),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    0.8,
-                    (0, 255, 0),
-                    2,
-                )
-
-                now = time.monotonic()
-                elapsed = now - fps_start
-
-                if elapsed >= 1.0:
-                    measured_fps = frame_count / elapsed
-
-                    print(
-                        f"Measured FPS: {measured_fps:.2f} | "
-                        f"Frame: {frame.shape[1]}x{frame.shape[0]}"
-                    )
-
-                    frame_count = 0
-                    fps_start = now
-
-                cv2.imshow("Ego Vision - Camera Preview", frame)
-
-                key = cv2.waitKey(1) & 0xFF
-
-                if key == ord("q") or key == 27:
-                    break
-
-                if cv2.getWindowProperty(
-                    "Ego Vision - Camera Preview",
-                    cv2.WND_PROP_VISIBLE,
-                ) < 1:
-                    break
+            if cv2.getWindowProperty(
+                "Ego Vision - Camera Preview",
+                cv2.WND_PROP_VISIBLE,
+            ) < 1:
+                break
 
     except KeyboardInterrupt:
         print("\nInterrupted by user.")
 
     finally:
+        worker.stop()
         cv2.destroyAllWindows()
-        
+
+        print(f"Dropped frames: {buffer.dropped_frames}")
+
+
 if __name__ == "__main__":
     main()

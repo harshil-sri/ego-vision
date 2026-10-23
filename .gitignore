@@ -1,2 +1,10 @@
 __pycache__/
 *.pyc
+# Windows download marker files
+*:Zone.Identifier
+# python
+__pycache__/
+*.pyc
+# data + runs artifacts (keep small json/md reports in git)
+runs/sessions/
+runs/checkpoints/
