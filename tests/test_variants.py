@@ -71,19 +71,20 @@ def test_single_frame_uses_middle_frame_only():
     model = VerbModel("resnet18", 8, "single_frame", pretrained=False)
     model.eval()
     T = 4
+    middle = T // 2  # == 2 for T=4
     with torch.no_grad():
         base = _clip_batch(1, T, 64, seed=1)
 
         changed_elsewhere = base.clone()
-        # overwrite every NON-middle frame (indices 0, 2, 3 for T=4):
-        changed_elsewhere[:, 0] = torch.randn(3, 64, 64)
-        changed_elsewhere[:, 2] = torch.randn(3, 64, 64)
-        changed_elsewhere[:, 3] = torch.randn(3, 64, 64)
+        # overwrite every NON-middle frame (indices 0, 1, 3 for T=4):
+        for t in range(T):
+            if t != middle:
+                changed_elsewhere[:, t] = torch.randn(3, 64, 64)
         # non-middle changes must NOT move the logits
         assert torch.allclose(model(base), model(changed_elsewhere))
 
         changed_middle = base.clone()
-        changed_middle[:, T // 2] = torch.randn(3, 64, 64)
+        changed_middle[:, middle] = torch.randn(3, 64, 64)
         # a middle-frame change MUST move the logits
         assert not torch.allclose(model(base), model(changed_middle))
 

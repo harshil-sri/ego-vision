@@ -1,10 +1,11 @@
 """Tests for src/train/eval_model.py with HAND-COMPUTED expected numbers.
 
-Case (5 samples, 3 classes), all values verifiable on paper:
+Case (5 samples, 3 classes), all values verifiable on paper (no argmax
+ties — ties are implementation-dependent and would make this flaky):
 
     scores (5,3)          y    argmax(pred)
     [3, 1, 0]             0    0   correct
-    [2, 2, 1]             1    0   wrong
+    [2, 1.9, 1]           1    0   wrong
     [0, 4, 1]             2    1   wrong
     [1, 0, 5]             2    2   correct
     [2, 3, 0]             1    1   correct
@@ -29,7 +30,7 @@ import torch.utils.data
 from src.train.eval_model import evaluate, save_confusion_png
 
 SCORES = torch.tensor([[3.0, 1.0, 0.0],
-                       [2.0, 2.0, 1.0],
+                       [2.0, 1.9, 1.0],
                        [0.0, 4.0, 1.0],
                        [1.0, 0.0, 5.0],
                        [2.0, 3.0, 0.0]])           # (5, 3) float32

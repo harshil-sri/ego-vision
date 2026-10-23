@@ -60,6 +60,12 @@ class EngineConfig:
 IDLE, SCANNING, COOKING, DONE = "idle", "scanning", "cooking", "done"
 
 
+def _dummy_frame():
+    """Tiny black frame for embedder warm-up (HxWx3 uint8)."""
+    import numpy as np
+    return np.zeros((64, 64, 3), np.uint8)
+
+
 class CookingEngine:
     """Owns the frame source, matcher, verb source, smoother, state machine."""
 
@@ -162,6 +168,13 @@ class CookingEngine:
         self._thread = threading.Thread(target=self._loop, name="engine",
                                         daemon=True)
         self._thread.start()
+        # Pre-warm the embedder OFF the engine loop: the first DINOv2/CLIP
+        # use downloads ~84 MB of weights, which would otherwise stall the
+        # scan-phase capture for tens of seconds (UI subagent finding).
+        if self.cfg.embedder != "toy":
+            threading.Thread(target=self._get_embedder,
+                             args=([_dummy_frame()],),
+                             name="embedder-warmup", daemon=True).start()
         self.bus.publish("session_started", recipe=self.recipe.name,
                          mode=self.cfg.mode, phase=self.phase,
                          smoother=self.cfg.smoother, T=self.cfg.T,

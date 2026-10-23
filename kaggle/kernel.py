@@ -67,7 +67,7 @@ def main() -> None:
         done = 0
         for row in selected.itertuples():
             vid = row.video_id
-            out = EPIC256 / vid[:3] / "videos" / f"{vid}.mp4"
+            out = EPIC256 / vid[:3] / "videos" / f"{vid}.MP4"
             if out.exists():
                 done += 1
                 continue

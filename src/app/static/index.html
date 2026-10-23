@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ego-kitchen</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%2317191d'/%3E%3Ccircle%20cx='16'%20cy='17'%20r='8'%20fill='none'%20stroke='%23f0a63c'%20stroke-width='3'/%3E%3Crect%20x='13'%20y='4'%20width='6'%20height='5'%20rx='1.5'%20fill='%23f0a63c'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="connBanner" class="conn-banner" hidden role="status">
+  <span class="conn-dot" aria-hidden="true"></span>
+  <span id="connBannerText">reconnecting&hellip;</span>
+</div>
+
+<header class="topbar">
+  <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <rect width="32" height="32" rx="7" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <circle cx="16" cy="17" r="8" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <rect x="13" y="4" width="6" height="5" rx="1.5" fill="currentColor"/>
+    </svg>
+    <span class="brand-name">ego-kitchen</span>
+    <span id="recipeName" class="recipe-name"></span>
+  </div>
+  <div class="top-status">
+    <span id="phaseChip" class="chip chip-phase"><span id="phaseIcon" class="chip-ico" aria-hidden="true"></span><span id="phaseText">starting</span></span>
+    <span id="modeChip" class="chip" title="recognition mode"></span>
+    <button id="helpBtn" class="ghost-btn" type="button" aria-label="Keyboard shortcuts (question mark)">? shortcuts</button>
+    <button id="stopBtn" class="ghost-btn ghost-danger" type="button">End session</button>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="stage" aria-label="Live camera view">
+    <div class="video-wrap">
+      <img id="video" src="/video/stream" alt="Annotated live camera stream">
+      <div class="video-chips">
+        <div class="vchip" title="predicted verb and confidence">
+          <span class="vchip-label">verb</span>
+          <span id="verbChip" class="vchip-value">&ndash;</span>
+        </div>
+        <div class="vchip" title="matched ingredient and similarity">
+          <span class="vchip-label">ingredient</span>
+          <span id="ingChip" class="vchip-value">unknown</span>
+        </div>
+      </div>
+      <div id="warnBanner" class="warn-banner" role="alert" hidden>
+        <svg class="warn-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 3 2.5 20h19L12 3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          <line x1="12" y1="10" x2="12" y2="14.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="12" cy="17.2" r="1.3" fill="currentColor"/>
+        </svg>
+        <span id="warnText"></span>
+      </div>
+    </div>
+    <div id="noteLine" class="note-line" role="status" hidden></div>
+    <div id="idleNudge" class="idle-nudge" role="status" hidden></div>
+  </section>
+
+  <aside class="panel" id="panel" aria-live="polite">
+    <div class="panel-empty">connecting&hellip;</div>
+  </aside>
+</main>
+
+<footer id="debugDrawer" class="debug" data-open="closed">
+  <button id="debugToggle" class="debug-toggle" type="button" aria-expanded="false" aria-controls="debugBody">
+    <svg class="dbg-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    debug <span class="kbd-mini">d</span>
+  </button>
+  <div id="debugBody" class="debug-body" hidden>
+    <div class="debug-grid">
+      <div class="dbg-tile"><span class="dbg-label">verb</span><span id="dbgVerb">&ndash;</span></div>
+      <div class="dbg-tile"><span class="dbg-label">confidence</span><span id="dbgConf">&ndash;</span></div>
+      <div class="dbg-tile"><span class="dbg-label">ingredient</span><span id="dbgIng">&ndash;</span></div>
+      <div class="dbg-tile"><span class="dbg-label">score</span><span id="dbgScore">&ndash;</span></div>
+      <div class="dbg-tile"><span class="dbg-label">fps</span><span id="dbgFps">&ndash;</span></div>
+      <div class="dbg-tile"><span class="dbg-label">inference</span><span id="dbgInf">&ndash;</span></div>
+      <div class="dbg-tile"><span class="dbg-label">dropped</span><span id="dbgDrop">&ndash;</span></div>
+      <div class="dbg-tile"><span class="dbg-label">smoother</span><span id="dbgSmooth">&ndash;</span></div>
+      <div class="dbg-tile"><span class="dbg-label">min conf</span><span id="dbgMinConf">&ndash;</span></div>
+    </div>
+    <div class="dbg-section">
+      <div class="dbg-label">sampled frames <span class="dbg-hint">(backend does not send these yet &mdash; placeholder)</span></div>
+      <div id="dbgFrames" class="dbg-frames"><span class="dbg-frames-empty">no sampled-frame strip</span></div>
+    </div>
+    <div class="dbg-section">
+      <div class="dbg-label">recent events <span class="dbg-hint">(last 12)</span></div>
+      <ul id="dbgEvents" class="dbg-events"><li class="dbg-events-empty">no events yet</li></ul>
+    </div>
+  </div>
+</footer>
+
+<div id="toasts" class="toasts" aria-live="polite"></div>
+
+<div id="helpOverlay" class="overlay" hidden>
+  <div class="overlay-card" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <h2 id="helpTitle">Keyboard shortcuts</h2>
+    <ul class="help-list">
+      <li><span class="kbd">1</span>&ndash;<span class="kbd">8</span> trigger recipe verbs (keyboard mode)</li>
+      <li><span class="kbd">d</span> toggle the debug drawer</li>
+      <li><span class="kbd">p</span> presentation mode (bigger type, hides debug)</li>
+      <li><span class="kbd">?</span> show / hide this help</li>
+      <li><span class="kbd">Esc</span> close overlays</li>
+    </ul>
+    <button id="helpClose" class="btn btn-primary" type="button">Close</button>
+  </div>
+</div>
+
+<div id="stoppedOverlay" class="overlay" hidden>
+  <div class="overlay-card" role="dialog" aria-modal="true" aria-labelledby="stoppedTitle">
+    <div class="done-mark done-mark-stopped" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false"><rect x="7" y="7" width="10" height="10" rx="1.5" fill="currentColor"/></svg>
+    </div>
+    <h2 id="stoppedTitle">Session ended</h2>
+    <p class="overlay-text">The engine has been stopped. Restart the demo with:</p>
+    <pre class="overlay-code">python -m scripts.run_app --mode keyboard --synthetic</pre>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
