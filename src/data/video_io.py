@@ -214,6 +214,7 @@ def probe_frame_count(path: str) -> int:
     This reads metadata only — it never decodes the whole file.
     """
     path = str(path)
+    # Fast path: nb_frames from the MP4 header (no decoding).
     raw = _ffprobe(path, "stream=nb_frames")
     try:
         count = int(raw)
@@ -221,8 +222,7 @@ def probe_frame_count(path: str) -> int:
             return count
     except ValueError:
         pass
-    raw = _ffprobe(path, "stream=nb_read_packets", stream="v:0")
-    # nb_read_packets needs -count_packets; retry with the explicit flag.
+    # Slow path: count packets (-count_packets demuxes but does not decode).
     try:
         out = subprocess.run(
             ["ffprobe", "-v", "error", "-count_packets",
