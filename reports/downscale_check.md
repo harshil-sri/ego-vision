@@ -7,3 +7,4 @@ the original so annotation indices stay valid.
 | date | video | crf | orig fps | new fps | orig frames | new frames | orig MB | new MB | encode s | status |
 |---|---|---|---|---|---|---|---|---|---|---|
 | 2026-10-23 22:58 | P01_107 | 23 | 50/1 | 50/1 | 5972 | 5972 | 362 | 10 | 33 | OK |
+| 2026-10-23 23:03 | P02_133 | 23 | 50/1 | 50/1 | 4022 | 4022 | 244 | 6 | 22 | OK |

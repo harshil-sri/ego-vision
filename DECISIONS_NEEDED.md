@@ -77,13 +77,25 @@ baked in).
 
 ## S1: `stop_frame` convention in the frame sampler
 - Options: inclusive (a segment covers start_frame..stop_frame) / exclusive.
-- Evidence: EPIC annotation semantics — the CSVs pair start_frame/stop_frame
-  with start/stop timestamps whose durations match stop-start (verify per
-  video with ffprobe once first video lands; P01_01 row 0: frames 8..202,
-  timestamps 0.14s..3.37s at 59.94 fps -> 202-8=194 frames vs 3.23s*59.94=193.6
-  -> consistent with **inclusive stop_frame**).
+- Evidence (three independent checks):
+  1. Timestamp math, P01_01 row 0: frames 8..202, 0.14s..3.37s at 59.94 fps
+     -> 3.23s * 59.94 = 193.6 ≈ 202-8=194 -> inclusive (202-8+1=195, stop-start=194; the half-frame is rounding).
+  2. REAL DATA CONFIRMED (2026-10-24, subagent WP1b): 5 segments from
+     P01_107 cut with ffmpeg at start_frame/fps for (stop_frame-start_frame+1)/fps
+     -> frames_actual == frames_expected EXACTLY (92, 279, 39, 36, 41) in
+     5/5 cuts. reports/annotation_check/labels.csv.
+  3. Downscaled copy of P01_107 keeps 5972 frames; sampler indices valid end to end.
 - Reference implements `stop_inclusive: bool = True` as an explicit parameter;
   the owner decides the canonical value for his own core/ version.
+
+## D8: evidence so far (loader benchmark, 2026-10-24, subagent WP1b)
+- Decode-on-the-fly from downscaled 256px mp4: **1.94 clips/s** (T=8, 24 clips,
+  single process, download running concurrently — labelled estimate).
+- Pre-extracted JPEG frames reload: **198.45 clips/s**; pre-extraction disk
+  cost **0.33 MB/clip** (~0.33 GB per 1000 clips).
+- Suggestion (labelled): pre-extraction is ~100x faster at modest disk cost;
+  but 1.94 clips/s already feeds a T4-sized GPU at batch 8-16. Decide with
+  the accuracy run's wall-clock in hand. Full table: reports/loader_benchmark.md.
 
 ## S2: Recipe for the final demo
 - Placeholder recipe (recipes/example_salad.yaml) is active. Owner replaces
