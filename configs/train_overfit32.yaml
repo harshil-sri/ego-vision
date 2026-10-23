@@ -1,0 +1,26 @@
+# Overfit-32 gate run: MUST drive train accuracy to ~100% on the first 32
+# segments (train_limit 64 caps the split build for speed). Small img and
+# batch keep it quick; everything else matches the baseline config.
+backbone: resnet34
+variant: single_frame
+num_verbs: 8
+T: 8
+img_size: 64
+optimizer: adamw
+lr: 3.0e-4
+weight_decay: 0.01
+lr_schedule: cosine
+epochs: 30
+batch_size: 8
+amp: false
+class_weights: true
+seed: 42
+grad_clip: null
+out_dir: runs/overfit32
+overfit_batch: 32
+device: cpu
+data_root: /mnt/ssd/epic-kitchens
+annotations_dir: /mnt/ssd/epic-tools/epic-kitchens-100-annotations
+videos_root: /mnt/ssd/epic-kitchens/EPIC-256
+heldout_participants: [P22, P30]
+train_limit: 64

@@ -1,0 +1,27 @@
+# App/engine defaults. Every D-decision knob visible in one place.
+mode: keyboard            # keyboard | clip | live
+window_seconds: 2.0       # sliding window span (D5)
+T: 8                      # frames per clip (D5)
+tick_hz: 5.0              # recognition attempts per second
+matcher_hz: 2.0           # ingredient match attempts per second
+smoother: ema             # ema | majority | hysteresis (D6)
+smoother_args: {alpha: 0.3}
+min_conf: 0.5             # D3a default
+embedder: dinov2          # toy | dinov2 | resnet | clip (D7)
+matcher_threshold: 0.5
+ingredient_crop: show_zone  # show_zone | whole_frame (D4)
+show_zone: [0.30, 0.25, 0.40, 0.50]  # relative x, y, w, h
+scan_seconds: 10.0
+scan_fps: 3.0
+idle_timeout_s: 45.0
+metrics_every_s: 2.0
+record_video: false
+device: cpu
+
+# camera (validated on the new external cam; MJPEG is mandatory under WSL2)
+camera:
+  source: /dev/video0
+  width: 640
+  height: 480
+  fps: 30
+  pixel_format: MJPG

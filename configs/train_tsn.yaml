@@ -1,0 +1,26 @@
+# tsn_avg variant comparison run: identical to configs/train_baseline.yaml
+# except variant and out_dir (the later D-variant comparison table reads
+# runs/baseline, runs/tsn, runs/temporal_attn).
+backbone: resnet34
+variant: tsn_avg
+num_verbs: 8
+T: 8
+img_size: 224
+optimizer: adamw
+lr: 3.0e-4
+weight_decay: 0.01
+lr_schedule: cosine
+epochs: 12
+batch_size: 16
+amp: false
+class_weights: true
+seed: 42
+grad_clip: null
+out_dir: runs/tsn
+overfit_batch: null
+device: cpu
+data_root: /mnt/ssd/epic-kitchens
+annotations_dir: /mnt/ssd/epic-tools/epic-kitchens-100-annotations
+videos_root: /mnt/ssd/epic-kitchens/EPIC-256
+heldout_participants: [P22, P30]
+train_limit: null

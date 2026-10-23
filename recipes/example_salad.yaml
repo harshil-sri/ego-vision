@@ -1,0 +1,13 @@
+name: Example salad
+ingredients: [tomato, cucumber, dressing]
+verbs: [take, wash, cut, put, pour, mix]
+steps:
+  - {verb: take,  ingredient: tomato}
+  - {verb: wash,  ingredient: tomato}
+  - {verb: cut,   ingredient: tomato}
+  - {verb: put,   ingredient: tomato,   note: "into bowl"}
+  - {verb: take,  ingredient: cucumber}
+  - {verb: cut,   ingredient: cucumber}
+  - {verb: put,   ingredient: cucumber, note: "into bowl"}
+  - {verb: pour,  ingredient: dressing}
+  - {verb: mix,   ingredient: dressing}

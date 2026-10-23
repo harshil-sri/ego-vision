@@ -1,0 +1,26 @@
+# Baseline verb-model training run (WP3 default: D1 backbone resnet34,
+# variant single_frame, D5 T=8). Values mirror the build-brief defaults;
+# device stays cpu here and the Kaggle run overrides it via --device cuda.
+backbone: resnet34
+variant: single_frame
+num_verbs: 8
+T: 8
+img_size: 224
+optimizer: adamw
+lr: 3.0e-4
+weight_decay: 0.01
+lr_schedule: cosine
+epochs: 12
+batch_size: 16
+amp: false
+class_weights: true
+seed: 42
+grad_clip: null
+out_dir: runs/baseline
+overfit_batch: null
+device: cpu
+data_root: /mnt/ssd/epic-kitchens
+annotations_dir: /mnt/ssd/epic-tools/epic-kitchens-100-annotations
+videos_root: /mnt/ssd/epic-kitchens/EPIC-256   # downscaled root (same layout/frame counts)
+heldout_participants: [P22, P30]
+train_limit: null
