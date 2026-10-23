@@ -116,8 +116,8 @@ def main() -> None:
             for precision in PRECISIONS:
                 label = f"{backbone} T={T} {precision}"
                 if device.type == "cpu" and precision == "fp16":
-                    note = "skipped on CPU: fp16 has no CPU speedup and "
-                    "several ops are unsupported"
+                    note = ("skipped on CPU: fp16 gives no CPU speedup and "
+                            "several ops are unsupported")
                     print(f"{label}: {note}")
                     skipped.append({"backbone": backbone, "T": T,
                                     "precision": precision, "reason": note})

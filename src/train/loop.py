@@ -91,7 +91,12 @@ def _dataset_labels(ds) -> np.ndarray:
         # (N,) int64: verb strings mapped through the alphabetical-id map
         return (segments_df["verb"].map(verb_map)
                 .to_numpy(dtype=np.int64))
-    return np.asarray([int(label) for _clip, label in ds], dtype=np.int64)
+    # Generic path: index explicitly. NEVER `for ... in ds` — python's
+    # legacy sequence-protocol iteration only stops at IndexError, and
+    # Dataset classes without a raising __getitem__ (SyntheticClipDataset)
+    # would iterate forever.
+    return np.asarray([int(ds[i][1]) for i in range(len(ds))],
+                      dtype=np.int64)
 
 
 def _class_weights(labels: np.ndarray, num_classes: int,

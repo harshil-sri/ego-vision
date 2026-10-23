@@ -59,6 +59,14 @@ def main() -> None:
                         help="override cfg.device (Kaggle: --device cuda)")
     parser.add_argument("--epochs", type=int, default=None,
                         help="override cfg.epochs (smoke runs)")
+    parser.add_argument("--annotations-dir", type=str, default=None,
+                        help="override cfg.annotations_dir (e.g. a Kaggle "
+                             "dataset mount with the EPIC_100_*.csv files)")
+    parser.add_argument("--videos-root", type=str, default=None,
+                        help="override cfg.videos_root (downscaled-root "
+                             "layout <Pxx>/videos/<id>.MP4)")
+    parser.add_argument("--out-dir", type=str, default=None,
+                        help="override cfg.out_dir")
     parser.add_argument("--workers", type=int, default=2,
                         help="DataLoader workers (default 2; 0 = in-process)")
     parser.add_argument("--no-pretrained", action="store_true",
@@ -86,6 +94,12 @@ def main() -> None:
         cfg.device = args.device
     if args.epochs is not None:
         cfg.epochs = args.epochs
+    if args.annotations_dir is not None:
+        cfg.annotations_dir = args.annotations_dir
+    if args.videos_root is not None:
+        cfg.videos_root = args.videos_root
+    if args.out_dir is not None:
+        cfg.out_dir = args.out_dir
 
     verbs = _candidate_verbs(args.verbs)
     verb_map = verb_label_map(verbs)  # {verb: id}, ids ALPHABETICAL

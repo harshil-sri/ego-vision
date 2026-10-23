@@ -28,6 +28,10 @@ def main() -> None:
                              "verb_map.json, best.pt)")
     parser.add_argument("--device", choices=["cpu", "cuda"], default=None,
                         help="override cfg.device for this evaluation")
+    parser.add_argument("--annotations-dir", type=str, default=None,
+                        help="override cfg.annotations_dir (Kaggle mounts)")
+    parser.add_argument("--videos-root", type=str, default=None,
+                        help="override cfg.videos_root (downscaled layout)")
     parser.add_argument("--workers", type=int, default=2,
                         help="DataLoader workers (default 2)")
     args = parser.parse_args()
@@ -53,6 +57,10 @@ def main() -> None:
     cfg = load_config(config_path)  # exact cfg the run trained with
     if args.device is not None:
         cfg.device = args.device
+    if args.annotations_dir is not None:
+        cfg.annotations_dir = args.annotations_dir
+    if args.videos_root is not None:
+        cfg.videos_root = args.videos_root
 
     with open(verb_map_path, "r", encoding="utf-8") as f:
         verb_map: dict = json.load(f)  # {"verb": id} saved by train_run

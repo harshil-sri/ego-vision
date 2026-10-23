@@ -41,10 +41,13 @@ def test_synthetic_writes_frames_and_csv(tmp_path: Path):
 
     for row in rows:
         clip_dir = Path(row["directory"])
-        jpgs = sorted(clip_dir.glob("*.jpg"))
-        # seconds=2.0, save_fps=2 -> 4 frames per clip
-        assert len(jpgs) == int(row["n_frames"]) == 4, (
-            f"{clip_dir}: {len(jpgs)} jpgs vs n_frames {row['n_frames']}")
+        # clips of one verb SHARE the verb directory; a clip's own frames
+        # are the <verb>_c<clip_id>_* group. seconds=2.0, save_fps=2 -> 4.
+        clip_files = sorted(
+            clip_dir.glob(f"{row['verb']}_c{int(row['clip_id']):02d}_*.jpg"))
+        assert len(clip_files) == int(row["n_frames"]) == 4, (
+            f"{clip_dir} clip {row['clip_id']}: {len(clip_files)} jpgs vs "
+            f"n_frames {row['n_frames']}")
 
 
 def test_synthetic_is_deterministic(tmp_path: Path):

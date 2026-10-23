@@ -83,7 +83,7 @@ def test_two_epoch_run_learns_and_logs(tmp_path: Path):
                             "majority_baseline_val"}
     assert 0 <= metrics["best_val_mean_class_acc"] <= 1.0
     assert metrics["majority_baseline_val"] == pytest.approx(
-        2 / 8)  # synthetic labels are i % 8 -> uniform, 2 samples per class
+        2 / 16)  # val labels are i % 8 over 16 items -> 2 per class, 2/16
 
     # checkpoint loads (weights_only: no pickle surprises) with full metadata
     ckpt = torch.load(run / "best.pt", map_location="cpu", weights_only=True)
