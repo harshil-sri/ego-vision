@@ -39,8 +39,40 @@ anything not run is marked NOT RUN.
   (pid 156290, log /mnt/ssd/epic-kitchens/logs/hf_download.log).
 - 2026-10-23 22:40 — new webcam measured: 19.4 FPS @ 640x480 and 720p MJPG.
 
-## Current state
+## Current state (updated 2026-10-24 00:00 IST)
 
-- RUNNING: bulk HF download (55 videos / 63.7 GB).
-- NEXT: WP2 reference library; WP5 pipeline + app; reports/commit cadence
-  every work package.
+- RUNNING: bulk HF download (55 videos / 63.7 GB; ~14 GB done, ~2.8 MB/s);
+  downscale watcher transcodes completions to /mnt/ssd/epic-kitchens/EPIC-256
+  every 10 min (289 MB so far). Kaggle GPU policy: train on Tanish's account
+  (mahajantanish1) via KAGGLE_API_TOKEN; NO local GPU until the owner wakes.
+- Subagents in flight: WP3 models/training/eval (files landing, tests running);
+  WP5 static web UI (src/app/static/ being written).
+
+## Log (continued)
+
+- 2026-10-23 23:00 — WP2 COMPLETE: 5 reference pieces + 3 exercises
+  (knn/softmax/batchnorm, loops->vectorized, gradient check, unbiased-var
+  BN subtlety) + 5 owner stubs + equivalence vectors/harness (6 tests) +
+  8 worked examples in docs/worked/ with every number verified against the
+  code. All tests green at commit time.
+- 2026-10-23 23:05 — WSL crash (user report): download process survived,
+  nothing lost; hourly wake-up automation re-verified.
+- 2026-10-23 23:20 — WP1b subagent DONE: src/data (annotations, splits w/
+  V1 internal validation, video_io, EpicVerbDataset, synthetic) + scripts
+  (downscale idempotent, bench_loader, annotation_check) + 31 tests pass.
+  REAL-DATA: 5/5 annotation cuts match inclusive stop_frame EXACTLY;
+  downscale P01_107 362MB->10MB, frames 5972->5972 preserved; loader bench
+  decode 1.94 clips/s vs pre-extracted 198.45 clips/s (reports/loader_benchmark.md).
+- 2026-10-23 23:40 — WP5 backend DONE (mine): engine (scan/cooking phases,
+  event bus, D6 smoothers, idle nudge, wrong-order banner), overlay,
+  embedders (toy/dinov2/resnet/clip), verb sources, FastAPI (MJPEG + WS +
+  REST), run_app CLI (keyboard/clip/live x web/cv, --synthetic).
+  Tier 1 smoke test 3/3 on synthetic frames (scan->wrong-order->full
+  recipe->done, session jsonl verified). Server boot verified: /api/state,
+  /video/stream OK.
+- 2026-10-24 00:00 — WP4 (matcher eval scripts verified on synthetic
+  frames), WP6 docs (ARCHITECTURE/GLOSSARY/STUDY_QUEUE), WP7 packaging
+  (requirements pinned, Makefile, check_all.sh, README). check_all full
+  run deferred until WP3 subagent's files settle (two pytest processes
+  collided; unit+equivalence suites green separately at their commits).
+
