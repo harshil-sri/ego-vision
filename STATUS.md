@@ -141,3 +141,12 @@ val_acc 0.1720, val_mca 0.1895 (majority baseline 0.3676 — 1 epoch on 64
 segs is a pipeline check, not a quality number). Artifacts written:
 best.pt/last.pt, config.yaml, log.csv, metrics.json, verb_map.json.
 The exact train path any future Kaggle push uses is verified working.
+
+## 2026-10-24 ~09:05 IST — variant pre-push gates PASSED (local 4060)
+Same gate as baseline (1 epoch, 64 train segs, full 593-seg val, cuda):
+- tsn_avg        exit 0: train_loss 2.3463, val_acc 0.2445, val_mca 0.2199
+- temporal_attn  exit 0: train_loss 2.3423, val_acc 0.2479, val_mca 0.2221
+(1ep/64segs = pipeline checks vs 0.3676 majority baseline, not quality numbers.)
+Artifacts complete in runs/local_gate_{tsn,attn}/. Variant kernels are
+cleared to push once the Kaggle baseline finishes (no parallel quota burn);
+the kernel reads its variant from kaggle/variant.txt.
