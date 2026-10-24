@@ -115,3 +115,12 @@ anything not run is marked NOT RUN.
   Kaggle baseline still RUNNING (~5.5h; T4 + on-the-fly decode is the
   long pole, within the 12h limit). scripts/harvest_kaggle.py added:
   one-command kernel harvest with anti-fabrication guards.
+- 2026-10-24 07:05 — DOWNLOAD COMPLETE: 55/55 videos, 64.8 GB, 5h07m wall
+  (avg ~3.5 MB/s). All 55 downscaled copies VALID (ffprobe-checked) at
+  /mnt/ssd/epic-kitchens/EPIC-256 (2.0 GB). FINAL SPLIT on the full corpus
+  (make_splits, heldout P22+P30): train 2402 segments / 45 videos; val 593
+  segments / 10 videos. Subset verb counts (train): take 722, put 604,
+  open 411, close 330, wash 182, cut 84, pour 39, mix 30 — NOTE cut/pour/
+  mix are under 100 ON THIS SUBSET (many-shot held on the full dataset
+  only); class_weights default stays on; per-class numbers for mix (30
+  train, 0 val) will be noisy/absent. Kaggle baseline still RUNNING (~8h).
