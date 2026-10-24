@@ -11,3 +11,4 @@ runs/checkpoints/
 runs/local_gpu_sanity/
 runs/local_gate_tsn/
 runs/local_gate_attn/
+runs/kaggle-baseline-partial/

@@ -1,0 +1,10 @@
+{
+  "close": 0,
+  "cut": 1,
+  "mix": 2,
+  "open": 3,
+  "pour": 4,
+  "put": 5,
+  "take": 6,
+  "wash": 7
+}

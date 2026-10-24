@@ -1,0 +1,5 @@
+{
+  "best_epoch": 4,
+  "best_val_mean_class_acc": 1.0,
+  "majority_baseline_val": 0.53125
+}

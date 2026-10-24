@@ -177,3 +177,17 @@ smoother withheld sub-threshold predictions on synthetic frames (correct —
 the 1-epoch model has never seen procedural patterns); 96 scan_progress,
 5 ingredient_matched, 7 window_sample logged. Live-camera Tier-3 run is the
 same code path + webcam; awaiting trained checkpoint + owner.
+
+## 2026-10-24 ~14:45 IST — Kaggle harvest (cancelled run) + local 4060 baseline started
+Harvested the cancelled kernel's output (real numbers from the files):
+- overfit-32 gate on Kaggle: PASSED — best_epoch 4, val_mean_class_acc 1.0000
+  (majority_baseline_val 0.53125); gate ended 18704 s (~5.2 h) after run
+  start — video download+downscale consumed most of that.
+- baseline: exactly ONE epoch completed before the external cancel —
+  epoch 0: train_loss 1.6115, train_acc 0.3497, val_loss 1.8067,
+  val_acc 0.3575, val_mean_class_acc 0.2389. best.pt/last.pt recovered to
+  runs/kaggle-baseline-partial/; small artifacts in reports/kaggle/.
+- Full 12-epoch baseline RESTARTED locally on the RTX 4060 (~14:45 IST,
+  runs/baseline, log /tmp/train_baseline_local.log): same config the
+  kernel used, all 55 videos + annotations from /mnt/ssd. Zero further
+  Kaggle quota consumed.

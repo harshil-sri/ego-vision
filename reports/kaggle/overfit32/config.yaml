@@ -1,0 +1,25 @@
+T: 8
+amp: false
+annotations_dir: /kaggle/working/epic-annotations
+backbone: resnet34
+batch_size: 8
+class_weights: true
+data_root: /kaggle/working
+device: cuda
+epochs: 25
+grad_clip: 1.0
+heldout_participants:
+- P22
+- P30
+img_size: 160
+lr: 0.0003
+lr_schedule: cosine
+num_verbs: 8
+optimizer: adamw
+out_dir: /kaggle/working/runs/overfit32
+overfit_batch: 32
+seed: 42
+train_limit: 32
+variant: single_frame
+videos_root: /kaggle/working/EPIC-256
+weight_decay: 0.0001

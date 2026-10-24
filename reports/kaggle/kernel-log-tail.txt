@@ -1,0 +1,21 @@
+'/kaggle/working/EPIC-256/P22/videos/P22_111.MP4'\n"}
+,{"stream_name":"stdout","time":17789.982729658,"data":"+ ffmpeg -y -loglevel error -i '/kaggle/working/raw/P02/videos/P02_135.MP4' -vf scale=-2:256 -c:v libx264 -crf 23 -preset veryfast -an '/kaggle/working/EPIC-256/P02/videos/P02_135.MP4'\n"}
+,{"stream_name":"stdout","time":17995.171444244,"data":"+ ffmpeg -y -loglevel error -i '/kaggle/working/raw/P26/videos/P26_106.MP4' -vf scale=-2:256 -c:v libx264 -crf 23 -preset veryfast -an '/kaggle/working/EPIC-256/P26/videos/P26_106.MP4'\n"}
+,{"stream_name":"stdout","time":18064.892330766,"data":"+ ffmpeg -y -loglevel error -i '/kaggle/working/raw/P07/videos/P07_106.MP4' -vf scale=-2:256 -c:v libx264 -crf 23 -preset veryfast -an '/kaggle/working/EPIC-256/P07/videos/P07_106.MP4'\n"}
+,{"stream_name":"stdout","time":18078.268529645,"data":"[data] downscale complete: 55 videos at /kaggle/working/EPIC-256\n"}
+,{"stream_name":"stdout","time":18078.268936978,"data":"[cfg] /kaggle/working/train_baseline.yaml\n"}
+,{"stream_name":"stdout","time":18078.269075303,"data":"[gate] overfit-32 on real clips\n"}
+,{"stream_name":"stdout","time":18704.747379953,"data":"train segments: 32 (45 videos) | val segments: 593 (10 videos)\n"}
+,{"stream_name":"stdout","time":18704.747426188,"data":"Downloading: \"https://download.pytorch.org/models/resnet34-b627a593.pth\" to /root/.cache/torch/hub/checkpoints/resnet34-b627a593.pth\n"}
+,{"stream_name":"stdout","time":18704.747431379,"data":"epoch   0 | train_loss 2.1738 train_acc 0.0625 | val_loss 2.1555 val_acc 0.2188 val_mca 0.3889 | lr 0.0003\n"}
+,{"stream_name":"stdout","time":18704.747434714,"data":"epoch   1 | train_loss 0.5092 train_acc 0.7812 | val_loss 0.5325 val_acc 0.7812 val_mca 0.9176 | lr 0.000299\n"}
+,{"stream_name":"stdout","time":18704.747437981,"data":"epoch   2 | train_loss 0.1096 train_acc 0.9688 | val_loss 0.2618 val_acc 0.9688 val_mca 0.9882 | lr 0.000295\n"}
+,{"stream_name":"stdout","time":18704.747451493,"data":"epoch   3 | train_loss 0.0233 train_acc 0.9688 | val_loss 0.4531 val_acc 0.8438 val_mca 0.9412 | lr 0.000289\n"}
+,{"stream_name":"stdout","time":18704.747454219,"data":"epoch   4 | train_loss 0.1756 train_acc 0.9688 | val_loss 0.0636 val_acc 1.0000 val_mca 1.0000 | lr 0.000281\n"}
+,{"stream_name":"stdout","time":18704.747456761,"data":"epoch   5 | train_loss 0.0011 train_acc 1.0000 | val_loss 0.0115 val_acc 1.0000 val_mca 1.0000 | lr 0.000271\n"}
+,{"stream_name":"stdout","time":18704.747459241,"data":"overfit gate reached train_acc=1.0000 \u003e= 0.99 at epoch 5; stopping early.\n"}
+,{"stream_name":"stdout","time":18704.747462079,"data":"run dir: /kaggle/working/runs/overfit32 (best epoch 4, val_mean_class_acc 1.0000)\n"}
+,{"stream_name":"stdout","time":18704.747464513,"data":"best checkpoint: /kaggle/working/runs/overfit32/best.pt\n"}
+,{"stream_name":"stdout","time":18704.747466941,"data":"\n"}
+,{"stream_name":"stdout","time":18704.747469209,"data":"[train] baseline run (baseline, epochs=12)\n"}
+]
