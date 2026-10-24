@@ -97,3 +97,9 @@ anything not run is marked NOT RUN.
   Flow: clone glm-window -> annotations -> stream 55 videos from HF mirror
   -> downscale in-batch -> overfit-32 gate on real clips -> baseline train
   (12 epochs) -> outputs in /kaggle/working/runs. Expected ~2h.
+- 2026-10-24 02:35 — wake-up check: download 40/63.7 GB alive; watcher
+  alive; Kaggle baseline kernel still RUNNING (~2.5h). CV UI probed under
+  WSLg: this venv has opencv-python-headless shadowing opencv-python, so
+  imshow is unimplemented -> run_app --ui cv now exits with a clear fix
+  message instead of crashing. Fix (morning, owner decision — shared
+  global venv): pip uninstall opencv-python-headless. Web UI unaffected.

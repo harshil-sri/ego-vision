@@ -69,6 +69,17 @@ def build_engine(args):
 def run_cv_ui(engine):
     """OpenCV fallback UI: same overlay, number keys emit verbs, q quits."""
     import cv2
+    # Probe GUI support once, up front: this venv currently has
+    # opencv-python-headless shadowing opencv-python, so imshow is a stub.
+    try:
+        cv2.namedWindow("ego-kitchen-probe")
+        cv2.destroyWindow("ego-kitchen-probe")
+    except cv2.error as exc:
+        raise SystemExit(
+            "This OpenCV build has no GUI support (opencv-python-headless "
+            "installed?). Fix: pip uninstall opencv-python-headless (or "
+            "install a GTK build), or use --ui web. Original error: "
+            f"{exc}")
     engine.start()
     keys = "12345678"
     print("CV UI: keys 1-8 emit verbs:", engine.recipe.verbs)
