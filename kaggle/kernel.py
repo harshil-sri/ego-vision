@@ -31,8 +31,13 @@ WORK = Path("/kaggle/working")
 REPO = WORK / "ego-vision"
 BRANCH = os.environ.get("EGO_BRANCH", "glm-window")
 EPOCHS = os.environ.get("EGO_EPOCHS", "12")
-RUN_TAG = os.environ.get("EGO_RUN_TAG", "baseline")
 SKIP_DOWNLOAD = os.environ.get("EGO_SKIP_DOWNLOAD", "0") == "1"
+
+# kaggle/variant.txt in the REPO selects the model variant for a pushed run
+# (pushed kernels cannot receive env vars, so the file IS the switch).
+# Absent/empty -> single_frame, identical to the original baseline.
+TAG_FOR_VARIANT = {"single_frame": "baseline", "tsn_avg": "tsn",
+                   "temporal_attn": "temporal_attn"}
 
 ANN = WORK / "epic-annotations"
 EPIC256 = WORK / "EPIC-256"
@@ -54,6 +59,12 @@ def main() -> None:
         sh(f"git clone -q --depth 1 "
            f"https://github.com/epic-kitchens/epic-kitchens-100-annotations.git {ANN}")
     os.chdir(REPO)
+
+    variant_path = REPO / "kaggle" / "variant.txt"
+    variant = (variant_path.read_text().strip()
+               if variant_path.exists() else "") or "single_frame"
+    run_tag = os.environ.get("EGO_RUN_TAG") or TAG_FOR_VARIANT.get(variant, variant)
+    print(f"[variant] {variant} -> runs/{run_tag}", flush=True)
 
     # ---- 3. video subset: download -> downscale -> delete original
     import pandas as pd
@@ -97,16 +108,16 @@ def main() -> None:
 
     # ---- 4-5. overfit gate, then baseline train
     cfg = {
-        "backbone": "resnet34", "variant": "single_frame", "T": 8,
+        "backbone": "resnet34", "variant": variant, "T": 8,
         "img_size": 224, "optimizer": "adamw", "lr": 0.0003,
         "weight_decay": 0.0001, "lr_schedule": "cosine", "epochs": int(EPOCHS),
         "batch_size": 16, "amp": True, "class_weights": True, "seed": 42,
-        "grad_clip": 1.0, "out_dir": str(WORK / "runs" / RUN_TAG),
+        "grad_clip": 1.0, "out_dir": str(WORK / "runs" / run_tag),
         "overfit_batch": None, "train_limit": None, "device": "cuda",
         "data_root": str(WORK), "annotations_dir": str(ANN),
         "videos_root": str(EPIC256), "heldout_participants": ["P22", "P30"],
     }
-    cfg_path = WORK / f"train_{RUN_TAG}.yaml"
+    cfg_path = WORK / f"train_{run_tag}.yaml"
     cfg_path.write_text(json.dumps(cfg))  # JSON is valid YAML
     print(f"[cfg] {cfg_path}", flush=True)
 
@@ -125,7 +136,7 @@ def main() -> None:
         print("GATE FAILED — long run skipped", flush=True)
         return
 
-    print(f"[train] baseline run ({RUN_TAG}, epochs={EPOCHS})", flush=True)
+    print(f"[train] baseline run ({run_tag}, epochs={EPOCHS})", flush=True)
     r = subprocess.run([sys.executable, "-m", "scripts.train",
                         "--config", str(cfg_path), "--workers", "4"],
                         capture_output=True, text=True)
@@ -136,7 +147,7 @@ def main() -> None:
         return
 
     # ---- 6. results stay under /kaggle/working/runs/*
-    metrics = WORK / "runs" / RUN_TAG / "metrics.json"
+    metrics = WORK / "runs" / run_tag / "metrics.json"
     if metrics.exists():
         print("[done] metrics:", metrics.read_text(), flush=True)
     print(f"[done] total kernel time {time.time() - t0:.0f}s", flush=True)
