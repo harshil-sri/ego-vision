@@ -205,3 +205,10 @@ original (annotations need <= 178,282). Row appended to downscale_check.md.
 Training relaunched (~13:55 UTC, runs/baseline): 2402 train / 593 val segs,
 process 313865 on cuda. Prior run died on the truncated file ~10 min in;
 audit says this was the only short file of 55.
+
+## 2026-10-24 15:30 UTC — baseline restarted with 6 dataloader workers
+First relaunch ran 92 min without finishing epoch 0: process averaged exactly
+1 core (92:59 CPU-min) with idle gaps -> serial decode/IO bottleneck at the
+default --workers 2. Machine has 16 cores; restarted with --workers 6
+(training math unchanged: same seed/shuffle/batch; Kaggle kernel used 4).
+Expect ~25-40 min/epoch vs 90+; will verify against epoch-0 row timing.
