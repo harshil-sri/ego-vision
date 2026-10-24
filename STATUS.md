@@ -198,3 +198,10 @@ in this file and HANDOFF.md during 2026-10-23/24 are actually machine-local
 UTC; owner-local IST = label + 5:30. Kaggle CLI timestamps quoted as UTC
 were already correct. Metric numbers are unaffected. Future entries use
 "UTC" labels explicitly.
+
+## 2026-10-24 13:55 UTC — P23_102 re-encoded; local 12-epoch baseline relaunched
+Re-downscale: 698 s, 321 MB, ffprobe 178,476 frames = exact parity with the
+original (annotations need <= 178,282). Row appended to downscale_check.md.
+Training relaunched (~13:55 UTC, runs/baseline): 2402 train / 593 val segs,
+process 313865 on cuda. Prior run died on the truncated file ~10 min in;
+audit says this was the only short file of 55.
