@@ -124,3 +124,11 @@ anything not run is marked NOT RUN.
   mix are under 100 ON THIS SUBSET (many-shot held on the full dataset
   only); class_weights default stays on; per-class numbers for mix (30
   train, 0 val) will be noisy/absent. Kaggle baseline still RUNNING (~8h).
+
+## 2026-10-24 ~06:50 IST — Kaggle timeline correction (evidence)
+`kaggle kernels list -m` shows lastRunTime `2026-10-24 00:00:22` (UTC = 05:30:22
+IST) for mahajantanish1/ego-vision-baseline. Push was ~18:15 IST Oct 23 → the
+kernel spent ~11 h in the worker queue before execution began; it is ~1.25 h
+into its 12 h execution budget (NOT over any limit). Output probe mid-run
+returns empty as expected. Local-4060 validation of the same train path
+(1 epoch, 64 segments) queued as the pre-push gate for any future kernel.
