@@ -132,3 +132,12 @@ kernel spent ~11 h in the worker queue before execution began; it is ~1.25 h
 into its 12 h execution budget (NOT over any limit). Output probe mid-run
 returns empty as expected. Local-4060 validation of the same train path
 (1 epoch, 64 segments) queued as the pre-push gate for any future kernel.
+
+## 2026-10-24 06:40 IST — local-4060 pre-push gate PASSED (evidence)
+`python3 -m scripts.train --config configs/train_baseline.yaml --device cuda
+--epochs 1 --train-limit 64 --out-dir runs/local_gpu_sanity` — exit 0 in ~10 min.
+train 64 segs/45 videos, val 593 segs/10 videos. epoch 0: train_loss 2.3720,
+val_acc 0.1720, val_mca 0.1895 (majority baseline 0.3676 — 1 epoch on 64
+segs is a pipeline check, not a quality number). Artifacts written:
+best.pt/last.pt, config.yaml, log.csv, metrics.json, verb_map.json.
+The exact train path any future Kaggle push uses is verified working.
