@@ -8,3 +8,4 @@ __pycache__/
 # data + runs artifacts (keep small json/md reports in git)
 runs/sessions/
 runs/checkpoints/
+runs/local_gpu_sanity/
