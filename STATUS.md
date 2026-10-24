@@ -150,3 +150,8 @@ Same gate as baseline (1 epoch, 64 train segs, full 593-seg val, cuda):
 Artifacts complete in runs/local_gate_{tsn,attn}/. Variant kernels are
 cleared to push once the Kaggle baseline finishes (no parallel quota burn);
 the kernel reads its variant from kaggle/variant.txt.
+
+## 2026-10-24 ~10:10 IST — final verifier pass over post-fix state
+`bash scripts/check_all.sh` → exit 0, ALL CHECKS PASSED (tests, registry
+switch, recipe validation, headless app boot) after the morning's engine/
+server/UI changes (session lifecycle, graceful shutdown, sampled-frame strip).
