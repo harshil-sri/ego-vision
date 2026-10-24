@@ -6,6 +6,7 @@ variant: single_frame
 num_verbs: 8
 T: 8
 img_size: 224
+fast_seek: true
 optimizer: adamw
 lr: 3.0e-4
 weight_decay: 0.01

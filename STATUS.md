@@ -212,3 +212,15 @@ First relaunch ran 92 min without finishing epoch 0: process averaged exactly
 default --workers 2. Machine has 16 cores; restarted with --workers 6
 (training math unchanged: same seed/shuffle/batch; Kaggle kernel used 4).
 Expect ~25-40 min/epoch vs 90+; will verify against epoch-0 row timing.
+
+## 2026-10-24 ~17:10 UTC — decode bottleneck found+fixed (fast_seek), WSL crash recovery
+Root cause of 90-min epochs: sequential decode grab()s from frame 0 to the
+target — a late segment pays ~100k+ grabs (documented cost model in
+video_io.py). Audit on OUR EPIC-256 re-encodes: fast_seek (CAP_PROP_POS_FRAMES)
+is PIXEL-EXACT on 40/40 sampled late segments and 21.5x faster (368.4s ->
+17.2s for the same decodes). Knob plumbed: dataset fast_seek param + train
+config fast_seek (default False; true in the 3 train configs + kernel cfg).
+Second WSL crash of the session ~17:05 UTC killed trainer/app/pollers (files
+intact, nothing lost — epoch 0 had not checkpointed). Camera detached by the
+restart: needs usbipd re-attach from Windows. Training relaunched with
+fast_seek after the crash.

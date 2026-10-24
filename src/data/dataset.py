@@ -105,7 +105,8 @@ class EpicVerbDataset(torch.utils.data.Dataset):
                  T: int = 8,
                  stop_inclusive: bool = True,
                  transform: Callable[[np.ndarray], torch.Tensor] | None = None,
-                 img_size: int | None = None):
+                 img_size: int | None = None,
+                 fast_seek: bool = False):
         missing_cols = [c for c in REQUIRED_COLUMNS if c not in segments_df.columns]
         if missing_cols:
             raise ValueError(
@@ -124,6 +125,11 @@ class EpicVerbDataset(torch.utils.data.Dataset):
         self.T = int(T)
         self.stop_inclusive = bool(stop_inclusive)
         self.transform = transform if transform is not None else default_transform(img_size)
+        # fast_seek: CAP_PROP_POS_FRAMES seek instead of grab()-from-zero.
+        # Default False (annotation-exact by construction). True is safe on
+        # OUR EPIC-256 re-encodes — audited pixel-exact on 40 late segments,
+        # 21.5x faster (STATUS.md 2026-10-24); other files: audit first.
+        self.fast_seek = bool(fast_seek)
 
         # Frame sampler comes from the registry (reference or owner's core/).
         self.sampler = registry.get("frame_sampler")
@@ -183,7 +189,8 @@ class EpicVerbDataset(torch.utils.data.Dataset):
             int(row["start_frame"]), int(row["stop_frame"]),
             self.T, fps, stop_inclusive=self.stop_inclusive,
         )
-        frames = decode_frames(str(path), indices)  # (T,H,W,3) uint8 RGB
+        frames = decode_frames(str(path), indices,
+                               fast_seek=self.fast_seek)  # (T,H,W,3) uint8 RGB
 
         clip = self.transform(frames)                # (T,C,H,W) by contract
         label = int(self.verb_map[str(row["verb"])])

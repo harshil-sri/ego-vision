@@ -109,7 +109,7 @@ def main() -> None:
     # ---- 4-5. overfit gate, then baseline train
     cfg = {
         "backbone": "resnet34", "variant": variant, "T": 8,
-        "img_size": 224, "optimizer": "adamw", "lr": 0.0003,
+        "img_size": 224, "fast_seek": True, "optimizer": "adamw", "lr": 0.0003,
         "weight_decay": 0.0001, "lr_schedule": "cosine", "epochs": int(EPOCHS),
         "batch_size": 16, "amp": True, "class_weights": True, "seed": 42,
         "grad_clip": 1.0, "out_dir": str(WORK / "runs" / run_tag),

@@ -131,10 +131,12 @@ def main() -> None:
 
     train_ds = EpicVerbDataset(cfg.annotations_dir, cfg.videos_root,
                                train_df, verb_map, T=cfg.T,
-                               img_size=cfg.img_size)
+                               img_size=cfg.img_size,
+                               fast_seek=cfg.fast_seek)
     val_ds = EpicVerbDataset(cfg.annotations_dir, cfg.videos_root,
                              val_df, verb_map, T=cfg.T,
-                             img_size=cfg.img_size)
+                             img_size=cfg.img_size,
+                             fast_seek=cfg.fast_seek)
 
     best_path = train_run(cfg, train_ds, val_ds, verb_map=verb_map,
                           pretrained=not args.no_pretrained,

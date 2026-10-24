@@ -74,6 +74,7 @@ class TrainConfig:
     num_verbs: int = 8
     T: int = 8
     img_size: int = 224
+    fast_seek: bool = False  # dataset decode via frame seek; see dataset.py note
     optimizer: str = "adamw"
     lr: float = 3.0e-4
     weight_decay: float = 0.01
