@@ -1,0 +1,26 @@
+T: 8
+amp: false
+annotations_dir: /mnt/ssd/epic-tools/epic-kitchens-100-annotations
+backbone: resnet34
+batch_size: 16
+class_weights: true
+data_root: /mnt/ssd/epic-kitchens
+device: cuda
+epochs: 12
+fast_seek: true
+grad_clip: null
+heldout_participants:
+- P22
+- P30
+img_size: 224
+lr: 0.0003
+lr_schedule: cosine
+num_verbs: 8
+optimizer: adamw
+out_dir: runs/baseline
+overfit_batch: null
+seed: 42
+train_limit: null
+variant: single_frame
+videos_root: /mnt/ssd/epic-kitchens/EPIC-256
+weight_decay: 0.01
