@@ -191,3 +191,10 @@ Harvested the cancelled kernel's output (real numbers from the files):
   runs/baseline, log /tmp/train_baseline_local.log): same config the
   kernel used, all 55 videos + annotations from /mnt/ssd. Zero further
   Kaggle quota consumed.
+
+## 2026-10-24 12:55 (machine clock) — timezone labeling correction
+This machine's clock is UTC (Etc/UTC), not IST. All "~..IST" labels written
+in this file and HANDOFF.md during 2026-10-23/24 are actually machine-local
+UTC; owner-local IST = label + 5:30. Kaggle CLI timestamps quoted as UTC
+were already correct. Metric numbers are unaffected. Future entries use
+"UTC" labels explicitly.
