@@ -101,3 +101,9 @@ baked in).
 - Placeholder recipe (recipes/example_salad.yaml) is active. Owner replaces
   with his 3-4 ingredient recipe using verbs the trained model recognizes
   well (see reports/verb_counts.md when choosing).
+
+## D1/D5 latency evidence (RTX 4060, measured 2026-10-24 ~11:35 IST, commit 5da5ffc, batch 1, img 224, warmup 5 + timed 30)
+- resnet34 (D1 default): T=8 fp16 **5.6 ms (180 windows/s)**; T=16 fp16 9.6 ms (104/s); T=4 fp16 4.0 ms (248/s).
+- resnet18: T=8 fp16 ~5.5 ms (~190/s); T=16 fp16 5.7 ms (177/s).
+- mobilenet_v2: T=8 fp32 5.6 ms (177/s); T=16 fp16 5.3 ms (190/s); fp16 no gain at T=4/T=8 (bandwidth-bound).
+- Requirement was >= 3 predictions/s: every config clears it by >20x. Suggestion (labelled): keep D1 default ResNet-34 and D5 default T=8; pick by ACCURACY when the Kaggle baseline lands, latency no longer constrains. Full table: reports/latency.md, raw: runs/latency/latency.json.
