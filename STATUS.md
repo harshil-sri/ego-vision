@@ -103,3 +103,7 @@ anything not run is marked NOT RUN.
   imshow is unimplemented -> run_app --ui cv now exits with a clear fix
   message instead of crashing. Fix (morning, owner decision — shared
   global venv): pip uninstall opencv-python-headless. Web UI unaffected.
+- 2026-10-24 03:35 — wake-up: download ACTIVE at ~2.1 MB/s measured over
+  30 s (du rounding made it look stalled; 38/55 files done, tqdm ETA
+  ~4h20m — the late-selection files are larger). Kaggle baseline kernel
+  still RUNNING (~3.5h). Watcher alive.
