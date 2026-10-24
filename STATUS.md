@@ -241,3 +241,10 @@ epoch 3: train_acc 0.5845 | val_acc 0.3406, mca 0.2086
 epoch 4: train_acc 0.7152 | val_acc 0.3609 (best acc), mca 0.1708, val_loss 2.53
 Overfit pattern on the 2402-seg subset as forecast; best mca remains epoch 1
 (0.2205). 7 epochs left, ETA ~22:30 UTC.
+
+## 2026-10-24 20:12 UTC — baseline STOPPED at owner request (GPU needed)
+Stopped after epoch 7 of 12 (owner needs the GPU). Final log rows:
+ep5 train_acc 0.7977 val_acc 0.3406 mca 0.1893 | ep6 train_acc 0.9063
+val_acc 0.3288 mca 0.1484. Banked artifacts in runs/baseline/:
+best.pt (epoch 1, val_mca 0.2205 — the max over the run), last.pt (epoch 7),
+log.csv, verb_map.json, config.yaml. GPU released; no runs active.
