@@ -168,4 +168,4 @@ First real Tier-2 run (`run_app --mode clip --clip EPIC-256/P22/videos/P22_104.M
 Verified run: scans → enroll → cooking; verb_predicted take@0.513 via ema
 smoother; inference 155.7 ms/tick CPU (fps 51.7); events: 96 scan_progress,
 16 ingredient_matched, 5 window_sample, 1 verb_predicted, idle_nudge.
-New tests/test_model_source.py (3 tests). Suite: 93 passed.
+New tests/test_model_source.py (3 tests). Suite: 92 passed (89 + 3; an earlier draft of this entry said 93 — corrected to match the actual pytest output).
