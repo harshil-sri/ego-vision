@@ -107,3 +107,7 @@ anything not run is marked NOT RUN.
   30 s (du rounding made it look stalled; 38/55 files done, tqdm ETA
   ~4h20m — the late-selection files are larger). Kaggle baseline kernel
   still RUNNING (~3.5h). Watcher alive.
+- 2026-10-24 04:35 — wake-up: download healthy — 3.4 MB/s over a 90 s
+  window, 6 files in parallel; P22 (heldout) videos now arriving, which
+  will make the local validation split non-empty. Kaggle baseline still
+  RUNNING (~4.5h).
