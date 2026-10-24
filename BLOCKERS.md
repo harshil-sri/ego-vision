@@ -16,3 +16,14 @@ owner whether Tanish cancelled it. Output bundle still downloadable —
 harvest in progress to recover any partial runs/. Fallback if nothing
 usable: finish the 12-epoch baseline LOCALLY on the 4060 (all 55 videos +
 annotations are on /mnt/ssd) — no further Kaggle quota needed for baseline.
+
+## 2026-10-24 13:40 UTC — local 12-epoch baseline crashed on truncated EPIC-256 file
+First local run died ~10 min in: P23_102.MP4 downscaled copy has 158,482
+frames but annotations need 178,282. Root cause: last night's interrupted
+final downscale pass left this file truncated; reports/downscale_check.md has
+NO row for P23_102 (never verified), and the "55 valid" gate checked
+playability, not annotation-parity for it. Audit of all 55 (container
+nb_frames vs max stop_frame): P23_102 was the ONLY short file. Original is
+complete (178,476 frames) -> re-downscaling locally and relaunching.
+Correction for the record: the 12:53 UTC "training healthy" note was wrong —
+the process had already crashed and the GPU % shown was Windows-side usage.
