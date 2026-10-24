@@ -112,3 +112,43 @@ def test_unknown_verb_publishes_error(engine):
     engine.inject_verb("teleport")
     assert wait_for(lambda: [e for e in engine.bus.history()
                              if e.kind == "error"])
+
+
+def test_stop_then_restart_runs_new_loop(engine):
+    """Regression: stop() used to leave _stop set, so a following start()
+    spawned a loop that exited instantly (dead "restarted" session)."""
+    recorder: list = []
+    engine.bus.subscribe(recorder.append)
+
+    engine.stop()
+    assert events_of(recorder, "session_stopped"), "stop must announce itself"
+
+    recorder.clear()
+    engine.start()
+    assert wait_for(lambda: events_of(recorder, "session_started"))
+    assert wait_for(lambda: events_of(recorder, "metrics_tick")), \
+        "restarted engine loop is not producing events"
+
+
+def test_double_start_is_noop(engine):
+    import threading
+    engine.start()  # already running from the fixture
+    time.sleep(0.3)
+    loops = [t for t in threading.enumerate() if t.name == "engine"]
+    assert len(loops) == 1, "second start() must not spawn a second loop"
+    assert wait_for(lambda: events_of(engine.bus.history(), "metrics_tick"))
+
+
+def test_restart_after_enrollment_resumes_cooking(engine):
+    """Enrolled prototypes survive a restart; recipe progress resets."""
+    for ingredient in engine.recipe.ingredients:
+        engine.begin_ingredient_scan(ingredient)
+        assert wait_for(lambda ing=ingredient: ing in engine._enrolled)
+    engine.finish_scan()
+    assert wait_for(lambda: engine.phase == COOKING)
+
+    engine.stop()
+    engine.start()
+    assert wait_for(lambda: engine.phase == COOKING), \
+        "fully-enrolled restart should resume in COOKING, not force a re-scan"
+    assert engine.machine.current_index == 0

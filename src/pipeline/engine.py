@@ -159,6 +159,10 @@ class CookingEngine:
 
     def start(self) -> None:
         """Start source + engine loop thread + session logger."""
+        if self._thread is not None and self._thread.is_alive():
+            return  # already running: a repeat POST /api/session/start is a no-op
+        self._stop.clear()
+        self._fresh_run()
         self.source.start()
         buf = getattr(self.source, "buffer", None)
         self._dropped_at_start = buf.dropped_frames if buf else 0
@@ -188,8 +192,29 @@ class CookingEngine:
             self._thread.join(timeout=3.0)
             self._thread = None
         self.source.stop()
+        # publish before closing the logger so the session log records its end
+        self.bus.publish("session_stopped", mode=self.cfg.mode,
+                         phase=self.phase)
         if self.logger is not None:
             self.logger.close()
+
+    def _fresh_run(self) -> None:
+        """Reset per-run state so (re)starting is a clean cooking run.
+
+        Enrolled ingredient prototypes survive (no re-scan after restart);
+        the state machine, smoother and verb/ingredient readouts do not.
+        """
+        sm_args = dict(self.cfg.smoother_args)
+        sm_args.setdefault("min_conf", self.cfg.min_conf)
+        self.smoother = make_smoother(self.cfg.smoother, self.recipe.verbs,
+                                      **sm_args)
+        sm_cls = registry.get_class("state_machine")
+        self.machine = sm_cls(self.recipe)
+        self.phase = (COOKING
+                      if self._enrolled == set(self.recipe.ingredients)
+                      else IDLE)
+        self._last_verb = (None, 0.0)
+        self._ingredient = ("unknown", 0.0)
 
     # ----- scan phase -------------------------------------------------
 

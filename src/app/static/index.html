@@ -116,8 +116,10 @@
       <svg viewBox="0 0 24 24" focusable="false"><rect x="7" y="7" width="10" height="10" rx="1.5" fill="currentColor"/></svg>
     </div>
     <h2 id="stoppedTitle">Session ended</h2>
-    <p class="overlay-text">The engine has been stopped. Restart the demo with:</p>
-    <pre class="overlay-code">python -m scripts.run_app --mode keyboard --synthetic</pre>
+    <p class="overlay-text">The engine has been stopped.</p>
+    <button id="restartBtn" class="btn btn-primary" type="button">Restart session</button>
+    <p class="overlay-text">or start it from a terminal:</p>
+    <pre class="overlay-code">python -m scripts.run_app --mode keyboard</pre>
   </div>
 </div>
 

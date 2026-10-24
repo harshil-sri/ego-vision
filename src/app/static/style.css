@@ -490,6 +490,9 @@ button { font-family: inherit; }
   display: flex; align-items: center; justify-content: center;
   padding: 20px;
 }
+/* required: .overlay's display:flex would otherwise beat the browser's
+   default [hidden]{display:none} and "hidden" overlays would cover the page */
+.overlay[hidden] { display: none; }
 .overlay-card {
   background: var(--panel);
   border: 1px solid var(--line);

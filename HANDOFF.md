@@ -8,14 +8,14 @@ numbers updated as runs completed (see the log at the bottom).
 
 | Thing | Command | Status |
 |---|---|---|
-| Full test suite | `python3 -m pytest tests/ -q` | **85 passed (79 unit + 6 equivalence)** |
+| Full test suite | `python3 -m pytest tests/ -q` | **88 passed (82 unit + 6 equivalence)** |
 | Tier 1, no camera | `python3 -m scripts.run_app --mode keyboard --synthetic` then open http://127.0.0.1:8000 | **WORKS** (verified headless: state, MJPEG, WS, full flow via smoke test) |
-| Tier 1, webcam | `python3 -m scripts.run_app --mode keyboard` | Code path verified; **live webcam session NOT RUN overnight** (you were asleep; camera released) — run it in the morning |
+| Tier 1, webcam | `python3 -m scripts.run_app --mode keyboard` | **WORKS** — live 2026-10-24 ~06:15 IST, real-browser verified (wizard renders, MJPEG live, WS open, 19 fps). First real look found+fixed: `.overlay{display:flex}` overrode `[hidden]` so the stop-overlay covered the page; stop→restart cycle repaired too (tests/test_app_smoke.py) |
 | Tier 1, OpenCV UI | same + `--ui cv` | Code complete; needs a display — NOT RUN headless |
 | Tier 2 (clip) | `python3 -m scripts.run_app --mode clip --clip <mp4> --run-dir runs/<id>` | Fails with a CLEAR message until a trained checkpoint exists (by design) |
 | Tier 3 (live) | `python3 -m scripts.run_app --mode live --run-dir runs/<id>` | Same as Tier 2 |
 | Training (Kaggle) | `kaggle/` kernel on mahajantanish1/ego-vision-baseline | **RUNNING at handoff time** — see §4 |
-| RTX 4060 latency | `python -m scripts.latency_bench --device cuda --img-size 224` | NOT RUN (rule: no local GPU while you slept) — 2-minute job in the morning |
+| RTX 4060 latency | `python -m scripts.latency_bench --device cuda --img-size 224` | **DONE 2026-10-24 ~05:45** — resnet34 T=8 fp16 5.6 ms = 180 windows/s (≥3/s needed); table in DECISIONS_NEEDED.md D1/D5 |
 | Matcher eval | `python -m scripts.eval_matcher --root data/ingredients` | Tool verified on synthetic; real-webcam frames NOT RUN |
 
 ## 2. Quick start

@@ -125,6 +125,7 @@
     p = p || {};
     switch (kind) {
       case "session_started": return (p.recipe || "") + " / " + (p.mode || "");
+      case "session_stopped": return "stopped (" + (p.phase || "?") + ")";
       case "scan_progress":
         return (p.ingredient || "?") + " " + (p.captured || 0) + "/" + (p.target || "?") +
                (p.skipped ? " skipped" : "") + (p.done ? " done" : "");
@@ -151,6 +152,15 @@
     switch (k) {
       case "ping":
         return;                                   // keepalive, no re-render
+      case "session_started":
+        UI.stopped = false;
+        $("stoppedOverlay").hidden = true;
+        pollSoon();
+        break;
+      case "session_stopped":
+        UI.stopped = true;
+        $("stoppedOverlay").hidden = false;
+        break;
       case "scan_progress":
         if (p.thumb && p.ingredient) {
           var list = UI.thumbs[p.ingredient] || (UI.thumbs[p.ingredient] = []);
@@ -595,6 +605,22 @@
       render();
     }).catch(function (e) {
       toast("could not stop session: " + e.message, true);
+    });
+  });
+
+  $("restartBtn").addEventListener("click", function () {
+    fetch("/api/session/start", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: "{}"
+    }).then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      UI.stopped = false;              // session_started (WS) also clears it
+      $("stoppedOverlay").hidden = true;
+      pollSoon();
+      render();
+    }).catch(function (e) {
+      toast("could not restart session: " + e.message, true);
     });
   });
 
