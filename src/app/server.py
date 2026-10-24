@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse, StreamingResponse
@@ -29,7 +30,16 @@ from src.pipeline.engine import CookingEngine
 
 def create_app(engine: CookingEngine, static_dir) -> FastAPI:
     """App factory; engine is owned by scripts/run_app.py's lifecycle."""
-    app = FastAPI(title="ego-kitchen")
+
+    @asynccontextmanager
+    async def lifespan(app: FastAPI):
+        yield
+        # Ctrl+C / SIGTERM: stop cleanly so the session log records
+        # session_stopped instead of ending mid-line.
+        if engine.is_running:
+            engine.stop()
+
+    app = FastAPI(title="ego-kitchen", lifespan=lifespan)
     app.state.engine = engine
 
     # ---- video ----

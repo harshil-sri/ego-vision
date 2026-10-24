@@ -152,3 +152,24 @@ def test_restart_after_enrollment_resumes_cooking(engine):
     assert wait_for(lambda: engine.phase == COOKING), \
         "fully-enrolled restart should resume in COOKING, not force a re-scan"
     assert engine.machine.current_index == 0
+
+
+def test_app_shutdown_stops_engine():
+    """App lifespan shutdown must stop the engine (clean Ctrl+C)."""
+    from pathlib import Path
+
+    from fastapi.testclient import TestClient
+
+    from src.app.server import create_app
+    cfg = EngineConfig(mode="keyboard", embedder="toy",
+                       matcher_threshold=0.3, scan_seconds=0.4, scan_fps=6.0,
+                       tick_hz=10.0, matcher_hz=4.0, metrics_every_s=0.5)
+    eng = CookingEngine(SyntheticFrameSource(fps=20), cfg, RECIPE,
+                        bus=EventBus())
+    eng.start()
+    static = Path(__file__).resolve().parent.parent / "src" / "app" / "static"
+    with TestClient(create_app(eng, static)) as client:
+        assert client.get("/api/state").status_code == 200
+    assert not eng.is_running, "lifespan shutdown must stop the engine"
+    assert any(e.kind == "session_stopped" for e in eng.bus.history())
+    eng.stop()  # idempotent cleanup

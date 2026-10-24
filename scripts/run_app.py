@@ -117,7 +117,10 @@ def run_web(engine, port: int):
     app = create_app(engine, static_dir)
     engine.start()
     print(f"UI: http://127.0.0.1:{port}  (Ctrl+C to stop)")
-    uvicorn.run(app, host="127.0.0.1", port=port, log_level="warning")
+    # timeout_graceful_shutdown: browser MJPEG streams never end on their
+    # own, so without this a SIGTERM hangs forever holding the camera.
+    uvicorn.run(app, host="127.0.0.1", port=port, log_level="warning",
+                timeout_graceful_shutdown=5)
 
 
 def main() -> None:

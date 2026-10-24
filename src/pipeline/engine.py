@@ -157,9 +157,14 @@ class CookingEngine:
 
     # ------------------------------------------------------- public API
 
+    @property
+    def is_running(self) -> bool:
+        """True while the engine loop thread is alive."""
+        return self._thread is not None and self._thread.is_alive()
+
     def start(self) -> None:
         """Start source + engine loop thread + session logger."""
-        if self._thread is not None and self._thread.is_alive():
+        if self.is_running:
             return  # already running: a repeat POST /api/session/start is a no-op
         self._stop.clear()
         self._fresh_run()
