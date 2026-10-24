@@ -231,3 +231,7 @@ epoch 0: train_loss 1.6141, train_acc 0.3168 | val_loss 1.8251, val_acc
 time ~26 min (train ~15 + val ~8 + build) vs 90+ min pre-fast_seek.
 (Kaggle cancelled run's epoch 0, for reference: val_acc 0.3575, mca 0.2389
 — same ballpark, their files/worker count differed.) ETA 12 epochs ~22:30 UTC.
+
+## 2026-10-24 18:25 UTC — baseline epochs 1-2 (27 min/epoch steady)
+epoch 1: train_loss 1.1900, train_acc 0.4301 | val_acc 0.3002, mca 0.2205 (best so far)
+epoch 2: train_loss 1.0190, train_acc 0.4879 | val_acc 0.2816, mca 0.2128 (val_loss rising 2.29 — early-overfit pattern on the 2402-seg subset; best.pt tracks epoch 1). 9 epochs remain, ETA ~22:30 UTC.
