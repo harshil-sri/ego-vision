@@ -235,3 +235,9 @@ time ~26 min (train ~15 + val ~8 + build) vs 90+ min pre-fast_seek.
 ## 2026-10-24 18:25 UTC — baseline epochs 1-2 (27 min/epoch steady)
 epoch 1: train_loss 1.1900, train_acc 0.4301 | val_acc 0.3002, mca 0.2205 (best so far)
 epoch 2: train_loss 1.0190, train_acc 0.4879 | val_acc 0.2816, mca 0.2128 (val_loss rising 2.29 — early-overfit pattern on the 2402-seg subset; best.pt tracks epoch 1). 9 epochs remain, ETA ~22:30 UTC.
+
+## 2026-10-24 19:25 UTC — baseline epochs 3-4
+epoch 3: train_acc 0.5845 | val_acc 0.3406, mca 0.2086
+epoch 4: train_acc 0.7152 | val_acc 0.3609 (best acc), mca 0.1708, val_loss 2.53
+Overfit pattern on the 2402-seg subset as forecast; best mca remains epoch 1
+(0.2205). 7 epochs left, ETA ~22:30 UTC.
