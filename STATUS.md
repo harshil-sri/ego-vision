@@ -169,3 +169,11 @@ Verified run: scans → enroll → cooking; verb_predicted take@0.513 via ema
 smoother; inference 155.7 ms/tick CPU (fps 51.7); events: 96 scan_progress,
 16 ingredient_matched, 5 window_sample, 1 verb_predicted, idle_nudge.
 New tests/test_model_source.py (3 tests). Suite: 92 passed (89 + 3; an earlier draft of this entry said 93 — corrected to match the actual pytest output).
+
+## 2026-10-24 ~11:30 IST — Tier 3 (live mode) wiring VERIFIED (no camera)
+`run_app --mode live --synthetic --run-dir runs/local_gpu_sanity` (port 8003):
+scans → cooking; model ticks 331.9 ms/inference CPU (app.yaml device=cpu);
+smoother withheld sub-threshold predictions on synthetic frames (correct —
+the 1-epoch model has never seen procedural patterns); 96 scan_progress,
+5 ingredient_matched, 7 window_sample logged. Live-camera Tier-3 run is the
+same code path + webcam; awaiting trained checkpoint + owner.
