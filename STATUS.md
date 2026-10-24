@@ -224,3 +224,10 @@ Second WSL crash of the session ~17:05 UTC killed trainer/app/pollers (files
 intact, nothing lost — epoch 0 had not checkpointed). Camera detached by the
 restart: needs usbipd re-attach from Windows. Training relaunched with
 fast_seek after the crash.
+
+## 2026-10-24 17:29 UTC — local baseline epoch 0 (fast_seek) — 26 min/epoch
+epoch 0: train_loss 1.6141, train_acc 0.3168 | val_loss 1.8251, val_acc
+0.2934, val_mean_class_acc 0.2105. best.pt + last.pt written. Epoch wall
+time ~26 min (train ~15 + val ~8 + build) vs 90+ min pre-fast_seek.
+(Kaggle cancelled run's epoch 0, for reference: val_acc 0.3575, mca 0.2389
+— same ballpark, their files/worker count differed.) ETA 12 epochs ~22:30 UTC.
