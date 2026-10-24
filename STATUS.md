@@ -76,3 +76,24 @@ anything not run is marked NOT RUN.
   run deferred until WP3 subagent's files settle (two pytest processes
   collided; unit+equivalence suites green separately at their commits).
 
+- 2026-10-24 00:55 — WP3 subagent DONE: src/models (backbones resnet18/34/
+  mobilenet_v2, variants single_frame/tsn_avg/temporal_attn w/ registry
+  attention, eval-mode predict_probs), src/train (strict config loader,
+  loop w/ AdamW|SGD+cosine|step+AMP+class-weights+grad-clip+seeds,
+  overfit-32 gate >=0.99, log.csv, best-by-val-mean-class-acc, verb_map.json),
+  eval w/ majority baseline beside every number, latency bench (CPU table
+  measured; 4060 NOT RUN until morning), webcam eval tooling. Real bug
+  found+fixed: infinite iteration on map-style Dataset. Full suite 85/85.
+- 2026-10-24 01:00 — real-data CPU dry-run OK: train --train-limit 6
+  --epochs 1 on EPIC-256 videos (6 segments decoded, 1 epoch, checkpoint
+  saved). Val empty until P22/P30 videos finish downloading (they are in
+  the selection: 5+5 videos, 593 candidate instances).
+- 2026-10-24 01:05 — UI subagent DONE: static web app (scan wizard w/
+  countdown+thumbs+retake, recipe timeline, debug drawer, keyboard verbs,
+  presentation mode, help overlay, WS reconnect states) verified headless
+  (events, state transitions, MJPEG). Engine embedder pre-warm added.
+- 2026-10-24 01:10 — KAGGLE KERNEL PUSHED + RUNNING:
+  mahajantanish1/ego-vision-baseline (Tanish account, GPU, internet).
+  Flow: clone glm-window -> annotations -> stream 55 videos from HF mirror
+  -> downscale in-batch -> overfit-32 gate on real clips -> baseline train
+  (12 epochs) -> outputs in /kaggle/working/runs. Expected ~2h.
