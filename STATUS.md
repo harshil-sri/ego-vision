@@ -111,3 +111,7 @@ anything not run is marked NOT RUN.
   window, 6 files in parallel; P22 (heldout) videos now arriving, which
   will make the local validation split non-empty. Kaggle baseline still
   RUNNING (~4.5h).
+- 2026-10-24 05:35 — wake-up: download 49.5/63.7 GB (42/55, ~2h left);
+  Kaggle baseline still RUNNING (~5.5h; T4 + on-the-fly decode is the
+  long pole, within the 12h limit). scripts/harvest_kaggle.py added:
+  one-command kernel harvest with anti-fabrication guards.
