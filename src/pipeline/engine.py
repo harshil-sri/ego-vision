@@ -53,6 +53,7 @@ class EngineConfig:
     scan_fps: float = 3.0
     idle_timeout_s: float = 45.0
     metrics_every_s: float = 2.0
+    window_sample_every_s: float = 5.0   # debug drawer T-strip cadence
     record_video: bool = False
     device: str = "cpu"
 
@@ -110,6 +111,7 @@ class CookingEngine:
         self._last_activity: float = time.monotonic()
         self._idle_notified_at: float = 0.0
         self._last_metrics_at: float = 0.0
+        self._last_sample_at: float = 0.0
         self._dropped_at_start: int = 0
         # scan-phase state
         self._scan_ingredient: str | None = None
@@ -382,6 +384,18 @@ class CookingEngine:
                                  verb=self._last_verb[0],
                                  ingredient=self._ingredient[0],
                                  ingredient_score=self._ingredient[1])
+
+            # -------- sampled-frame strip (debug drawer): the exact T
+            # frames a model tick would see, as small thumbnails
+            if (self.phase == COOKING
+                    and now >= self._last_sample_at
+                    + self.cfg.window_sample_every_s):
+                self._last_sample_at = now
+                frames = window.sample(self.cfg.T)
+                if frames:
+                    self.bus.publish("window_sample",
+                                     thumbs=[self._thumb_b64(p.image, 48)
+                                             for p in frames])
 
             # -------- overlay + record
             annotated = draw_overlay(packet.image.copy(), self)

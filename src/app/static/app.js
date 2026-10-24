@@ -42,6 +42,7 @@
     noteUntil: 0, noteMsg: "",
     nudgeUntil: 0, nudgeMsg: "",
     metrics: null,             // last metrics_tick payload
+    sampleFrames: [],          // last window_sample thumbs (T frames)
     scanClock: { ing: null, max: 0 },
     lastCurrentIdx: -2,
     helpOpen: false
@@ -133,6 +134,7 @@
       case "ingredient_matched": return (p.ingredient || "?") + " " + fmt(p.score);
       case "verb_predicted": return (p.verb || "?") + " " + fmt(p.confidence);
       case "metrics_tick": return (p.fps || 0) + " fps, " + (p.inference_ms || 0) + " ms";
+      case "window_sample": return "T=" + (p.thumbs || []).length + " frames";
       case "error": return p.message || "";
       default:
         if (p.message) return p.message;
@@ -201,6 +203,9 @@
         break;
       case "metrics_tick":
         UI.metrics = p;
+        break;
+      case "window_sample":
+        UI.sampleFrames = p.thumbs || [];
         break;
       default:
         pollSoon();
@@ -547,6 +552,12 @@
     $("dbgDrop").textContent = String(m.dropped != null ? m.dropped : 0);
     $("dbgSmooth").textContent = m.smoother || "\u2013";
     $("dbgMinConf").textContent = fmt(m.min_conf);
+
+    var strip = UI.sampleFrames.map(function (t) {
+      return "<img class=\"dbg-frame\" src=\"" + t + "\" alt=\"sampled frame\">";
+    }).join("");
+    swap("dbgFrames", String(UI.sampleFrames.length),
+      strip || '<span class="dbg-frames-empty">no sampled-frame strip yet</span>');
 
     var lis = UI.events.map(function (e) {
       return "<li><span class=\"ev-kind\">" + esc(e.kind) + "</span>" +

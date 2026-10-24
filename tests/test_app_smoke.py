@@ -28,7 +28,8 @@ def engine():
                        matcher_threshold=0.3,
                        scan_seconds=0.4, scan_fps=6.0,
                        tick_hz=10.0, matcher_hz=4.0,
-                       metrics_every_s=0.5, idle_timeout_s=3600)
+                       metrics_every_s=0.5, idle_timeout_s=3600,
+                       window_sample_every_s=0.3)
     eng = CookingEngine(SyntheticFrameSource(fps=20), cfg, RECIPE,
                         bus=EventBus())
     eng.start()
@@ -70,6 +71,13 @@ def test_tier1_full_flow(engine, tmp_path):
     engine.finish_scan()
     assert wait_for(lambda: engine.phase == COOKING)
     assert wait_for(lambda: events_of(recorder, "scan_complete"))
+
+    # -- debug drawer strip: the T sampled frames arrive while cooking
+    assert wait_for(lambda: [e for e in recorder
+                             if e.kind == "window_sample"
+                             and len(e.payload.get("thumbs", []))
+                             == engine.cfg.T]), \
+        "window_sample events with T thumbs not arriving in COOKING"
 
     # -- wrong order first: pour dressing (a LATER step) before take tomato
     engine._ingredient = ("dressing", 0.9)
