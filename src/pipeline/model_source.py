@@ -52,11 +52,17 @@ class ModelVerbSource:
         import json
         self.verb_map: dict[str, int] = json.loads(verb_map_path.read_text())
         self.verbs = sorted(self.verb_map, key=self.verb_map.get)  # id -> name
-        self.model = VerbModel(backbone_name=cfg["backbone"],
-                               num_verbs=len(self.verbs),
-                               variant=cfg["variant"])
         state = torch.load(ckpt_path, map_location=device)
-        self.model.load_state_dict(state["model"] if "model" in state else state)
+        # checkpoint fields are authoritative; config.yaml is the fallback
+        # (train saves {'model_state_dict', 'epoch', 'backbone', 'variant',
+        #  'num_verbs', 'verb_map'} — see src/train/loop.py save_checkpoint)
+        backbone = state.get("backbone", cfg["backbone"])
+        variant = state.get("variant", cfg["variant"])
+        self.model = VerbModel(backbone_name=backbone,
+                               num_verbs=len(self.verbs),
+                               variant=variant)
+        sd = state.get("model_state_dict", state.get("model", state))
+        self.model.load_state_dict(sd)
         self.model.to(device).eval()
         self.device = device
         self.img_size = int(cfg.get("img_size", 224))
@@ -69,11 +75,10 @@ class ModelVerbSource:
         import cv2, torch
         frames = np.stack([
             cv2.resize(p.image, (self.img_size, self.img_size))
-            for p in window])                                     # (T,S,S,3)
-        t = torch.from_numpy(frames[..., ::-1].copy()).permute(2, 0, 1).unsqueeze(0)
-        t = t.float().div_(255.0).to(self.device)                 # (1,3,T,S,S)
-        # VerbModel expects (B,T,C,H,W); we built (1,C,T,S,S) -> fix order.
-        t = t.permute(0, 2, 1, 3, 4).contiguous()                 # (1,T,C,S,S)
+            for p in window])                                     # (T,S,S,3) BGR
+        t = torch.from_numpy(frames[..., ::-1].copy())            # BGR -> RGB
+        t = t.permute(0, 3, 1, 2).contiguous()                    # (T,3,S,S)
+        t = t.unsqueeze(0).float().div_(255.0).to(self.device)    # (1,T,3,S,S)
         with torch.no_grad():
             logits = self.model(t)                                # (1, V)
             probs = torch.softmax(logits, dim=1)[0]

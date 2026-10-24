@@ -112,6 +112,7 @@ class CookingEngine:
         self._idle_notified_at: float = 0.0
         self._last_metrics_at: float = 0.0
         self._last_sample_at: float = 0.0
+        self._stopped_published = False
         self._dropped_at_start: int = 0
         # scan-phase state
         self._scan_ingredient: str | None = None
@@ -192,6 +193,13 @@ class CookingEngine:
                          embedder=self.cfg.embedder,
                          impls=registry.active_impls())
 
+    def _publish_session_stopped(self) -> None:
+        """Announce the end of a session exactly once (stop or crash)."""
+        if not self._stopped_published:
+            self._stopped_published = True
+            self.bus.publish("session_stopped", mode=self.cfg.mode,
+                             phase=self.phase)
+
     def stop(self) -> None:
         """Stop the loop thread and the source; close the session log."""
         self._stop.set()
@@ -200,8 +208,7 @@ class CookingEngine:
             self._thread = None
         self.source.stop()
         # publish before closing the logger so the session log records its end
-        self.bus.publish("session_stopped", mode=self.cfg.mode,
-                         phase=self.phase)
+        self._publish_session_stopped()
         if self.logger is not None:
             self.logger.close()
 
@@ -343,65 +350,70 @@ class CookingEngine:
         window = SlidingWindowBuffer(self.cfg.window_seconds)
         next_tick = 0.0
         next_match = 0.0
-        while not self._stop.is_set():
-            packet = self._get_frame()
-            if packet is None:
-                if self.phase != IDLE and not hasattr(self.source, "latest"):
-                    break  # clip ended
-                time.sleep(0.01)
-                continue
+        try:
+            while not self._stop.is_set():
+                packet = self._get_frame()
+                if packet is None:
+                    if self.phase != IDLE and not hasattr(self.source, "latest"):
+                        break  # clip ended
+                    time.sleep(0.01)
+                    continue
 
-            now = time.monotonic()
-            self._frame_times.append(now)
-            window.push(packet)
+                now = time.monotonic()
+                self._frame_times.append(now)
+                window.push(packet)
 
-            # -------- scan capture
-            if self._scan_ingredient is not None:
-                self._scan_capture(packet)
-            elif self.phase == COOKING:
-                if now >= next_match:
-                    next_match = now + 1.0 / self.cfg.matcher_hz
-                    self._match_ingredient(packet.image)
-                if now >= next_tick:
-                    next_tick = now + 1.0 / self.cfg.tick_hz
-                    self._recognize_verb(window.sample(self.cfg.T))
+                # -------- scan capture
+                if self._scan_ingredient is not None:
+                    self._scan_capture(packet)
+                elif self.phase == COOKING:
+                    if now >= next_match:
+                        next_match = now + 1.0 / self.cfg.matcher_hz
+                        self._match_ingredient(packet.image)
+                    if now >= next_tick:
+                        next_tick = now + 1.0 / self.cfg.tick_hz
+                        self._recognize_verb(window.sample(self.cfg.T))
 
-            # -------- idle nudge + metrics
-            if self.phase == COOKING:
-                quiet = now - self._last_activity
-                if (quiet > self.cfg.idle_timeout_s
-                        and now - self._idle_notified_at > self.cfg.idle_timeout_s):
-                    self._idle_notified_at = now
-                    step = self.recipe.steps[self.machine.current_index]
-                    self.bus.publish("idle",
-                                     message=f"Still waiting for: "
-                                             f"{step.verb} {step.ingredient}",
-                                     quiet_seconds=round(quiet, 1))
-            if now >= self._last_metrics_at + self.cfg.metrics_every_s:
-                self._last_metrics_at = now
-                st = self.state()
-                self.bus.publish("metrics_tick", **st["metrics"],
-                                 verb=self._last_verb[0],
-                                 ingredient=self._ingredient[0],
-                                 ingredient_score=self._ingredient[1])
+                # -------- idle nudge + metrics
+                if self.phase == COOKING:
+                    quiet = now - self._last_activity
+                    if (quiet > self.cfg.idle_timeout_s
+                            and now - self._idle_notified_at > self.cfg.idle_timeout_s):
+                        self._idle_notified_at = now
+                        step = self.recipe.steps[self.machine.current_index]
+                        self.bus.publish("idle",
+                                         message=f"Still waiting for: "
+                                                 f"{step.verb} {step.ingredient}",
+                                         quiet_seconds=round(quiet, 1))
+                if now >= self._last_metrics_at + self.cfg.metrics_every_s:
+                    self._last_metrics_at = now
+                    st = self.state()
+                    self.bus.publish("metrics_tick", **st["metrics"],
+                                     verb=self._last_verb[0],
+                                     ingredient=self._ingredient[0],
+                                     ingredient_score=self._ingredient[1])
 
-            # -------- sampled-frame strip (debug drawer): the exact T
-            # frames a model tick would see, as small thumbnails
-            if (self.phase == COOKING
-                    and now >= self._last_sample_at
-                    + self.cfg.window_sample_every_s):
-                self._last_sample_at = now
-                frames = window.sample(self.cfg.T)
-                if frames:
-                    self.bus.publish("window_sample",
-                                     thumbs=[self._thumb_b64(p.image, 48)
-                                             for p in frames])
+                # -------- sampled-frame strip (debug drawer): the exact T
+                # frames a model tick would see, as small thumbnails
+                if (self.phase == COOKING
+                        and now >= self._last_sample_at
+                        + self.cfg.window_sample_every_s):
+                    self._last_sample_at = now
+                    frames = window.sample(self.cfg.T)
+                    if frames:
+                        self.bus.publish("window_sample",
+                                         thumbs=[self._thumb_b64(p.image, 48)
+                                                 for p in frames])
 
-            # -------- overlay + record
-            annotated = draw_overlay(packet.image.copy(), self)
-            self._last_annotated = annotated
-            if self.logger is not None and self.cfg.record_video:
-                self.logger.frame(annotated)
+                # -------- overlay + record
+                annotated = draw_overlay(packet.image.copy(), self)
+                self._last_annotated = annotated
+                if self.logger is not None and self.cfg.record_video:
+                    self.logger.frame(annotated)
+        except Exception as exc:  # a dead loop = frozen demo with no notice;
+            # surface it and end the session cleanly instead
+            self.bus.publish_error(f"engine loop crashed: {exc!r}")
+            self._publish_session_stopped()
 
     # -------- scan capture internals
 

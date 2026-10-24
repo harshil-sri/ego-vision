@@ -155,3 +155,17 @@ the kernel reads its variant from kaggle/variant.txt.
 `bash scripts/check_all.sh` → exit 0, ALL CHECKS PASSED (tests, registry
 switch, recipe validation, headless app boot) after the morning's engine/
 server/UI changes (session lifecycle, graceful shutdown, sampled-frame strip).
+
+## 2026-10-24 ~10:40 IST — Tier 2 (clip mode) VERIFIED end-to-end + 2 bug fixes
+First real Tier-2 run (`run_app --mode clip --clip EPIC-256/P22/videos/P22_104.MP4
+--run-dir runs/local_gpu_sanity`) crashed twice — both bugs now fixed + tested:
+1. model_source loaded state["model"] but train saves "model_state_dict"
+   → loader now reads the train format (and prefers ckpt backbone/variant).
+2. predict() permuted the stacked (T,S,S,3) window as a single frame →
+   RuntimeError at the first model tick → tensor path rewritten to the
+   dataset contract (RGB (1,T,3,S,S) [0,1]); engine loop now catches crashes
+   and ends the session with an error event instead of freezing silently.
+Verified run: scans → enroll → cooking; verb_predicted take@0.513 via ema
+smoother; inference 155.7 ms/tick CPU (fps 51.7); events: 96 scan_progress,
+16 ingredient_matched, 5 window_sample, 1 verb_predicted, idle_nudge.
+New tests/test_model_source.py (3 tests). Suite: 93 passed.
