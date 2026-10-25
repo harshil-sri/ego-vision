@@ -277,3 +277,14 @@ default preserved + 5 new tests). Optimistic results: oracle .748 advance,
 config: majority + optimistic + prior.
 
 Suite: 102 passed (was 92).
+
+**4. Consolidate/ship (final)** — HANDOFF.md refreshed 2026-10-25:
+Tier-2 'take@0.513' corrected (verb-alignment bug, mechanics were right),
+timezone note (machine clock = UTC), reasoning-layer rows + numbers added
+(smoother bake-off, loop eval, local baseline best ep1 mca 0.2205,
+fast_seek audit 40/40 @ 21.5x), eval commands + recommended demo config
+(majority + optimistic + recipe_prior, pending D6/D9/D10 sign-off),
+tests count 88 -> 102. Fresh gates this session: `pytest tests/ -q`
+102 passed in 17.89s; `bash scripts/check_all.sh` exit 0 (run earlier
+this turn-series, "ALL CHECKS PASSED"). GPU left free (8% util, no
+trainer); camera still awaits owner re-attach (usbipd 4-10).
