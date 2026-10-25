@@ -80,12 +80,25 @@ class _State:
 
 
 class RecipeStateMachine:
-    """Walks a Recipe from step 0 to done, one update() per event."""
+    """Walks a Recipe from step 0 to done, one update() per event.
 
-    def __init__(self, recipe: Recipe) -> None:
+    policy:
+      'strict'    — Rule 3 fires wrong_order for any later-step attempt
+                    (linear recipes, human corrects via the UI warning).
+      'optimistic'— a later-step attempt ADVANCES the pointer to that step
+                    (interleaved steps are assumed done off-screen). Measured
+                    motivation: real EPIC action revisits/interleaves so much
+                    that even ORACLE perception advances on only ~1/3 of
+                    true ticks under strict (reports/loop_eval.md).
+    """
+
+    def __init__(self, recipe: Recipe, policy: str = "strict") -> None:
         if not recipe.steps:
             raise ValueError(f"recipe '{recipe.name}' has no steps")
+        if policy not in ("strict", "optimistic"):
+            raise ValueError(f"unknown policy '{policy}'")
         self.recipe = recipe
+        self.policy = policy
         self._state = _State()
 
     # -- helpers -----------------------------------------------------------
@@ -149,12 +162,27 @@ class RecipeStateMachine:
             ev = Event("repeat", self._state.current - 1, None,
                        f"Already done: {prev.verb} {prev.ingredient}. "
                        + self._wait_message())
-        elif self._future_index(verb, ingredient) is not None:
-            # Rule 3: a later step attempted early.
-            want = self.recipe.steps[self._state.current]
-            ev = Event("wrong_order", self._state.current, want,
-                       f"Out of order: expected '{want.verb} {want.ingredient}' "
-                       f"before '{verb} {ingredient}'. " + self._wait_message())
+        elif (future := self._future_index(verb, ingredient)) is not None:
+            if self.policy == "optimistic":
+                # Rule 3a (optimistic): jump to the matched later step,
+                # treating the steps in between as done off-screen.
+                self._state.current = future + 1
+                if self._state.current >= len(self.recipe.steps):
+                    self._state.finished = True
+                    ev = Event("done", future, None,
+                               f"Recipe '{self.recipe.name}' complete.")
+                else:
+                    nxt = self.recipe.steps[self._state.current]
+                    ev = Event("advance", future, nxt,
+                               f"Jumped ahead to: {verb} {ingredient}. "
+                               + self._wait_message())
+            else:
+                # Rule 3 (strict): a later step attempted early.
+                want = self.recipe.steps[self._state.current]
+                ev = Event("wrong_order", self._state.current, want,
+                           f"Out of order: expected '{want.verb} "
+                           f"{want.ingredient}' before '{verb} {ingredient}'. "
+                           + self._wait_message())
         else:
             # Rule 4: anything else — no state change.
             ev = Event("idle", -1, None, self._wait_message())

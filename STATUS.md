@@ -248,3 +248,32 @@ ep5 train_acc 0.7977 val_acc 0.3406 mca 0.1893 | ep6 train_acc 0.9063
 val_acc 0.3288 mca 0.1484. Banked artifacts in runs/baseline/:
 best.pt (epoch 1, val_mca 0.2205 — the max over the run), last.pt (epoch 7),
 log.csv, verb_map.json, config.yaml. GPU released; no runs active.
+
+## 2026-10-24 ~21:15 UTC — reasoning-layer work session (owner plan items 1-3)
+All numbers from actual runs; caches/reports regenerate together.
+
+**1. Smoother bake-off (D6)** — reports/smoother_eval.md, 593 val segs replayed
+per-video, min_conf 0.5: raw coverage .202/tick-acc .049/fire-precision .254;
+ema coverage .024 (EMA smears across segment transitions); majority coverage
+.568/fire-precision .213; hysteresis like ema. Weak-model regime: confident
+fires right ~25% of the time (8 classes; chance 12.5%).
+
+**2. Recipe-aware verb prior** — src/pipeline/prior.py (soft mask to
+remaining-step verbs, leak knob), engine knob recipe_prior/prior_leak.
+5 unit tests incl. an engine-level flip test. ALSO FIXED a real bug found by
+that test: the smoother was built over recipe.verbs (6) while model probs
+are 8-wide — verb names were mislabeled via index (this morning's Tier-2
+'take@0.513' was actually model-class 'close' relabeled). Smoother now uses
+verb_source.verbs in model modes.
+
+**3. Reasoning-chain eval** — scripts/eval_loop.py, perfect-matcher protocol,
+15-step pseudo-recipes. KEY FINDING: even ORACLE verbs advance only 33.6%
+under the strict machine (real action interleaves; 58 wrong_orders) — the
+logic layer was as much the bottleneck as the model. Added an 'optimistic'
+state-machine policy (later-step match advances the pointer; knob, strict
+default preserved + 5 new tests). Optimistic results: oracle .748 advance,
+6/10 completed; model rows all improve AND the prior now HELPS: majority
+0.077→.133 with prior (vs raw-off-strict baseline 0.0 — 9x). Best demo
+config: majority + optimistic + prior.
+
+Suite: 102 passed (was 92).

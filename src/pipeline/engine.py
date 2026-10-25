@@ -45,6 +45,8 @@ class EngineConfig:
     smoother: str = "ema"                  # ema | majority | hysteresis
     smoother_args: dict = field(default_factory=lambda: {"alpha": 0.3})
     min_conf: float = 0.5                  # D3a default
+    recipe_prior: bool = False             # mask probs to remaining-step verbs
+    prior_leak: float = 0.05               # mass illegal verbs keep (0 = hard)
     embedder: str = "toy"                  # toy | dinov2 | resnet | clip (D7)
     matcher_threshold: float = 0.5
     ingredient_crop: str = "show_zone"     # show_zone | whole_frame (D4)
@@ -90,10 +92,8 @@ class CookingEngine:
         matcher_cls = registry.get_class("enrollment")
         self.matcher = matcher_cls(self._get_embedder,
                                    threshold=self.cfg.matcher_threshold)
-        sm_cls_args = dict(self.cfg.smoother_args)
-        sm_cls_args.setdefault("min_conf", self.cfg.min_conf)
-        self.smoother = make_smoother(self.cfg.smoother, self.recipe.verbs,
-                                      **sm_cls_args)
+        self.smoother = make_smoother(self.cfg.smoother, self._smoother_verbs(),
+                                      **self._smoother_args())
         sm_cls = registry.get_class("state_machine")
         self.machine = sm_cls(self.recipe)
 
@@ -212,16 +212,26 @@ class CookingEngine:
         if self.logger is not None:
             self.logger.close()
 
+    def _smoother_args(self) -> dict:
+        args = dict(self.cfg.smoother_args)
+        args.setdefault("min_conf", self.cfg.min_conf)
+        return args
+
+    def _smoother_verbs(self) -> list[str]:
+        """Smoother indices MUST align with the probability vector it sees:
+        the MODEL's verb_map order in clip/live modes (8 classes), the
+        recipe's verbs in keyboard mode (verbs arrive by name, no probs)."""
+        vs = getattr(self.verb_source, "verbs", None)
+        return list(vs) if vs else list(self.recipe.verbs)
+
     def _fresh_run(self) -> None:
         """Reset per-run state so (re)starting is a clean cooking run.
 
         Enrolled ingredient prototypes survive (no re-scan after restart);
         the state machine, smoother and verb/ingredient readouts do not.
         """
-        sm_args = dict(self.cfg.smoother_args)
-        sm_args.setdefault("min_conf", self.cfg.min_conf)
-        self.smoother = make_smoother(self.cfg.smoother, self.recipe.verbs,
-                                      **sm_args)
+        self.smoother = make_smoother(self.cfg.smoother, self._smoother_verbs(),
+                                      **self._smoother_args())
         sm_cls = registry.get_class("state_machine")
         self.machine = sm_cls(self.recipe)
         self.phase = (COOKING
@@ -461,7 +471,7 @@ class CookingEngine:
                              score=round(score, 3))
 
     def _recognize_verb(self, window) -> None:
-        """Model modes: predict -> smooth -> fire on stabilized verb EDGE."""
+        """Model modes: predict -> (optional recipe prior) -> smooth -> fire."""
         if self.verb_source is None or not window:
             return
         t0 = time.monotonic()
@@ -469,6 +479,16 @@ class CookingEngine:
         self._last_infer_ms = (time.monotonic() - t0) * 1000.0
         if probs is None:  # keyboard source: verbs arrive via inject_verb
             return
+        if self.cfg.recipe_prior:
+            from src.pipeline.prior import apply_recipe_prior, legal_verbs
+            legal = legal_verbs(self.recipe.steps, self.machine.current_index)
+            # probs are ordered by the MODEL's verb_map (verb_source.verbs),
+            # which need not match the recipe's verb list or alphabetical order
+            model_verbs = getattr(self.verb_source, "verbs", None)
+            if legal and model_verbs:
+                probs = apply_recipe_prior(
+                    probs, list(model_verbs), legal,
+                    leak=self.cfg.prior_leak)
         verb, conf = self.smoother.update(probs, time.monotonic_ns())
         if verb is not None and verb != self._last_verb[0]:
             self.bus.publish("verb_predicted", verb=verb,
