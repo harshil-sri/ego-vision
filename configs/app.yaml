@@ -7,6 +7,9 @@ matcher_hz: 2.0           # ingredient match attempts per second
 smoother: ema             # ema | majority | hysteresis (D6)
 smoother_args: {alpha: 0.3}
 min_conf: 0.5             # D3a default
+recipe_prior: false       # mask probs to remaining-step verbs (D10)
+prior_leak: 0.05          # mass illegal verbs keep (0 = hard mask)
+policy: strict            # strict | optimistic state tracking (D9)
 embedder: dinov2          # toy | dinov2 | resnet | clip (D7)
 matcher_threshold: 0.5
 ingredient_crop: show_zone  # show_zone | whole_frame (D4)

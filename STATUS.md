@@ -302,3 +302,17 @@ recommended config now majority + min_conf 0.4 + optimistic + prior;
 decimal points (cut recall .044, put .031, take .173); temporal
 variants are the better GPU axis if hours get spent. GPU still free,
 no trainer, downloads complete (65G corpus), tree was clean at e528f4d.
+
+**2026-10-25 (post-wake-up) — D9 policy knob plumbed into the engine +
+demo preset** — gap found while continuing the todo: EngineConfig had
+recipe_prior/prior_leak but NO policy knob, so the recommended
+'optimistic' tracking was unreachable from the live app (eval_loop only).
+Now: EngineConfig.policy (default strict, both machine construction
+sites), app.yaml knob line, and configs/app_demo_recommended.yaml — the
+measured-best demo config in one file (majority k=5, min_conf 0.4,
+prior on leak 0.05, optimistic; evidence comments inline). Defaults
+untouched pending D6/D9/D10 sign-off. Tests: 2 new engine wiring tests
+(inject 'cut' at step 1: strict publishes wrong_order and stays,
+optimistic publishes step_advanced and jumps to index 3). Suite: 104
+passed in 17.62s (fresh run above). Owner also asked to disable the
+hourly wake-up automation — deleted this session.

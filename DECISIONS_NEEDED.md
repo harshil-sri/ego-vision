@@ -148,3 +148,8 @@ undertraining, is the limit. If GPU hours get spent, the temporal
 variants (tsn_avg / temporal_attn, gated on Kaggle quota) are the
 better axis; the reasoning layer already routes around the model's worst
 confusion.
+
+**D9 note (2026-10-25):** `policy` is now a real engine knob
+(EngineConfig.policy, app.yaml, configs/app_demo_recommended.yaml) with
+engine-level tests — previously optimistic existed only in
+scripts/eval_loop. Default remains strict pending your call.

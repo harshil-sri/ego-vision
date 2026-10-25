@@ -47,6 +47,7 @@ class EngineConfig:
     min_conf: float = 0.5                  # D3a default
     recipe_prior: bool = False             # mask probs to remaining-step verbs
     prior_leak: float = 0.05               # mass illegal verbs keep (0 = hard)
+    policy: str = "strict"                 # strict | optimistic (D9)
     embedder: str = "toy"                  # toy | dinov2 | resnet | clip (D7)
     matcher_threshold: float = 0.5
     ingredient_crop: str = "show_zone"     # show_zone | whole_frame (D4)
@@ -95,7 +96,7 @@ class CookingEngine:
         self.smoother = make_smoother(self.cfg.smoother, self._smoother_verbs(),
                                       **self._smoother_args())
         sm_cls = registry.get_class("state_machine")
-        self.machine = sm_cls(self.recipe)
+        self.machine = sm_cls(self.recipe, policy=self.cfg.policy)
 
         self.phase = IDLE
         self._lock = threading.RLock()
@@ -233,7 +234,7 @@ class CookingEngine:
         self.smoother = make_smoother(self.cfg.smoother, self._smoother_verbs(),
                                       **self._smoother_args())
         sm_cls = registry.get_class("state_machine")
-        self.machine = sm_cls(self.recipe)
+        self.machine = sm_cls(self.recipe, policy=self.cfg.policy)
         self.phase = (COOKING
                       if self._enrolled == set(self.recipe.ingredients)
                       else IDLE)

@@ -53,3 +53,40 @@ def test_both_policies_agree_on_exact_repeat_and_unknown():
 def test_bad_policy_rejected():
     with pytest.raises(ValueError):
         _machine([("take", "a")], policy="sloppy")
+
+
+# ------------------------------------------------- engine wiring (D9 knob)
+
+def _engine(policy):
+    """Keyboard-mode engine (no model) with the D9 knob under test."""
+    from src.pipeline.engine import COOKING, CookingEngine, EngineConfig
+    from src.pipeline.events import EventBus
+    from src.pipeline.window import SyntheticFrameSource
+
+    cfg = EngineConfig(mode="keyboard", embedder="toy", policy=policy)
+    eng = CookingEngine(SyntheticFrameSource(fps=20), cfg,
+                        "recipes/example_salad.yaml", bus=EventBus())
+    eng._ingredient = ("tomato", 0.9)
+    eng.phase = COOKING
+    return eng
+
+
+def test_engine_policy_knob_reaches_machine():
+    # 'cut tomato' is step 3 (index 2); we are at step 1 (take tomato).
+    strict, optimistic = _engine("strict"), _engine("optimistic")
+    strict.inject_verb("cut")
+    optimistic.inject_verb("cut")
+    assert strict.machine.current_index == 0        # strict: refuses
+    assert optimistic.machine.current_index == 3    # optimistic: jumps past
+
+
+def test_engine_publishes_wrong_order_only_under_strict():
+    seen_strict, seen_optimistic = [], []
+    strict, optimistic = _engine("strict"), _engine("optimistic")
+    strict.bus.subscribe(lambda e: seen_strict.append(e.kind))
+    optimistic.bus.subscribe(lambda e: seen_optimistic.append(e.kind))
+    strict.inject_verb("cut")
+    optimistic.inject_verb("cut")
+    assert "wrong_order" in seen_strict
+    assert "step_advanced" in seen_optimistic
+    assert "wrong_order" not in seen_optimistic
