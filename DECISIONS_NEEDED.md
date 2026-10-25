@@ -128,3 +128,23 @@ with optimistic policy.
 majority(k=5) has the best coverage/precision balance for live use in the
 weak-model regime; EMA/hysteresis need consecutive same-verb ticks to
 accumulate (they suit stable live streams, not per-segment replays).
+
+**D6 update 2 — min_conf now swept too** (reports/val_error_analysis.md,
+2026-10-25): with the majority smoother, min_conf 0.5 throws away half the
+usable signal (coverage 0.568). At 0.4: coverage 0.971, tick acc 0.199,
+fire precision 0.2168 — strictly better demo behavior than 0.5 on every
+axis. Recommended demo config is now **majority + min_conf 0.4 +
+optimistic policy + recipe prior (leak 0.05)**. Raising to 0.7 collapses
+coverage to 0.21 for +0.03 fire precision — not worth it.
+
+**Item-5 triage (same report):** the single biggest model error is
+open->close (20% of all errors) — both NON-recipe verbs, so the prior
+masks it at runtime and it barely hurts the demo. In-recipe accuracy is
+0.2207 over 213 segments, i.e. the demo verbs are exactly as hard as the
+rest (cut recall 0.044, put 0.031, take 0.173). A regularized retrain of
+the SAME single-frame variant fights for decimal points on those; the
+12-epoch curve (best ep 1, then overfit) says data/capacity, not
+undertraining, is the limit. If GPU hours get spent, the temporal
+variants (tsn_avg / temporal_attn, gated on Kaggle quota) are the
+better axis; the reasoning layer already routes around the model's worst
+confusion.

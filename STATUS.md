@@ -288,3 +288,17 @@ tests count 88 -> 102. Fresh gates this session: `pytest tests/ -q`
 102 passed in 17.89s; `bash scripts/check_all.sh` exit 0 (run earlier
 this turn-series, "ALL CHECKS PASSED"). GPU left free (8% util, no
 trainer); camera still awaits owner re-attach (usbipd 4-10).
+
+**2026-10-25 wake-up — val error analysis (CPU, cache-only)** — new
+scripts/eval_error_analysis.py + reports/val_error_analysis.md off the
+banked 593-seg prediction cache. Findings (all from the run above):
+(1) top confusion open->close = 20.0% of all errors — both non-recipe
+verbs, so the runtime prior masks it (demo-recipe subset accuracy
+0.2207/213 segs ≈ overall 0.2142: in-recipe verbs are NOT easier);
+(2) min_conf sweep: 0.4 dominates 0.5 for the demo (coverage .971 vs
+.568, fire precision .2168 vs .2125, tick acc .199 vs .116) —
+recommended config now majority + min_conf 0.4 + optimistic + prior;
+(3) item-5 triage: retraining the same single-frame variant fights for
+decimal points (cut recall .044, put .031, take .173); temporal
+variants are the better GPU axis if hours get spent. GPU still free,
+no trainer, downloads complete (65G corpus), tree was clean at e528f4d.
