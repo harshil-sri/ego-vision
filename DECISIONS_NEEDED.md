@@ -107,3 +107,24 @@ baked in).
 - resnet18: T=8 fp16 ~5.5 ms (~190/s); T=16 fp16 5.7 ms (177/s).
 - mobilenet_v2: T=8 fp32 5.6 ms (177/s); T=16 fp16 5.3 ms (190/s); fp16 no gain at T=4/T=8 (bandwidth-bound).
 - Requirement was >= 3 predictions/s: every config clears it by >20x. Suggestion (labelled): keep D1 default ResNet-34 and D5 default T=8; pick by ACCURACY when the Kaggle baseline lands, latency no longer constrains. Full table: reports/latency.md, raw: runs/latency/latency.json.
+
+---
+
+## New measured knobs from the 2026-10-24 reasoning session (evidence attached)
+
+**D9 — state-machine policy: `strict` (default) vs `optimistic`**
+Evidence (reports/loop_eval*.md, 593 real val segs, perfect-matcher protocol):
+oracle-verb advance rate 0.336 strict → 0.748 optimistic, completed recipes
+0/10 → 6/10; model chains improve 2-9×. Optimistic assumes interleaved steps
+were done off-screen. Owner call: demo liveliness vs explicit ordering.
+
+**D10 — recipe-aware verb prior: `recipe_prior` (+ `prior_leak` 0.05)**
+Soft-masks model probs to remaining-step verbs before smoothing. Under
+optimistic tracking it lifts every smoother (majority 0.077 → 0.133 advance
+rate); under strict it slightly increases wrong_orders. Recommend ON only
+with optimistic policy.
+
+**D6 update — smoother choice now measured** (reports/smoother_eval.md):
+majority(k=5) has the best coverage/precision balance for live use in the
+weak-model regime; EMA/hysteresis need consecutive same-verb ticks to
+accumulate (they suit stable live streams, not per-segment replays).
