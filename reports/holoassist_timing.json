@@ -1,0 +1,1318 @@
+{
+  "videos": 1568,
+  "perms": 2000,
+  "onsets": {
+    "follow_up": 7660,
+    "high_level": 5466,
+    "confirm": 5523,
+    "correct": 2999,
+    "all_instructor": 22827
+  },
+  "hours": 113.8,
+  "state_time_share": {
+    "grab": 0.078,
+    "place": 0.0628,
+    "insert": 0.0946,
+    "withdraw": 0.0312,
+    "unscrew": 0.0811,
+    "screw": 0.1296,
+    "rotate": 0.0442,
+    "lift": 0.0194,
+    "disassemble": 0.0111,
+    "align": 0.038,
+    "approach": 0.0124,
+    "inspect": 0.032,
+    "hold": 0.0211,
+    "press": 0.0167,
+    "open": 0.0142,
+    "slide": 0.0108,
+    "drop": 0.0064,
+    "close": 0.0107,
+    "assemble": 0.0209,
+    "pull": 0.014,
+    "other_verb": 0.043,
+    "idle": 0.208
+  },
+  "stats": {
+    "follow_up": {
+      "idle": {
+        "observed": 0.3436,
+        "null_mean": 0.2975,
+        "null_lo": 0.2884,
+        "null_hi": 0.3071,
+        "ratio": 1.155,
+        "p": 0.0005
+      },
+      "after_end_0.5s": {
+        "observed": 0.1478,
+        "null_mean": 0.139,
+        "null_lo": 0.1309,
+        "null_hi": 0.1465,
+        "ratio": 1.063,
+        "p": 0.02899
+      },
+      "near_boundary_0.5s": {
+        "observed": 0.3701,
+        "null_mean": 0.3674,
+        "null_lo": 0.3568,
+        "null_hi": 0.3781,
+        "ratio": 1.007,
+        "p": 0.6012
+      },
+      "near_coarse_1s": {
+        "observed": 0.0879,
+        "null_mean": 0.0946,
+        "null_lo": 0.0881,
+        "null_hi": 0.1012,
+        "ratio": 0.929,
+        "p": 0.04348
+      },
+      "phase_early": {
+        "observed": 0.2086,
+        "null_mean": 0.2004,
+        "null_lo": 0.1892,
+        "null_hi": 0.2112,
+        "ratio": 1.041,
+        "p": 0.14743
+      },
+      "phase_late": {
+        "observed": 0.2216,
+        "null_mean": 0.1995,
+        "null_lo": 0.1887,
+        "null_hi": 0.2101,
+        "ratio": 1.111,
+        "p": 0.0005
+      }
+    },
+    "high_level": {
+      "idle": {
+        "observed": 0.6339,
+        "null_mean": 0.3054,
+        "null_lo": 0.2944,
+        "null_hi": 0.3167,
+        "ratio": 2.076,
+        "p": 0.0005
+      },
+      "after_end_0.5s": {
+        "observed": 0.1656,
+        "null_mean": 0.1577,
+        "null_lo": 0.1487,
+        "null_hi": 0.1672,
+        "ratio": 1.05,
+        "p": 0.10345
+      },
+      "near_boundary_0.5s": {
+        "observed": 0.341,
+        "null_mean": 0.418,
+        "null_lo": 0.4058,
+        "null_hi": 0.4301,
+        "ratio": 0.816,
+        "p": 0.0005
+      },
+      "near_coarse_1s": {
+        "observed": 0.5677,
+        "null_mean": 0.1476,
+        "null_lo": 0.1381,
+        "null_hi": 0.1575,
+        "ratio": 3.845,
+        "p": 0.0005
+      },
+      "phase_early": {
+        "observed": 0.1764,
+        "null_mean": 0.2005,
+        "null_lo": 0.188,
+        "null_hi": 0.2131,
+        "ratio": 0.88,
+        "p": 0.0005
+      },
+      "phase_late": {
+        "observed": 0.2909,
+        "null_mean": 0.1996,
+        "null_lo": 0.1872,
+        "null_hi": 0.2125,
+        "ratio": 1.457,
+        "p": 0.0005
+      }
+    },
+    "confirm": {
+      "idle": {
+        "observed": 0.371,
+        "null_mean": 0.2846,
+        "null_lo": 0.2736,
+        "null_hi": 0.2951,
+        "ratio": 1.303,
+        "p": 0.0005
+      },
+      "after_end_0.5s": {
+        "observed": 0.2006,
+        "null_mean": 0.1532,
+        "null_lo": 0.1438,
+        "null_hi": 0.1624,
+        "ratio": 1.309,
+        "p": 0.0005
+      },
+      "near_boundary_0.5s": {
+        "observed": 0.4671,
+        "null_mean": 0.3984,
+        "null_lo": 0.3848,
+        "null_hi": 0.4106,
+        "ratio": 1.172,
+        "p": 0.0005
+      },
+      "near_coarse_1s": {
+        "observed": 0.2989,
+        "null_mean": 0.1107,
+        "null_lo": 0.1027,
+        "null_hi": 0.1188,
+        "ratio": 2.701,
+        "p": 0.0005
+      },
+      "phase_early": {
+        "observed": 0.1684,
+        "null_mean": 0.2003,
+        "null_lo": 0.1875,
+        "null_hi": 0.2127,
+        "ratio": 0.841,
+        "p": 0.0005
+      },
+      "phase_late": {
+        "observed": 0.2948,
+        "null_mean": 0.1995,
+        "null_lo": 0.1872,
+        "null_hi": 0.2119,
+        "ratio": 1.478,
+        "p": 0.0005
+      }
+    },
+    "correct": {
+      "idle": {
+        "observed": 0.1267,
+        "null_mean": 0.1955,
+        "null_lo": 0.1831,
+        "null_hi": 0.2087,
+        "ratio": 0.648,
+        "p": 0.0005
+      },
+      "after_end_0.5s": {
+        "observed": 0.2054,
+        "null_mean": 0.1644,
+        "null_lo": 0.1514,
+        "null_hi": 0.1781,
+        "ratio": 1.249,
+        "p": 0.0005
+      },
+      "near_boundary_0.5s": {
+        "observed": 0.4618,
+        "null_mean": 0.3881,
+        "null_lo": 0.3724,
+        "null_hi": 0.4048,
+        "ratio": 1.19,
+        "p": 0.0005
+      },
+      "near_coarse_1s": {
+        "observed": 0.0227,
+        "null_mean": 0.069,
+        "null_lo": 0.0604,
+        "null_hi": 0.078,
+        "ratio": 0.329,
+        "p": 0.0005
+      },
+      "phase_early": {
+        "observed": 0.1863,
+        "null_mean": 0.2005,
+        "null_lo": 0.1854,
+        "null_hi": 0.2163,
+        "ratio": 0.929,
+        "p": 0.08146
+      },
+      "phase_late": {
+        "observed": 0.2035,
+        "null_mean": 0.1997,
+        "null_lo": 0.1839,
+        "null_hi": 0.2152,
+        "ratio": 1.019,
+        "p": 0.64268
+      }
+    },
+    "all_instructor": {
+      "idle": {
+        "observed": 0.3848,
+        "null_mean": 0.279,
+        "null_lo": 0.2738,
+        "null_hi": 0.2843,
+        "ratio": 1.379,
+        "p": 0.0005
+      },
+      "after_end_0.5s": {
+        "observed": 0.1719,
+        "null_mean": 0.1514,
+        "null_lo": 0.1467,
+        "null_hi": 0.1561,
+        "ratio": 1.135,
+        "p": 0.0005
+      },
+      "near_boundary_0.5s": {
+        "observed": 0.4017,
+        "null_mean": 0.3908,
+        "null_lo": 0.3845,
+        "null_hi": 0.3968,
+        "ratio": 1.028,
+        "p": 0.0015
+      },
+      "near_coarse_1s": {
+        "observed": 0.2501,
+        "null_mean": 0.1078,
+        "null_lo": 0.1038,
+        "null_hi": 0.1118,
+        "ratio": 2.319,
+        "p": 0.0005
+      },
+      "phase_early": {
+        "observed": 0.1873,
+        "null_mean": 0.2004,
+        "null_lo": 0.1942,
+        "null_hi": 0.2068,
+        "ratio": 0.934,
+        "p": 0.0005
+      },
+      "phase_late": {
+        "observed": 0.2494,
+        "null_mean": 0.1995,
+        "null_lo": 0.1935,
+        "null_hi": 0.2056,
+        "ratio": 1.25,
+        "p": 0.0005
+      }
+    }
+  },
+  "states": {
+    "follow_up": {
+      "grab": {
+        "observed": 0.0758,
+        "null_mean": 0.0747,
+        "null_lo": 0.0692,
+        "null_hi": 0.0807,
+        "ratio": 1.016,
+        "p": 0.68766
+      },
+      "place": {
+        "observed": 0.0479,
+        "null_mean": 0.0518,
+        "null_lo": 0.0467,
+        "null_hi": 0.0565,
+        "ratio": 0.925,
+        "p": 0.11144
+      },
+      "insert": {
+        "observed": 0.0363,
+        "null_mean": 0.0721,
+        "null_lo": 0.0664,
+        "null_hi": 0.0778,
+        "ratio": 0.503,
+        "p": 0.0005
+      },
+      "withdraw": {
+        "observed": 0.0265,
+        "null_mean": 0.0376,
+        "null_lo": 0.0334,
+        "null_hi": 0.0416,
+        "ratio": 0.705,
+        "p": 0.0005
+      },
+      "unscrew": {
+        "observed": 0.0086,
+        "null_mean": 0.0214,
+        "null_lo": 0.0185,
+        "null_hi": 0.0243,
+        "ratio": 0.403,
+        "p": 0.0005
+      },
+      "screw": {
+        "observed": 0.0144,
+        "null_mean": 0.0618,
+        "null_lo": 0.0568,
+        "null_hi": 0.0668,
+        "ratio": 0.232,
+        "p": 0.0005
+      },
+      "rotate": {
+        "observed": 0.0487,
+        "null_mean": 0.0358,
+        "null_lo": 0.032,
+        "null_hi": 0.0397,
+        "ratio": 1.361,
+        "p": 0.0005
+      },
+      "lift": {
+        "observed": 0.0265,
+        "null_mean": 0.0223,
+        "null_lo": 0.0191,
+        "null_hi": 0.0253,
+        "ratio": 1.188,
+        "p": 0.01099
+      },
+      "disassemble": {
+        "observed": 0.0027,
+        "null_mean": 0.0043,
+        "null_lo": 0.003,
+        "null_hi": 0.0057,
+        "ratio": 0.639,
+        "p": 0.03748
+      },
+      "align": {
+        "observed": 0.0198,
+        "null_mean": 0.0238,
+        "null_lo": 0.0205,
+        "null_hi": 0.027,
+        "ratio": 0.833,
+        "p": 0.01799
+      },
+      "approach": {
+        "observed": 0.0094,
+        "null_mean": 0.0079,
+        "null_lo": 0.006,
+        "null_hi": 0.0098,
+        "ratio": 1.195,
+        "p": 0.11294
+      },
+      "inspect": {
+        "observed": 0.0946,
+        "null_mean": 0.0463,
+        "null_lo": 0.0418,
+        "null_hi": 0.0509,
+        "ratio": 2.045,
+        "p": 0.0005
+      },
+      "hold": {
+        "observed": 0.0507,
+        "null_mean": 0.0277,
+        "null_lo": 0.0243,
+        "null_hi": 0.0312,
+        "ratio": 1.827,
+        "p": 0.0005
+      },
+      "press": {
+        "observed": 0.0332,
+        "null_mean": 0.0298,
+        "null_lo": 0.0261,
+        "null_hi": 0.0334,
+        "ratio": 1.114,
+        "p": 0.07146
+      },
+      "open": {
+        "observed": 0.0239,
+        "null_mean": 0.0252,
+        "null_lo": 0.0217,
+        "null_hi": 0.0286,
+        "ratio": 0.947,
+        "p": 0.45027
+      },
+      "slide": {
+        "observed": 0.0091,
+        "null_mean": 0.0106,
+        "null_lo": 0.0085,
+        "null_hi": 0.0128,
+        "ratio": 0.862,
+        "p": 0.1969
+      },
+      "drop": {
+        "observed": 0.0047,
+        "null_mean": 0.0054,
+        "null_lo": 0.0039,
+        "null_hi": 0.007,
+        "ratio": 0.874,
+        "p": 0.4073
+      },
+      "close": {
+        "observed": 0.0131,
+        "null_mean": 0.0189,
+        "null_lo": 0.0162,
+        "null_hi": 0.0218,
+        "ratio": 0.69,
+        "p": 0.0005
+      },
+      "assemble": {
+        "observed": 0.0174,
+        "null_mean": 0.0285,
+        "null_lo": 0.0251,
+        "null_hi": 0.032,
+        "ratio": 0.61,
+        "p": 0.0005
+      },
+      "pull": {
+        "observed": 0.0273,
+        "null_mean": 0.0247,
+        "null_lo": 0.0213,
+        "null_hi": 0.0281,
+        "ratio": 1.104,
+        "p": 0.14293
+      },
+      "other_verb": {
+        "observed": 0.0658,
+        "null_mean": 0.072,
+        "null_lo": 0.0664,
+        "null_hi": 0.0775,
+        "ratio": 0.914,
+        "p": 0.02999
+      },
+      "idle": {
+        "observed": 0.3436,
+        "null_mean": 0.2975,
+        "null_lo": 0.2884,
+        "null_hi": 0.3071,
+        "ratio": 1.155,
+        "p": 0.0005
+      }
+    },
+    "high_level": {
+      "grab": {
+        "observed": 0.0327,
+        "null_mean": 0.0707,
+        "null_lo": 0.0642,
+        "null_hi": 0.0779,
+        "ratio": 0.463,
+        "p": 0.0005
+      },
+      "place": {
+        "observed": 0.0721,
+        "null_mean": 0.0503,
+        "null_lo": 0.0448,
+        "null_hi": 0.0556,
+        "ratio": 1.434,
+        "p": 0.0005
+      },
+      "insert": {
+        "observed": 0.0126,
+        "null_mean": 0.0628,
+        "null_lo": 0.0569,
+        "null_hi": 0.069,
+        "ratio": 0.201,
+        "p": 0.0005
+      },
+      "withdraw": {
+        "observed": 0.0177,
+        "null_mean": 0.0421,
+        "null_lo": 0.0371,
+        "null_hi": 0.0472,
+        "ratio": 0.421,
+        "p": 0.0005
+      },
+      "unscrew": {
+        "observed": 0.002,
+        "null_mean": 0.0193,
+        "null_lo": 0.0161,
+        "null_hi": 0.0227,
+        "ratio": 0.105,
+        "p": 0.0005
+      },
+      "screw": {
+        "observed": 0.0048,
+        "null_mean": 0.0319,
+        "null_lo": 0.0278,
+        "null_hi": 0.0362,
+        "ratio": 0.149,
+        "p": 0.0005
+      },
+      "rotate": {
+        "observed": 0.0203,
+        "null_mean": 0.0429,
+        "null_lo": 0.0379,
+        "null_hi": 0.0479,
+        "ratio": 0.474,
+        "p": 0.0005
+      },
+      "lift": {
+        "observed": 0.0102,
+        "null_mean": 0.0239,
+        "null_lo": 0.0201,
+        "null_hi": 0.0278,
+        "ratio": 0.429,
+        "p": 0.0005
+      },
+      "disassemble": {
+        "observed": 0.0015,
+        "null_mean": 0.004,
+        "null_lo": 0.0026,
+        "null_hi": 0.0057,
+        "ratio": 0.367,
+        "p": 0.002
+      },
+      "align": {
+        "observed": 0.0033,
+        "null_mean": 0.0161,
+        "null_lo": 0.013,
+        "null_hi": 0.0194,
+        "ratio": 0.205,
+        "p": 0.0005
+      },
+      "approach": {
+        "observed": 0.0048,
+        "null_mean": 0.0082,
+        "null_lo": 0.006,
+        "null_hi": 0.0104,
+        "ratio": 0.579,
+        "p": 0.0025
+      },
+      "inspect": {
+        "observed": 0.0271,
+        "null_mean": 0.0505,
+        "null_lo": 0.0454,
+        "null_hi": 0.0558,
+        "ratio": 0.536,
+        "p": 0.0005
+      },
+      "hold": {
+        "observed": 0.0362,
+        "null_mean": 0.025,
+        "null_lo": 0.0214,
+        "null_hi": 0.0287,
+        "ratio": 1.448,
+        "p": 0.0005
+      },
+      "press": {
+        "observed": 0.011,
+        "null_mean": 0.0369,
+        "null_lo": 0.0326,
+        "null_hi": 0.0417,
+        "ratio": 0.297,
+        "p": 0.0005
+      },
+      "open": {
+        "observed": 0.0101,
+        "null_mean": 0.0316,
+        "null_lo": 0.0273,
+        "null_hi": 0.0362,
+        "ratio": 0.318,
+        "p": 0.0005
+      },
+      "slide": {
+        "observed": 0.0064,
+        "null_mean": 0.0091,
+        "null_lo": 0.0068,
+        "null_hi": 0.0115,
+        "ratio": 0.704,
+        "p": 0.02599
+      },
+      "drop": {
+        "observed": 0.0055,
+        "null_mean": 0.0049,
+        "null_lo": 0.0031,
+        "null_hi": 0.0068,
+        "ratio": 1.132,
+        "p": 0.54173
+      },
+      "close": {
+        "observed": 0.0262,
+        "null_mean": 0.0248,
+        "null_lo": 0.0209,
+        "null_hi": 0.0289,
+        "ratio": 1.056,
+        "p": 0.50225
+      },
+      "assemble": {
+        "observed": 0.013,
+        "null_mean": 0.0363,
+        "null_lo": 0.0318,
+        "null_hi": 0.0408,
+        "ratio": 0.358,
+        "p": 0.0005
+      },
+      "pull": {
+        "observed": 0.007,
+        "null_mean": 0.0265,
+        "null_lo": 0.0227,
+        "null_hi": 0.0307,
+        "ratio": 0.262,
+        "p": 0.0005
+      },
+      "other_verb": {
+        "observed": 0.0417,
+        "null_mean": 0.0769,
+        "null_lo": 0.0704,
+        "null_hi": 0.0832,
+        "ratio": 0.543,
+        "p": 0.0005
+      },
+      "idle": {
+        "observed": 0.6339,
+        "null_mean": 0.3054,
+        "null_lo": 0.2944,
+        "null_hi": 0.3167,
+        "ratio": 2.076,
+        "p": 0.0005
+      }
+    },
+    "confirm": {
+      "grab": {
+        "observed": 0.05,
+        "null_mean": 0.0726,
+        "null_lo": 0.0661,
+        "null_hi": 0.0789,
+        "ratio": 0.688,
+        "p": 0.0005
+      },
+      "place": {
+        "observed": 0.0945,
+        "null_mean": 0.0532,
+        "null_lo": 0.0476,
+        "null_hi": 0.0588,
+        "ratio": 1.778,
+        "p": 0.0005
+      },
+      "insert": {
+        "observed": 0.0378,
+        "null_mean": 0.0719,
+        "null_lo": 0.0661,
+        "null_hi": 0.0782,
+        "ratio": 0.526,
+        "p": 0.0005
+      },
+      "withdraw": {
+        "observed": 0.0292,
+        "null_mean": 0.0381,
+        "null_lo": 0.0331,
+        "null_hi": 0.0431,
+        "ratio": 0.765,
+        "p": 0.0005
+      },
+      "unscrew": {
+        "observed": 0.0049,
+        "null_mean": 0.0297,
+        "null_lo": 0.0257,
+        "null_hi": 0.0337,
+        "ratio": 0.165,
+        "p": 0.0005
+      },
+      "screw": {
+        "observed": 0.0205,
+        "null_mean": 0.0549,
+        "null_lo": 0.0494,
+        "null_hi": 0.0603,
+        "ratio": 0.372,
+        "p": 0.0005
+      },
+      "rotate": {
+        "observed": 0.0492,
+        "null_mean": 0.0423,
+        "null_lo": 0.0375,
+        "null_hi": 0.0474,
+        "ratio": 1.164,
+        "p": 0.0045
+      },
+      "lift": {
+        "observed": 0.0174,
+        "null_mean": 0.0233,
+        "null_lo": 0.0196,
+        "null_hi": 0.0273,
+        "ratio": 0.745,
+        "p": 0.0025
+      },
+      "disassemble": {
+        "observed": 0.0042,
+        "null_mean": 0.0049,
+        "null_lo": 0.0031,
+        "null_hi": 0.0067,
+        "ratio": 0.852,
+        "p": 0.48176
+      },
+      "align": {
+        "observed": 0.0244,
+        "null_mean": 0.0224,
+        "null_lo": 0.0186,
+        "null_hi": 0.0261,
+        "ratio": 1.09,
+        "p": 0.27686
+      },
+      "approach": {
+        "observed": 0.0056,
+        "null_mean": 0.0093,
+        "null_lo": 0.0071,
+        "null_hi": 0.0116,
+        "ratio": 0.604,
+        "p": 0.004
+      },
+      "inspect": {
+        "observed": 0.0337,
+        "null_mean": 0.0486,
+        "null_lo": 0.0433,
+        "null_hi": 0.054,
+        "ratio": 0.693,
+        "p": 0.0005
+      },
+      "hold": {
+        "observed": 0.0263,
+        "null_mean": 0.0248,
+        "null_lo": 0.0208,
+        "null_hi": 0.029,
+        "ratio": 1.058,
+        "p": 0.49625
+      },
+      "press": {
+        "observed": 0.0311,
+        "null_mean": 0.0328,
+        "null_lo": 0.0286,
+        "null_hi": 0.0371,
+        "ratio": 0.949,
+        "p": 0.48976
+      },
+      "open": {
+        "observed": 0.0219,
+        "null_mean": 0.0273,
+        "null_lo": 0.0234,
+        "null_hi": 0.0315,
+        "ratio": 0.804,
+        "p": 0.01199
+      },
+      "slide": {
+        "observed": 0.0148,
+        "null_mean": 0.0101,
+        "null_lo": 0.0078,
+        "null_hi": 0.0125,
+        "ratio": 1.477,
+        "p": 0.0005
+      },
+      "drop": {
+        "observed": 0.0071,
+        "null_mean": 0.0051,
+        "null_lo": 0.0034,
+        "null_hi": 0.0071,
+        "ratio": 1.382,
+        "p": 0.04298
+      },
+      "close": {
+        "observed": 0.0369,
+        "null_mean": 0.0204,
+        "null_lo": 0.0168,
+        "null_hi": 0.0243,
+        "ratio": 1.808,
+        "p": 0.0005
+      },
+      "assemble": {
+        "observed": 0.0268,
+        "null_mean": 0.0279,
+        "null_lo": 0.0239,
+        "null_hi": 0.032,
+        "ratio": 0.96,
+        "p": 0.61969
+      },
+      "pull": {
+        "observed": 0.0212,
+        "null_mean": 0.0253,
+        "null_lo": 0.0214,
+        "null_hi": 0.0292,
+        "ratio": 0.836,
+        "p": 0.04048
+      },
+      "other_verb": {
+        "observed": 0.0715,
+        "null_mean": 0.0704,
+        "null_lo": 0.0645,
+        "null_hi": 0.0766,
+        "ratio": 1.015,
+        "p": 0.75862
+      },
+      "idle": {
+        "observed": 0.371,
+        "null_mean": 0.2846,
+        "null_lo": 0.2736,
+        "null_hi": 0.2951,
+        "ratio": 1.303,
+        "p": 0.0005
+      }
+    },
+    "correct": {
+      "grab": {
+        "observed": 0.1197,
+        "null_mean": 0.0889,
+        "null_lo": 0.079,
+        "null_hi": 0.099,
+        "ratio": 1.346,
+        "p": 0.0005
+      },
+      "place": {
+        "observed": 0.061,
+        "null_mean": 0.062,
+        "null_lo": 0.0537,
+        "null_hi": 0.0704,
+        "ratio": 0.984,
+        "p": 0.82409
+      },
+      "insert": {
+        "observed": 0.1067,
+        "null_mean": 0.098,
+        "null_lo": 0.088,
+        "null_hi": 0.108,
+        "ratio": 1.089,
+        "p": 0.09245
+      },
+      "withdraw": {
+        "observed": 0.0223,
+        "null_mean": 0.0288,
+        "null_lo": 0.0237,
+        "null_hi": 0.0347,
+        "ratio": 0.777,
+        "p": 0.03148
+      },
+      "unscrew": {
+        "observed": 0.0263,
+        "null_mean": 0.0417,
+        "null_lo": 0.0363,
+        "null_hi": 0.0477,
+        "ratio": 0.631,
+        "p": 0.0005
+      },
+      "screw": {
+        "observed": 0.0403,
+        "null_mean": 0.1527,
+        "null_lo": 0.14,
+        "null_hi": 0.1654,
+        "ratio": 0.264,
+        "p": 0.0005
+      },
+      "rotate": {
+        "observed": 0.0884,
+        "null_mean": 0.052,
+        "null_lo": 0.0443,
+        "null_hi": 0.0597,
+        "ratio": 1.7,
+        "p": 0.0005
+      },
+      "lift": {
+        "observed": 0.0313,
+        "null_mean": 0.0222,
+        "null_lo": 0.0173,
+        "null_hi": 0.0277,
+        "ratio": 1.41,
+        "p": 0.0015
+      },
+      "disassemble": {
+        "observed": 0.0073,
+        "null_mean": 0.0068,
+        "null_lo": 0.004,
+        "null_hi": 0.01,
+        "ratio": 1.081,
+        "p": 0.72464
+      },
+      "align": {
+        "observed": 0.078,
+        "null_mean": 0.0504,
+        "null_lo": 0.043,
+        "null_hi": 0.058,
+        "ratio": 1.55,
+        "p": 0.0005
+      },
+      "approach": {
+        "observed": 0.03,
+        "null_mean": 0.0164,
+        "null_lo": 0.012,
+        "null_hi": 0.021,
+        "ratio": 1.834,
+        "p": 0.0005
+      },
+      "inspect": {
+        "observed": 0.0453,
+        "null_mean": 0.0365,
+        "null_lo": 0.0303,
+        "null_hi": 0.043,
+        "ratio": 1.243,
+        "p": 0.01099
+      },
+      "hold": {
+        "observed": 0.0347,
+        "null_mean": 0.0235,
+        "null_lo": 0.0183,
+        "null_hi": 0.0287,
+        "ratio": 1.474,
+        "p": 0.0005
+      },
+      "press": {
+        "observed": 0.0317,
+        "null_mean": 0.0179,
+        "null_lo": 0.0137,
+        "null_hi": 0.0227,
+        "ratio": 1.765,
+        "p": 0.0005
+      },
+      "open": {
+        "observed": 0.02,
+        "null_mean": 0.0134,
+        "null_lo": 0.0097,
+        "null_hi": 0.0173,
+        "ratio": 1.494,
+        "p": 0.001
+      },
+      "slide": {
+        "observed": 0.0143,
+        "null_mean": 0.0116,
+        "null_lo": 0.008,
+        "null_hi": 0.0153,
+        "ratio": 1.235,
+        "p": 0.16292
+      },
+      "drop": {
+        "observed": 0.0017,
+        "null_mean": 0.0046,
+        "null_lo": 0.0023,
+        "null_hi": 0.007,
+        "ratio": 0.365,
+        "p": 0.01449
+      },
+      "close": {
+        "observed": 0.0057,
+        "null_mean": 0.0096,
+        "null_lo": 0.0063,
+        "null_hi": 0.0133,
+        "ratio": 0.589,
+        "p": 0.02549
+      },
+      "assemble": {
+        "observed": 0.0373,
+        "null_mean": 0.0172,
+        "null_lo": 0.0127,
+        "null_hi": 0.022,
+        "ratio": 2.175,
+        "p": 0.0005
+      },
+      "pull": {
+        "observed": 0.0223,
+        "null_mean": 0.0127,
+        "null_lo": 0.009,
+        "null_hi": 0.0167,
+        "ratio": 1.763,
+        "p": 0.0005
+      },
+      "other_verb": {
+        "observed": 0.0487,
+        "null_mean": 0.0377,
+        "null_lo": 0.0313,
+        "null_hi": 0.0443,
+        "ratio": 1.293,
+        "p": 0.0005
+      },
+      "idle": {
+        "observed": 0.1267,
+        "null_mean": 0.1955,
+        "null_lo": 0.1831,
+        "null_hi": 0.2087,
+        "ratio": 0.648,
+        "p": 0.0005
+      }
+    },
+    "all_instructor": {
+      "grab": {
+        "observed": 0.0642,
+        "null_mean": 0.0752,
+        "null_lo": 0.0719,
+        "null_hi": 0.0787,
+        "ratio": 0.854,
+        "p": 0.0005
+      },
+      "place": {
+        "observed": 0.073,
+        "null_mean": 0.0538,
+        "null_lo": 0.0509,
+        "null_hi": 0.0568,
+        "ratio": 1.358,
+        "p": 0.0005
+      },
+      "insert": {
+        "observed": 0.0413,
+        "null_mean": 0.0739,
+        "null_lo": 0.0707,
+        "null_hi": 0.0774,
+        "ratio": 0.558,
+        "p": 0.0005
+      },
+      "withdraw": {
+        "observed": 0.0243,
+        "null_mean": 0.0375,
+        "null_lo": 0.0351,
+        "null_hi": 0.04,
+        "ratio": 0.648,
+        "p": 0.0005
+      },
+      "unscrew": {
+        "observed": 0.0093,
+        "null_mean": 0.0278,
+        "null_lo": 0.0258,
+        "null_hi": 0.0297,
+        "ratio": 0.334,
+        "p": 0.0005
+      },
+      "screw": {
+        "observed": 0.018,
+        "null_mean": 0.0661,
+        "null_lo": 0.0628,
+        "null_hi": 0.0694,
+        "ratio": 0.272,
+        "p": 0.0005
+      },
+      "rotate": {
+        "observed": 0.0475,
+        "null_mean": 0.0418,
+        "null_lo": 0.0394,
+        "null_hi": 0.0444,
+        "ratio": 1.137,
+        "p": 0.0005
+      },
+      "lift": {
+        "observed": 0.0209,
+        "null_mean": 0.0228,
+        "null_lo": 0.0209,
+        "null_hi": 0.0247,
+        "ratio": 0.917,
+        "p": 0.05097
+      },
+      "disassemble": {
+        "observed": 0.0033,
+        "null_mean": 0.0049,
+        "null_lo": 0.0041,
+        "null_hi": 0.0059,
+        "ratio": 0.676,
+        "p": 0.0015
+      },
+      "align": {
+        "observed": 0.0254,
+        "null_mean": 0.0255,
+        "null_lo": 0.0235,
+        "null_hi": 0.0276,
+        "ratio": 0.995,
+        "p": 0.91454
+      },
+      "approach": {
+        "observed": 0.0099,
+        "null_mean": 0.0096,
+        "null_lo": 0.0084,
+        "null_hi": 0.0109,
+        "ratio": 1.029,
+        "p": 0.66217
+      },
+      "inspect": {
+        "observed": 0.0542,
+        "null_mean": 0.0463,
+        "null_lo": 0.0437,
+        "null_hi": 0.049,
+        "ratio": 1.17,
+        "p": 0.0005
+      },
+      "hold": {
+        "observed": 0.039,
+        "null_mean": 0.0258,
+        "null_lo": 0.0238,
+        "null_hi": 0.0278,
+        "ratio": 1.515,
+        "p": 0.0005
+      },
+      "press": {
+        "observed": 0.0269,
+        "null_mean": 0.0305,
+        "null_lo": 0.0285,
+        "null_hi": 0.0325,
+        "ratio": 0.882,
+        "p": 0.0015
+      },
+      "open": {
+        "observed": 0.0191,
+        "null_mean": 0.0253,
+        "null_lo": 0.0233,
+        "null_hi": 0.0274,
+        "ratio": 0.756,
+        "p": 0.0005
+      },
+      "slide": {
+        "observed": 0.0111,
+        "null_mean": 0.0102,
+        "null_lo": 0.009,
+        "null_hi": 0.0115,
+        "ratio": 1.089,
+        "p": 0.15292
+      },
+      "drop": {
+        "observed": 0.0053,
+        "null_mean": 0.0051,
+        "null_lo": 0.0042,
+        "null_hi": 0.006,
+        "ratio": 1.035,
+        "p": 0.69865
+      },
+      "close": {
+        "observed": 0.0225,
+        "null_mean": 0.0192,
+        "null_lo": 0.0174,
+        "null_hi": 0.0209,
+        "ratio": 1.172,
+        "p": 0.0025
+      },
+      "assemble": {
+        "observed": 0.0213,
+        "null_mean": 0.0285,
+        "null_lo": 0.0264,
+        "null_hi": 0.0305,
+        "ratio": 0.749,
+        "p": 0.0005
+      },
+      "pull": {
+        "observed": 0.0198,
+        "null_mean": 0.0234,
+        "null_lo": 0.0214,
+        "null_hi": 0.0253,
+        "ratio": 0.845,
+        "p": 0.0005
+      },
+      "other_verb": {
+        "observed": 0.0588,
+        "null_mean": 0.0677,
+        "null_lo": 0.0645,
+        "null_hi": 0.0708,
+        "ratio": 0.87,
+        "p": 0.0005
+      },
+      "idle": {
+        "observed": 0.3848,
+        "null_mean": 0.279,
+        "null_lo": 0.2738,
+        "null_hi": 0.2843,
+        "ratio": 1.379,
+        "p": 0.0005
+      }
+    }
+  },
+  "corrections": {
+    "matched_wrong_actions": 3359,
+    "wrong_actions_total": 4023,
+    "all": {
+      "before_action_end": 0.6317,
+      "median_latency_from_start_s": 2.02,
+      "median_delay_after_end_s": -0.47,
+      "median_action_dur_s": 2.4
+    },
+    "by_verb": {
+      "grab": {
+        "n": 524,
+        "before_action_end": 0.552,
+        "median_latency_from_start_s": 1.95,
+        "median_delay_after_end_s": -0.15,
+        "median_action_dur_s": 2.0
+      },
+      "insert": {
+        "n": 413,
+        "before_action_end": 0.695,
+        "median_latency_from_start_s": 1.81,
+        "median_delay_after_end_s": -0.68,
+        "median_action_dur_s": 2.36
+      },
+      "rotate": {
+        "n": 347,
+        "before_action_end": 0.62,
+        "median_latency_from_start_s": 2.24,
+        "median_delay_after_end_s": -0.44,
+        "median_action_dur_s": 2.68
+      },
+      "align": {
+        "n": 312,
+        "before_action_end": 0.702,
+        "median_latency_from_start_s": 2.23,
+        "median_delay_after_end_s": -0.65,
+        "median_action_dur_s": 2.75
+      },
+      "place": {
+        "n": 229,
+        "before_action_end": 0.594,
+        "median_latency_from_start_s": 2.05,
+        "median_delay_after_end_s": -0.3,
+        "median_action_dur_s": 2.11
+      },
+      "other_verb": {
+        "n": 197,
+        "before_action_end": 0.65,
+        "median_latency_from_start_s": 1.9,
+        "median_delay_after_end_s": -0.44,
+        "median_action_dur_s": 2.43
+      },
+      "press": {
+        "n": 171,
+        "before_action_end": 0.509,
+        "median_latency_from_start_s": 1.92,
+        "median_delay_after_end_s": -0.07,
+        "median_action_dur_s": 1.65
+      },
+      "screw": {
+        "n": 151,
+        "before_action_end": 0.762,
+        "median_latency_from_start_s": 3.45,
+        "median_delay_after_end_s": -1.4,
+        "median_action_dur_s": 5.12
+      },
+      "assemble": {
+        "n": 130,
+        "before_action_end": 0.762,
+        "median_latency_from_start_s": 2.15,
+        "median_delay_after_end_s": -0.86,
+        "median_action_dur_s": 2.97
+      },
+      "lift": {
+        "n": 122,
+        "before_action_end": 0.574,
+        "median_latency_from_start_s": 1.64,
+        "median_delay_after_end_s": -0.28,
+        "median_action_dur_s": 2.05
+      },
+      "approach": {
+        "n": 120,
+        "before_action_end": 0.617,
+        "median_latency_from_start_s": 1.42,
+        "median_delay_after_end_s": -0.49,
+        "median_action_dur_s": 1.75
+      },
+      "inspect": {
+        "n": 107,
+        "before_action_end": 0.673,
+        "median_latency_from_start_s": 2.12,
+        "median_delay_after_end_s": -1.2,
+        "median_action_dur_s": 3.1
+      },
+      "pull": {
+        "n": 95,
+        "before_action_end": 0.6,
+        "median_latency_from_start_s": 2.89,
+        "median_delay_after_end_s": -0.55,
+        "median_action_dur_s": 3.2
+      },
+      "open": {
+        "n": 91,
+        "before_action_end": 0.582,
+        "median_latency_from_start_s": 1.52,
+        "median_delay_after_end_s": -0.16,
+        "median_action_dur_s": 1.86
+      },
+      "unscrew": {
+        "n": 89,
+        "before_action_end": 0.787,
+        "median_latency_from_start_s": 2.59,
+        "median_delay_after_end_s": -1.18,
+        "median_action_dur_s": 3.82
+      },
+      "hold": {
+        "n": 84,
+        "before_action_end": 0.69,
+        "median_latency_from_start_s": 2.86,
+        "median_delay_after_end_s": -1.42,
+        "median_action_dur_s": 3.38
+      },
+      "withdraw": {
+        "n": 78,
+        "before_action_end": 0.487,
+        "median_latency_from_start_s": 1.53,
+        "median_delay_after_end_s": 0.05,
+        "median_action_dur_s": 1.87
+      },
+      "slide": {
+        "n": 52,
+        "before_action_end": 0.596,
+        "median_latency_from_start_s": 2.54,
+        "median_delay_after_end_s": -0.15,
+        "median_action_dur_s": 2.48
+      }
+    }
+  }
+}

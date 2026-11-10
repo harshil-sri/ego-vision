@@ -1,0 +1,191 @@
+{
+  "ticks": 818401,
+  "positives": 18389,
+  "base_rate": 0.0225,
+  "videos": 1568,
+  "tick_seconds": 0.5,
+  "models": {
+    "task": {
+      "auc_mean": 0.7689,
+      "auc_folds": [
+        0.7534,
+        0.7644,
+        0.7753,
+        0.7728,
+        0.7789
+      ],
+      "ap_mean": 0.0681,
+      "ap_folds": [
+        0.0661,
+        0.0649,
+        0.0722,
+        0.0699,
+        0.0673
+      ]
+    },
+    "hand_only": {
+      "auc_mean": 0.7369,
+      "auc_folds": [
+        0.7311,
+        0.7297,
+        0.7376,
+        0.7451,
+        0.7409
+      ],
+      "ap_mean": 0.0533,
+      "ap_folds": [
+        0.0548,
+        0.0509,
+        0.053,
+        0.0547,
+        0.0528
+      ]
+    },
+    "task+hand": {
+      "auc_mean": 0.8051,
+      "auc_folds": [
+        0.7909,
+        0.8001,
+        0.8113,
+        0.8119,
+        0.8111
+      ],
+      "ap_mean": 0.0868,
+      "ap_folds": [
+        0.0837,
+        0.084,
+        0.0882,
+        0.0925,
+        0.0856
+      ]
+    }
+  },
+  "wrong_actions": {
+    "ALL": {
+      "n": 7205,
+      "instructor_corrected": 0.562,
+      "self_corrected": 0.425,
+      "not_corrected": 0.013
+    },
+    "drop": {
+      "n": 1197,
+      "instructor_corrected": 0.01,
+      "self_corrected": 0.96,
+      "not_corrected": 0.03
+    },
+    "insert": {
+      "n": 792,
+      "instructor_corrected": 0.598,
+      "self_corrected": 0.38,
+      "not_corrected": 0.021
+    },
+    "grab": {
+      "n": 776,
+      "instructor_corrected": 0.827,
+      "self_corrected": 0.17,
+      "not_corrected": 0.003
+    },
+    "rotate": {
+      "n": 497,
+      "instructor_corrected": 0.777,
+      "self_corrected": 0.221,
+      "not_corrected": 0.002
+    },
+    "other_verb": {
+      "n": 468,
+      "instructor_corrected": 0.56,
+      "self_corrected": 0.436,
+      "not_corrected": 0.004
+    },
+    "align": {
+      "n": 432,
+      "instructor_corrected": 0.81,
+      "self_corrected": 0.185,
+      "not_corrected": 0.005
+    },
+    "press": {
+      "n": 374,
+      "instructor_corrected": 0.575,
+      "self_corrected": 0.42,
+      "not_corrected": 0.005
+    },
+    "place": {
+      "n": 370,
+      "instructor_corrected": 0.781,
+      "self_corrected": 0.211,
+      "not_corrected": 0.008
+    },
+    "screw": {
+      "n": 276,
+      "instructor_corrected": 0.63,
+      "self_corrected": 0.366,
+      "not_corrected": 0.004
+    },
+    "pull": {
+      "n": 259,
+      "instructor_corrected": 0.425,
+      "self_corrected": 0.571,
+      "not_corrected": 0.004
+    },
+    "withdraw": {
+      "n": 241,
+      "instructor_corrected": 0.436,
+      "self_corrected": 0.548,
+      "not_corrected": 0.017
+    },
+    "assemble": {
+      "n": 211,
+      "instructor_corrected": 0.706,
+      "self_corrected": 0.284,
+      "not_corrected": 0.009
+    },
+    "approach": {
+      "n": 203,
+      "instructor_corrected": 0.773,
+      "self_corrected": 0.207,
+      "not_corrected": 0.02
+    },
+    "lift": {
+      "n": 199,
+      "instructor_corrected": 0.739,
+      "self_corrected": 0.261,
+      "not_corrected": 0.0
+    },
+    "open": {
+      "n": 195,
+      "instructor_corrected": 0.528,
+      "self_corrected": 0.472,
+      "not_corrected": 0.0
+    },
+    "unscrew": {
+      "n": 185,
+      "instructor_corrected": 0.573,
+      "self_corrected": 0.373,
+      "not_corrected": 0.054
+    },
+    "inspect": {
+      "n": 181,
+      "instructor_corrected": 0.724,
+      "self_corrected": 0.271,
+      "not_corrected": 0.006
+    },
+    "hold": {
+      "n": 148,
+      "instructor_corrected": 0.858,
+      "self_corrected": 0.135,
+      "not_corrected": 0.007
+    },
+    "slide": {
+      "n": 84,
+      "instructor_corrected": 0.726,
+      "self_corrected": 0.262,
+      "not_corrected": 0.012
+    },
+    "disassemble": {
+      "n": 63,
+      "instructor_corrected": 0.508,
+      "self_corrected": 0.46,
+      "not_corrected": 0.032
+    }
+  }
+}
