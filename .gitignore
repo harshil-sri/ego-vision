@@ -2,6 +2,7 @@ __pycache__/
 *.pyc
 # Windows download marker files
 *:Zone.Identifier
+*Zone.Identifier
 # python
 __pycache__/
 *.pyc
