@@ -1,0 +1,139 @@
+{
+  "ticks": 79280,
+  "onsets": 3453,
+  "base_rate": 0.0436,
+  "videos": 305,
+  "sessions": 64,
+  "tick_s": 1.0,
+  "hand_state_from_video": {
+    "accuracy": 0.3565,
+    "majority_baseline": 0.1805,
+    "mean_class_recall": 0.2552,
+    "idle_vs_busy_auc": 0.7866,
+    "recall": {
+      "grab": 0.394,
+      "place": 0.352,
+      "insert": 0.421,
+      "withdraw": 0.168,
+      "unscrew": 0.489,
+      "screw": 0.568,
+      "rotate": 0.313,
+      "lift": 0.218,
+      "disassemble": 0.04,
+      "align": 0.271,
+      "approach": 0.069,
+      "inspect": 0.186,
+      "hold": 0.1,
+      "press": 0.281,
+      "open": 0.302,
+      "slide": 0.062,
+      "drop": 0.082,
+      "close": 0.371,
+      "assemble": 0.229,
+      "pull": 0.161,
+      "other_verb": 0.169,
+      "idle": 0.368
+    }
+  },
+  "timing": {
+    "task": {
+      "auc": 0.7557,
+      "ap": 0.1094,
+      "ap_folds": [
+        0.1174,
+        0.1069,
+        0.105,
+        0.1096,
+        0.1082
+      ]
+    },
+    "task + oracle hand": {
+      "auc": 0.7921,
+      "ap": 0.1342,
+      "ap_folds": [
+        0.151,
+        0.1311,
+        0.127,
+        0.1242,
+        0.1379
+      ]
+    },
+    "task + predicted hand": {
+      "auc": 0.7886,
+      "ap": 0.1316,
+      "ap_folds": [
+        0.1318,
+        0.1426,
+        0.1241,
+        0.1341,
+        0.1253
+      ]
+    },
+    "task + video": {
+      "auc": 0.778,
+      "ap": 0.1239,
+      "ap_folds": [
+        0.1274,
+        0.1158,
+        0.1205,
+        0.1255,
+        0.1304
+      ]
+    },
+    "oracle hand only": {
+      "auc": 0.7292,
+      "ap": 0.0945,
+      "ap_folds": [
+        0.0995,
+        0.09,
+        0.0886,
+        0.105,
+        0.0894
+      ]
+    },
+    "predicted hand only": {
+      "auc": 0.7592,
+      "ap": 0.1061,
+      "ap_folds": [
+        0.106,
+        0.1047,
+        0.099,
+        0.1143,
+        0.1065
+      ]
+    },
+    "video only": {
+      "auc": 0.732,
+      "ap": 0.1041,
+      "ap_folds": [
+        0.1005,
+        0.1034,
+        0.0949,
+        0.1168,
+        0.1046
+      ]
+    }
+  },
+  "silence": {
+    "all mistakes": {
+      "n": 1316,
+      "silent_share": 0.42,
+      "auc": {
+        "history": 0.7116,
+        "video": 0.6667,
+        "history + video": 0.741,
+        "labels + history (oracle)": 0.8485
+      }
+    },
+    "without drop": {
+      "n": 1115,
+      "silent_share": 0.317,
+      "auc": {
+        "history": 0.7096,
+        "video": 0.6055,
+        "history + video": 0.7296,
+        "labels + history (oracle)": 0.7378
+      }
+    }
+  }
+}

@@ -98,7 +98,7 @@ Limits of this claim:
 Before any submission, do a full read of the seven P papers and a search of
 the HCI literature on interruptibility sensing.
 
-## 4. Pilot evidence (HoloAssist, labels only)
+## 4. Pilot evidence (HoloAssist; parts 1 to 4 labels only, part 5 video)
 
 Data: 1,568 usable videos, 113.8 h, 22,827 instructor utterance onsets,
 hand actions annotated by humans. Baseline for parts 1 and 3: each video's
@@ -208,6 +208,55 @@ known when the mistake starts. 5 folds, split by recording session.
   duration of the wrong action cannot be used to check this, because a
   correction itself cuts the action short.
 
+### Part 5: the same questions from video (`reports/holoassist_from_video.md`)
+
+Parts 1 to 4 read the hand state from human labels. Part 5 uses the
+camera: 305 videos from 64 recording sessions (a random 20% of the usable
+videos, whole sessions, 22 GB), one frozen VideoMAE vector per second
+(the verb model's backbone, never trained on HoloAssist). Ticks are 1 s
+here (parts 2 and 2b: 0.5 s), so the numbers are comparable inside this
+table only. Splits are by session.
+
+How well does a small classifier on the video vector name the labelled
+hand state? 22 states (20 verbs, other verb, idle): accuracy 0.36
+(always the most common state: 0.18). Idle against busy: ROC AUC 0.79.
+Best states: screw 0.57, unscrew 0.49, insert 0.42.
+
+Predicting a routine instructor onset in the next second (base rate
+4.36%):
+
+| Features | ROC AUC | Average precision |
+|---|---|---|
+| Task progress only | 0.756 | 0.109 |
+| Task progress + labelled hand state | 0.792 | 0.134 |
+| Task progress + hand state predicted from video | 0.789 | 0.132 |
+| Task progress + raw video vector (32 components) | 0.778 | 0.124 |
+
+- The predicted hand state recovers about 90% of the gain that the human
+  labels give (0.022 of 0.025 average precision). Both gains are positive
+  in all 5 folds. The difference between labelled and predicted is inside
+  the fold-to-fold spread.
+- This holds although the classifier is right only 36% of the time. A
+  likely reason: it is best on exactly the states that matter for timing
+  (screw, unscrew, insert, idle), and its errors are between states with
+  similar onset rates. That reason is not tested.
+- Routing the video through the hand-state classifier works better than
+  giving the timing model the video vector directly.
+
+Mistakes the instructor leaves alone (1,316 mistakes in the subset, 1,115
+without "drop"; ROC AUC):
+
+| Features | All mistakes | "drop" removed |
+|---|---|---|
+| History | 0.712 | 0.710 |
+| Video (window ending about 1 s after the mistake starts) | 0.667 | 0.606 |
+| History + video | 0.741 | 0.730 |
+| Labels + history | 0.849 | 0.738 |
+
+- Video adds little to history here (0.02 to 0.03). With "drop" removed,
+  history + video is close to labels + history. The subset is small for
+  this question, and no intervals were computed.
+
 ### What the pilot does not show
 
 - **Cause.** Instructors may speak in idle moments because the step just
@@ -218,7 +267,9 @@ known when the mistake starts. 5 folds, split by recording session.
   as "stopping to listen".
 - **Cost.** Nothing here measures whether badly timed speech hurts the
   performer.
-- **Vision.** Hand states are annotations. No model predicted them.
+- **Vision.** Part 5 uses video on 20% of the videos, with a frozen
+  backbone and offline features. It is not a live system, and the timing
+  targets are still human speech, not a measured benefit.
 - **Transfer.** HoloAssist is assembly and device tasks, not cooking.
 
 The contrast between routine speech and corrections is the strongest item:
@@ -284,8 +335,9 @@ benchmarks lack.
 ## 8. Next steps
 
 1. Full read of the seven P papers, plus EgoVoice, and an HCI search.
-2. Repeat part 2 with hand state predicted by a video model on HoloAssist
-   (needs the 144.6 GB compressed videos, or features from a subset).
+2. Done on a 305-video subset (part 5). Open: intervals for part 5, the
+   full 1,493 usable videos (about 80 GB more), and a check of which
+   hand-state confusions are harmless for timing.
 3. Build the stay-silent metric from the self-corrected wrong actions.
 4. Ego-EXTRA as a second dataset: it has gaze, hand keypoints and real
    expert speech, and it includes kitchen and bakery scenes (closer to this

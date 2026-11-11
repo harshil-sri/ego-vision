@@ -10,6 +10,7 @@ Outputs in <root>/features_w<window>/:
     meta.csv    N rows: video_name, frame, fps, t_end (s), t_mid (s)
                 t_end = time of the window's last frame; t_mid = its centre
     info.json
+    parts/<video>.npz   per-video cache; a repeated run only does new videos
 
 Usage:
     python -m scripts.holoassist_video_features --window 2.0 --tick 1.0
@@ -47,43 +48,57 @@ def main() -> None:
     from src.models.frozen import VideoMAEEncoder, target_size
 
     root = Path(resolve_data_path(ROOT))
-    videos = sorted((root / "videos").glob("*.mp4"))[:args.limit or None]
-    fps, sizes = [], set()
-    for p in videos:
-        cap = cv2.VideoCapture(str(p))
-        fps.append(float(cap.get(cv2.CAP_PROP_FPS)))
-        sizes.add((int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)), int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))))
-        cap.release()
-    if len(sizes) != 1:
-        raise SystemExit(f"videos have different frame sizes: {sizes}")
-    hw = target_size(*sizes.pop())
-    crops = sorted({0, (hw[1] - 224) // 2, hw[1] - 224})
-    print(f"{len(videos)} videos, input {hw}, fps {min(fps):.2f}..{max(fps):.2f}", flush=True)
-
-    enc = VideoMAEEncoder(device=args.device)
-    loader = torch.utils.data.DataLoader(
-        WindowStream(videos, fps, [args.window], [args.tick] * len(videos), hw),
-        batch_size=args.batch, num_workers=args.workers)
-    feats, vid, frame = [], [], []
-    t0 = time.time()
-    for clips, v, f in loader:                                    # clips (B, 1, 16, h, w, 3)
-        x = clips[:, 0]
-        e = torch.stack([enc.encode(x[:, :, :, c:c + 224]) for c in crops]).mean(0)   # (B, 768)
-        feats.append(e.numpy().astype(np.float16)); vid += v.tolist(); frame += f.tolist()
-        if len(frame) % 4000 < len(f):
-            print(f"{len(frame)} ticks  {len(frame) / (time.time() - t0):.1f}/s", flush=True)
-    order = np.lexsort((np.array(frame), np.array(vid)))
     out = root / (f"features_w{args.window}" + ("_smoke" if args.limit else ""))
-    out.mkdir(parents=True, exist_ok=True)
-    np.save(out / "feats.npy", np.concatenate(feats)[order])
-    meta = pd.DataFrame({"video_name": [videos[vid[i]].stem for i in order],
-                         "frame": [frame[i] for i in order],
-                         "fps": [fps[vid[i]] for i in order]})
+    parts = out / "parts"                                 # one file per finished video: the run can be repeated
+    parts.mkdir(parents=True, exist_ok=True)
+    everything = sorted((root / "videos").glob("*.mp4"))[:args.limit or None]
+    videos = [p for p in everything if not (parts / f"{p.stem}.npz").exists()]
+    t0 = time.time()
+    if videos:
+        fps, sizes = [], set()
+        for p in videos:
+            cap = cv2.VideoCapture(str(p))
+            fps.append(float(cap.get(cv2.CAP_PROP_FPS)))
+            sizes.add((int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)), int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))))
+            cap.release()
+        if len(sizes) != 1:
+            raise SystemExit(f"videos have different frame sizes: {sizes}")
+        hw = target_size(*sizes.pop())
+        crops = sorted({0, (hw[1] - 224) // 2, hw[1] - 224})
+        print(f"{len(videos)} new videos ({len(everything) - len(videos)} done before), input {hw}, "
+              f"fps {min(fps):.2f}..{max(fps):.2f}", flush=True)
+
+        enc = VideoMAEEncoder(device=args.device)
+        loader = torch.utils.data.DataLoader(
+            WindowStream(videos, fps, [args.window], [args.tick] * len(videos), hw),
+            batch_size=args.batch, num_workers=args.workers)
+        feats, vid, frame = [], [], []
+        for clips, v, f in loader:                                    # clips (B, 1, 16, h, w, 3)
+            x = clips[:, 0]
+            e = torch.stack([enc.encode(x[:, :, :, c:c + 224]) for c in crops]).mean(0)   # (B, 768)
+            feats.append(e.numpy().astype(np.float16)); vid += v.tolist(); frame += f.tolist()
+            if len(frame) % 4000 < len(f):
+                print(f"{len(frame)} ticks  {len(frame) / (time.time() - t0):.1f}/s", flush=True)
+        feats, vid, frame = np.concatenate(feats), np.array(vid), np.array(frame)
+        for i, p in enumerate(videos):                    # a video with no tick still gets a (empty) part file
+            m = vid == i
+            o = np.argsort(frame[m])
+            np.savez(parts / f"{p.stem}.npz", feats=feats[m][o], frame=frame[m][o], fps=fps[i])
+
+    # merge all parts into one table, sorted by video then frame
+    F, rows = [], []
+    for p in sorted(parts.glob("*.npz")):
+        z = np.load(p)
+        F.append(z["feats"])
+        rows += [(p.stem, int(fr), float(z["fps"])) for fr in z["frame"]]
+    np.save(out / "feats.npy", np.concatenate(F))
+    meta = pd.DataFrame(rows, columns=["video_name", "frame", "fps"])
     meta["t_end"] = meta["frame"] / meta["fps"]
     meta["t_mid"] = meta["t_end"] - args.window / 2
     meta.to_csv(out / "meta.csv", index=False)
     info = {"model": "videomae_base_ssv2", "window_s": args.window, "tick_s": args.tick,
-            "ticks": int(len(meta)), "videos": len(videos), "wall_seconds": round(time.time() - t0, 1)}
+            "ticks": int(len(meta)), "videos": int(meta["video_name"].nunique()),
+            "wall_seconds_this_run": round(time.time() - t0, 1)}
     (out / "info.json").write_text(json.dumps(info, indent=2))
     print(json.dumps(info, indent=2), flush=True)
 
