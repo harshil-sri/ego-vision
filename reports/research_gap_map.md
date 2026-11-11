@@ -331,6 +331,16 @@ benchmarks lack.
   practice (for example, annotators segmenting actions around speech).
   Check: repeat part 1 with action boundaries from the hand-pose stream
   instead of the labels.
+- Status 2026-11-11: the second item did not happen (part 5: the gain
+  stays with predicted hand state). The third item is open and the first
+  attempt at it does not support the idea: on Ego-EXTRA, measured wrist
+  speed has no relation to when experts speak unasked (section 8, item
+  4). Two readings are possible. Either the HoloAssist effect is about
+  the TYPE of manipulation, which speed does not capture, or it is partly
+  produced by how HoloAssist actions were labelled. The decisive check:
+  a hand-state classifier (trained on HoloAssist labels, as in part 5)
+  applied to the Ego-EXTRA videos (23.7 GB), or finger-level features
+  from the 21 hand landmarks.
 
 ## 8. Next steps
 
@@ -353,3 +363,18 @@ benchmarks lack.
    time (47% to 26%) and does not change how often the expert speaks up
    unasked. The transcripts are machine-translated from Italian; only the
    time stamps and speaker tags are used.
+   Second result, a negative one (`reports/egoextra_hands.md`, 98 videos,
+   38.5 h): with the hand state taken from the glasses' hand tracking
+   (wrist speed over the last 1 s: still, mid, moving, or no hand in
+   view), unasked expert speech is NOT timed around hand speed. Onsets in
+   "still" moments: 0.94 times chance; in "moving" moments: 0.97 times
+   chance; both inside or at the edge of the range of 1,000 random
+   shifts. The one deviation: 1.27 times chance when no hand is in view
+   (95% of shifts: 0.80 to 1.21). Hand speed around the onset is flat
+   (0.98 to 1.04 times the video average from 4 s before to 4 s after).
+   Limits of this check: (a) the time alignment of tracking and
+   transcript is assumed, and 32 videos were left out because the
+   durations differ; (b) the speed is in the frame of the glasses, so it
+   contains head motion; (c) wrist speed is a poor stand-in for "busy":
+   in HoloAssist the most avoided states were screw, unscrew and insert,
+   where the wrist hardly travels.
