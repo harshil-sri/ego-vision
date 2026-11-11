@@ -42,6 +42,37 @@ python -m scripts.run_app --mode clip --clip <video.mp4> --run-dir runs/videomae
 Results and the comparison with the earlier models: `reports/verb_model_frozen.md`.
 Research notes (when should an assistant speak): `reports/research_gap_map.md`.
 
+## Research pilot (when should an assistant speak?)
+
+Question, evidence and limits: `reports/research_gap_map.md`. Every number
+there comes from one of these commands. Data goes to `C:\ssd-data`.
+
+```powershell
+# HoloAssist, labels only (117 MB of annotations): parts 1 to 4
+python -m scripts.holoassist_timing
+python -m scripts.holoassist_predict
+python -m scripts.holoassist_adjusted
+python -m scripts.holoassist_aftermath
+python -m scripts.holoassist_silence
+# HoloAssist from video: part 5 (downloads 22 GB out of a 155 GB archive)
+python -m scripts.holoassist_download_subset index
+python -m scripts.holoassist_download_subset download --videos 300
+python -m scripts.holoassist_video_features            # about 80 min on the GPU
+python -m scripts.holoassist_from_video
+python -m scripts.holoassist_shift_control
+# Ego-EXTRA, second dataset (transcripts 1 MB, hand tracking 2.2 GB, gaze 0.8 GB, videos 23.7 GB)
+python -m scripts.egoextra_speech
+python -m scripts.egoextra_hands --signal wrist        # also: fingers, gaze, gaze_depth
+python -m scripts.holoassist_video_features --root /mnt/ssd/ego-extra --center 320
+python -m scripts.egoextra_from_video
+# the hand-state signal inside the app (experimental)
+python -m scripts.train_hand_state_head
+python -m scripts.run_app --config configs/app_demo_videomae.yaml --mode clip --clip <video.mp4> --run-dir runs/videomae_mlp --hand-state-dir runs/hand_state_holoassist
+```
+
+In Git Bash, put `MSYS_NO_PATHCONV=1` before a command that takes a
+`/mnt/ssd/...` argument; PowerShell needs nothing.
+
 ## Run (under 10 lines)
 
 ```bash
