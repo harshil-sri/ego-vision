@@ -30,7 +30,10 @@ and read (not the whole paper). **A** = abstract only.
 | TRAFA (2605.24526) | Predicted error, before it happens | Forecast hand motion, overhead camera, Duplo assembly, 20 participants | Own study | P |
 | ProMemAssist (2507.21378) | Value of message against a working-memory interruption cost | Modelled memory load | User study | P |
 | Ego-EXTRA (2512.13238) | Dataset: 50 h expert and trainee, Wizard-of-Oz | Transcripts with timestamps, gaze, hand keypoints | Yes | P |
-| EgoVoice (2610.12248) | Learned from HoloAssist instructor timing | Video | Yes (HoloAssist) | A |
+| EgoVoice (2610.12248) | Learned listen-or-speak per 1 s chunk, fine-tuned on HoloAssist instructor speech, then preference optimisation | Video + audio | Yes (HoloAssist, 1,249 train / 170 test sessions) | P |
+| Jarvis (2610.07506) | Speaks in a multi-party conversation only if the group does not correct its own error within a few turns | Speech, shared document | Synthetic dataset + 23-person study | A |
+| "When not to help" (2508.01837) | POMDP over the user's engagement state; counterfactual "would the user manage alone?" | Simulated | No | A |
+| Proactive Service Agents survey (2609.03727) | Frames silence, asking, assisting, acting as one decision with interruption cost and "option value of waiting" | - | - | A |
 | PROVIA (2609.20638) | False-alarm budgets | Video | - | A |
 | PRISM (2602.01532) | Cost-sensitive gating, text agents | Text | - | A |
 | MistExit, PREGO, TI-PREGO | Mistake detection, exit/trigger time | Video, step models | - | A |
@@ -46,11 +49,29 @@ What the nearest works do and do not do:
   working-memory model. Its future-work section names hand interaction, gaze
   and head pose as cues it does not yet use to assess load.
 - **Pro²Assist** uses hand cues, but to understand the step (need), not to
-  decide whether the person can listen.
+  decide whether the person can listen. A second passage read confirms
+  the direction: optical flow in the hand regions selects "key moments",
+  and frames with MORE hand motion are treated as more likely to need
+  assistance. It stays silent only when its reasoner finds no need. In
+  the pilot below, human instructors do the opposite for routine speech:
+  they speak less while the hands are in fine-motor actions.
 - **TRAFA** uses hand motion to predict an error early. That is also need.
   The passages read do not include an interruption-cost term.
 - **EgoServe** scores timing against event windows. The passages read do not
-  mention hand state or interruption cost.
+  mention hand state or interruption cost. Its abstract does say that
+  earlier systems ignore "whether assistance would actually be welcome",
+  so the Sato lab already frames "whether to speak" as the problem. Their
+  answer is memory and context, not the hands.
+- **EgoVoice** is the closest to this pilot in data: it trains on the same
+  HoloAssist instructor onsets. It scores onset timing with a window of
+  2.5 s early to 1.5 s late, and it measures whether the utterance ends
+  before the user's next action. The passages read contain no hand-state
+  input, no interruption cost, and no treatment of mistakes that the
+  instructor left alone. Its best model reaches onset recall 0.30, so the
+  timing problem is far from solved.
+- **Jarvis** shows that "stay silent when people correct themselves" is an
+  existing idea, in spoken conversation. It has not been found here for
+  physical tasks seen through an egocentric camera.
 
 ## 3. The gap, stated narrowly
 
@@ -65,12 +86,16 @@ Limits of this claim:
 - The search covered 2025 to 2026 arXiv work found by keyword search. It is
   not a systematic review. HCI venues (CHI, UIST, IMWUT) were barely
   searched, and interruptibility research is old there.
-- Six papers were read in passages, the rest in abstract only. A paper
+- "Whether to speak" and "the cost of interrupting" are not new ideas.
+  Vinci2, ProMemAssist, Jarvis and the 2026 survey all state them. What
+  is claimed here is narrower: nobody found so far grounds them in the
+  observed hand state and in real instructor silence on physical tasks.
+- Seven papers were read in passages, the rest in abstract only. A paper
   marked A may contain a hand-state term that the abstract does not mention.
 - The field moves fast: an ECCV 2026 challenge track on proactive timing
   exists. A paper filling this gap could appear at any time.
 
-Before any submission, do a full read of the six P papers and a search of
+Before any submission, do a full read of the seven P papers and a search of
 the HCI literature on interruptibility sensing.
 
 ## 4. Pilot evidence (HoloAssist, labels only)
@@ -114,6 +139,34 @@ Task: at each 0.5 s tick, predict a routine instructor onset in the next
 
 Hand state adds information beyond task-progress features. The hand state
 is the human annotation, so this is an upper bound for a recogniser.
+
+### Part 2b: the hand-state effect, adjusted for need (`reports/holoassist_adjusted.md`)
+
+Logistic regression on the same ticks. Odds of a routine onset in the next
+0.5 s, relative to idle hands, at equal values of the four need proxies
+and with each video's own onset rate as a covariate (so quiet and
+talkative sessions are not compared with each other). 95% intervals from
+40 refits on resampled videos.
+
+| Hand state | Odds ratio against idle | 95% interval |
+|---|---|---|
+| unscrew | 0.17 | 0.15 to 0.24 |
+| screw | 0.19 | 0.17 to 0.23 |
+| insert | 0.32 | 0.29 to 0.35 |
+| grab | 0.47 | 0.45 to 0.50 |
+| align, withdraw, pull, lift, press | 0.53 to 0.56 | |
+| rotate | 0.69 | 0.65 to 0.76 |
+| inspect | 0.83 | 0.80 to 0.92 |
+| place | 0.94 | 0.85 to 0.99 |
+| hold | 0.94 | 0.89 to 1.17 |
+
+- The states form a scale. Tool and fine-motor actions are at the bottom;
+  holding, placing and inspecting are close to idle hands.
+- The between-video term matters. Without it the screw odds ratio is 0.13,
+  with it 0.19: sessions with long screwing also have quieter instructors.
+- The need proxies are crude, so "adjusted" is limited to those four
+  numbers. This table is the candidate "interruptibility by hand state"
+  prior for a model; it is not yet evidence of a cost.
 
 ### Part 3: the hands around the utterance (`reports/holoassist_aftermath.md`, 500 shifts)
 
@@ -230,7 +283,7 @@ benchmarks lack.
 
 ## 8. Next steps
 
-1. Full read of the six P papers, plus EgoVoice, and an HCI search.
+1. Full read of the seven P papers, plus EgoVoice, and an HCI search.
 2. Repeat part 2 with hand state predicted by a video model on HoloAssist
    (needs the 144.6 GB compressed videos, or features from a subset).
 3. Build the stay-silent metric from the self-corrected wrong actions.

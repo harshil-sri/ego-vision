@@ -1,0 +1,219 @@
+{
+  "ticks": 818401,
+  "onsets": 18389,
+  "videos": 1568,
+  "bootstrap": 40,
+  "reference": "idle",
+  "states": {
+    "grab": {
+      "hours": 9.04,
+      "odds_ratio_unadjusted": 0.319,
+      "odds_ratio_adjusted": 0.393,
+      "odds_ratio_within_video": 0.469,
+      "ci95": [
+        0.446,
+        0.5
+      ]
+    },
+    "place": {
+      "hours": 7.11,
+      "odds_ratio_unadjusted": 0.53,
+      "odds_ratio_adjusted": 0.716,
+      "odds_ratio_within_video": 0.936,
+      "ci95": [
+        0.853,
+        0.986
+      ]
+    },
+    "insert": {
+      "hours": 10.79,
+      "odds_ratio_unadjusted": 0.157,
+      "odds_ratio_adjusted": 0.264,
+      "odds_ratio_within_video": 0.322,
+      "ci95": [
+        0.285,
+        0.35
+      ]
+    },
+    "withdraw": {
+      "hours": 3.56,
+      "odds_ratio_unadjusted": 0.443,
+      "odds_ratio_adjusted": 0.509,
+      "odds_ratio_within_video": 0.533,
+      "ci95": [
+        0.483,
+        0.602
+      ]
+    },
+    "unscrew": {
+      "hours": 9.24,
+      "odds_ratio_unadjusted": 0.027,
+      "odds_ratio_adjusted": 0.063,
+      "odds_ratio_within_video": 0.172,
+      "ci95": [
+        0.153,
+        0.238
+      ]
+    },
+    "screw": {
+      "hours": 14.78,
+      "odds_ratio_unadjusted": 0.047,
+      "odds_ratio_adjusted": 0.127,
+      "odds_ratio_within_video": 0.189,
+      "ci95": [
+        0.168,
+        0.232
+      ]
+    },
+    "rotate": {
+      "hours": 5.05,
+      "odds_ratio_unadjusted": 0.448,
+      "odds_ratio_adjusted": 0.573,
+      "odds_ratio_within_video": 0.686,
+      "ci95": [
+        0.647,
+        0.758
+      ]
+    },
+    "lift": {
+      "hours": 2.22,
+      "odds_ratio_unadjusted": 0.476,
+      "odds_ratio_adjusted": 0.482,
+      "odds_ratio_within_video": 0.561,
+      "ci95": [
+        0.506,
+        0.663
+      ]
+    },
+    "disassemble": {
+      "hours": 1.27,
+      "odds_ratio_unadjusted": 0.189,
+      "odds_ratio_adjusted": 0.375,
+      "odds_ratio_within_video": 0.597,
+      "ci95": [
+        0.549,
+        0.748
+      ]
+    },
+    "align": {
+      "hours": 4.33,
+      "odds_ratio_unadjusted": 0.198,
+      "odds_ratio_adjusted": 0.307,
+      "odds_ratio_within_video": 0.531,
+      "ci95": [
+        0.476,
+        0.616
+      ]
+    },
+    "approach": {
+      "hours": 1.44,
+      "odds_ratio_unadjusted": 0.278,
+      "odds_ratio_adjusted": 0.338,
+      "odds_ratio_within_video": 0.545,
+      "ci95": [
+        0.496,
+        0.677
+      ]
+    },
+    "inspect": {
+      "hours": 3.66,
+      "odds_ratio_unadjusted": 0.903,
+      "odds_ratio_adjusted": 0.824,
+      "odds_ratio_within_video": 0.833,
+      "ci95": [
+        0.803,
+        0.919
+      ]
+    },
+    "hold": {
+      "hours": 2.4,
+      "odds_ratio_unadjusted": 0.843,
+      "odds_ratio_adjusted": 0.854,
+      "odds_ratio_within_video": 0.938,
+      "ci95": [
+        0.892,
+        1.167
+      ]
+    },
+    "press": {
+      "hours": 1.91,
+      "odds_ratio_unadjusted": 0.796,
+      "odds_ratio_adjusted": 0.61,
+      "odds_ratio_within_video": 0.562,
+      "ci95": [
+        0.512,
+        0.614
+      ]
+    },
+    "open": {
+      "hours": 1.64,
+      "odds_ratio_unadjusted": 0.67,
+      "odds_ratio_adjusted": 0.517,
+      "odds_ratio_within_video": 0.481,
+      "ci95": [
+        0.423,
+        0.542
+      ]
+    },
+    "slide": {
+      "hours": 1.23,
+      "odds_ratio_unadjusted": 0.497,
+      "odds_ratio_adjusted": 0.654,
+      "odds_ratio_within_video": 0.78,
+      "ci95": [
+        0.698,
+        0.945
+      ]
+    },
+    "drop": {
+      "hours": 0.74,
+      "odds_ratio_unadjusted": 0.491,
+      "odds_ratio_adjusted": 0.761,
+      "odds_ratio_within_video": 0.854,
+      "ci95": [
+        0.735,
+        0.968
+      ]
+    },
+    "close": {
+      "hours": 1.18,
+      "odds_ratio_unadjusted": 1.366,
+      "odds_ratio_adjusted": 1.206,
+      "odds_ratio_within_video": 1.06,
+      "ci95": [
+        0.969,
+        1.308
+      ]
+    },
+    "assemble": {
+      "hours": 2.37,
+      "odds_ratio_unadjusted": 0.494,
+      "odds_ratio_adjusted": 0.56,
+      "odds_ratio_within_video": 0.519,
+      "ci95": [
+        0.454,
+        0.572
+      ]
+    },
+    "pull": {
+      "hours": 1.6,
+      "odds_ratio_unadjusted": 0.705,
+      "odds_ratio_adjusted": 0.598,
+      "odds_ratio_within_video": 0.543,
+      "ci95": [
+        0.464,
+        0.618
+      ]
+    },
+    "other_verb": {
+      "hours": 4.91,
+      "odds_ratio_unadjusted": 0.747,
+      "odds_ratio_adjusted": 0.668,
+      "odds_ratio_within_video": 0.627,
+      "ci95": [
+        0.595,
+        0.693
+      ]
+    }
+  }
+}

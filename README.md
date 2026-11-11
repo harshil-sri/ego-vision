@@ -16,6 +16,32 @@ pip install -r requirements.txt        # torch: use the cu124 index if training 
 sudo apt install ffmpeg aria2          # or use static builds
 ```
 
+## Install (Windows 11, native)
+
+The global uv venv is already active in every shell. Data lives at
+`C:\ssd-data`; configs keep the old `/mnt/ssd/...` spelling and
+`src/paths.py` translates it (override with the `EGO_DATA_ROOT`
+environment variable).
+
+```powershell
+uv pip install --python $env:USERPROFILE\.venvs\global\Scripts\python.exe -r requirements.txt
+python -m pytest tests -q
+```
+
+The camera opens through DirectShow; `/dev/video0` in a config means
+camera index 0.
+
+## Verb model (frozen VideoMAE features + small head)
+
+```powershell
+python -m scripts.extract_features --encoder videomae --device cuda   # once, ~16 min
+python -m scripts.train_head --feats /mnt/ssd/epic-kitchens/features/videomae_ssv2_T16   # seconds
+python -m scripts.run_app --mode clip --clip <video.mp4> --run-dir runs/videomae_mlp --device cuda
+```
+
+Results and the comparison with the earlier models: `reports/verb_model_frozen.md`.
+Research notes (when should an assistant speak): `reports/research_gap_map.md`.
+
 ## Run (under 10 lines)
 
 ```bash
