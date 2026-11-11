@@ -1,0 +1,66 @@
+{
+  "videos": 1568,
+  "boot": 100,
+  "A": {
+    "episodes": 3928,
+    "ticks": 31841,
+    "share_of_ticks": {
+      "idle": 0.429,
+      "fine": 0.046,
+      "hold/place/inspect": 0.115,
+      "other action": 0.411
+    },
+    "raw_onset_rate_per_tick": {
+      "idle": 0.2004,
+      "fine": 0.0309,
+      "hold/place/inspect": 0.1097,
+      "other action": 0.0572
+    },
+    "odds_ratio_vs_idle": {
+      "fine": [
+        0.174,
+        0.134,
+        0.225
+      ],
+      "hold/place/inspect": [
+        0.628,
+        0.561,
+        0.724
+      ],
+      "other action": [
+        0.297,
+        0.275,
+        0.328
+      ]
+    }
+  },
+  "B": {
+    "episodes": 3256,
+    "ticks": 21071,
+    "episodes_by_group": {
+      "fine": 639,
+      "not fine": 2617
+    },
+    "share_of_corrections_before_action_end": {
+      "fine": 0.789,
+      "not fine": 0.691
+    },
+    "odds_ratio": {
+      "ongoing (not fine)": [
+        0.656,
+        0.594,
+        0.729
+      ],
+      "fine (after the action)": [
+        0.822,
+        0.701,
+        0.966
+      ],
+      "fine x ongoing": [
+        0.995,
+        0.839,
+        1.204
+      ]
+    }
+  }
+}

@@ -362,4 +362,9 @@ Gap map sections 6 and 7 rewritten accordingly. Also today: HCI
 literature pass, experimental hand-state signal in the app
 (`src/pipeline/hand_state.py`), tests 123 passed. NOT RUN: live mode on
 a real recipe, matcher on real ingredient frames. Nothing pushed.
+Part 6, need held fixed, labels of 1,568 videos
+(`reports/holoassist_need_controlled.md`): a pending next-step
+instruction starts during fine-motor work at 0.17 times the odds of idle
+hands (0.13 to 0.23); corrections are not delayed more by fine-motor work
+(interaction 0.99, 0.84 to 1.20). Tests: 124 passed.
 

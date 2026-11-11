@@ -305,6 +305,46 @@ without "drop"; ROC AUC):
   "nothing needs saying then". A cost claim needs the controlled study
   (section 6, item 3) or a design that holds need fixed.
 
+### Part 6: hand state at fixed need (`reports/holoassist_need_controlled.md`)
+
+Labels only, 1,568 videos. Two situations where something does need
+saying. Odds ratios from a per-tick logistic model with time since the
+start of the episode as a spline; intervals from 100 refits on resampled
+videos.
+
+Test A, a next-step instruction is pending (3,928 episodes: a coarse step
+boundary, then a high-level instruction within 20 s). Odds that the
+instruction starts in the next 0.5 s, against idle hands, at equal time
+since the boundary:
+
+| Hand state | Odds ratio | 95% interval |
+|---|---|---|
+| Fine-motor action (screw, unscrew, insert) | 0.17 | 0.13 to 0.23 |
+| Other action | 0.30 | 0.28 to 0.33 |
+| Hold, place, inspect | 0.63 | 0.56 to 0.72 |
+
+Test B, a mistake is in progress and the instructor will correct it
+(3,256 mistakes, 639 of them in fine-motor actions). Odds that the
+correction starts in the next 0.5 s, at equal time since the mistake
+started:
+
+| Term | Odds ratio | 95% interval |
+|---|---|---|
+| Wrong action still going on (not fine-motor) | 0.66 | 0.59 to 0.73 |
+| Fine-motor x still going on | 0.99 | 0.84 to 1.20 |
+
+- A: even with an instruction pending, it starts mostly when the hands
+  are idle, and least during fine-motor work.
+- B: corrections come somewhat later than "as soon as possible" for any
+  action, and fine-motor work adds no extra delay.
+- Together this is the shape the first idea predicted: a low-urgency
+  message waits for the hands, an urgent one does not. It is the best
+  support so far, and it is from the full dataset.
+- The caveat for A stays: a performer who stops and waits after a step
+  is idle BECAUSE the next instruction is needed. Idle hands then signal
+  need, and the instructor may be reacting to that, not sparing busy
+  hands. Test A cannot tell the two apart; test B is not affected.
+
 ### What the pilot does not show
 
 - **Cause.** Instructors may speak in idle moments because the step just
@@ -362,8 +402,13 @@ hands are busy". The order is therefore changed.
    Part 5: from history + video 0.73 on a small subset, no intervals.
    Next: the full HoloAssist videos, and Ego-EXTRA protocol 2 as a second
    source of "the expert chose silence".
-2. **Need-controlled test of interruption cost, from existing data.** The
-   honest open question. Find pairs of moments with the same need (same
+2. **Need-controlled test of interruption cost, from existing data.**
+   First version done (part 6): pending instructions wait for idle hands
+   (odds 0.17 during fine-motor work), corrections do not wait more for
+   fine-motor work (0.99). Open: separate "idle because waiting for the
+   instruction" from "free to listen" in test A, for example with gaze
+   (does the performer look at the next part or look around?), and repeat
+   with video-predicted states. The original question was: Find pairs of moments with the same need (same
    step, same kind of pending instruction) and different hand state, and
    compare what the instructor does. HoloAssist has coarse step labels
    for this. If hand state still matters at equal need, the cost reading
@@ -402,6 +447,12 @@ careful negative or positive answer on hand-state cost.
   doing the task talks less when the hands are in fine work, on both
   datasets' closest scenarios. That is a statement about the worker, not
   about a cost that the helper respects.
+  Counterweight, same evening (part 6): at fixed need on the full
+  HoloAssist labels, a pending routine instruction waits for idle hands
+  and a correction does not wait more for fine-motor work. That is the
+  predicted shape, with one caveat that test A cannot remove (idle hands
+  can themselves signal need). The idea is weakened as a claim about
+  cost, not refuted as a description of when instructors speak.
 - Status 2026-11-11, afternoon: the second item did not happen (part 5: the gain
   stays with predicted hand state). The third item is open and the first
   attempt at it does not support the idea: on Ego-EXTRA, measured wrist

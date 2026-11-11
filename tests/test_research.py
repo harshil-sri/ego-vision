@@ -61,3 +61,29 @@ def test_tar_octal_field():
     assert _octal(b"0000644\0") == 0o644
     assert _octal(b"00000001750 ") == 1000               # 1750 octal = 1000 bytes
     assert _octal(b"\0" * 12) == 0
+
+
+def test_need_controlled_episodes():
+    """Part 6 episode builders on a hand-made video."""
+    from scripts.holoassist_need_controlled import episodes_a, episodes_b, group_ids
+
+    top = ["screw", "grab"]                              # state ids: 0 screw, 1 grab, 2 other, 3 idle
+    gid = group_ids(top)
+    assert gid.tolist() == [1, 3, 3, 0]                  # fine, other action, other action, idle
+    V = {"lo": 0.0, "hi": 30.0,
+         "edges": np.array([0.0, 10.0, 11.0, 30.0]),     # idle 0-10, screw 10-11, idle 11-30
+         "state": np.array([3, 0, 3]),
+         "coarse": np.array([10.0]),                     # a step boundary at 10 s
+         "onsets": {"high_level": np.array([11.2])},     # next instruction 1.2 s later
+         "wrong": [(20.0, 22.0, "screw")], "corr": np.array([21.2])}
+    a = episodes_a(V, gid)
+    # ticks at 10.0, 10.5, 11.0 s; the instruction falls in the tick that starts at 11.0
+    assert a[:, 0].tolist() == [0.0, 0.5, 1.0]
+    assert a[:, 1].tolist() == [1, 1, 0]                 # fine, fine, idle
+    assert a[:, 2].tolist() == [0, 0, 1]
+    b = episodes_b(V)
+    # ticks at 20.0, 20.5, 21.0 s, all before the action ends at 22 s; correction in the last tick
+    assert b[:, 0].tolist() == [0.0, 0.5, 1.0]
+    assert b[:, 1].tolist() == [1, 1, 1] and b[:, 2].tolist() == [1, 1, 1]
+    assert b[:, 3].tolist() == [0, 0, 1]
+
