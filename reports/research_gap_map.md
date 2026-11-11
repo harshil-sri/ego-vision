@@ -290,6 +290,21 @@ without "drop"; ROC AUC):
   ordering is plausible; it is not a validation (EPIC has no hand-state
   labels, and "fine-motor" was defined on screws, not knives).
 
+- A result that weakens the cost reading
+  (`reports/holoassist_shift_control.md`, "by type of instructor
+  utterance"). With the three groups, CORRECTIONS also avoid fine-motor
+  ticks: 0.41 times chance with predicted state, 0.51 with labels
+  (follow-up 0.35, high-level 0.18, confirmation 0.45). The simple
+  explanation is need, not politeness: over all HoloAssist labels,
+  fine-motor actions take 40% of the action time and hold 19% of the
+  instructor-corrected mistakes (0.5 mistakes per minute, against 1.9 for
+  "other" actions). People who are screwing rarely do something wrong.
+  The part 1 contrast survives only in the free group: high-level
+  instructions are 1.67 times chance there, corrections 0.82 to 1.00.
+  So "instructors avoid fine-motor moments" is mostly explained by
+  "nothing needs saying then". A cost claim needs the controlled study
+  (section 6, item 3) or a design that holds need fixed.
+
 ### What the pilot does not show
 
 - **Cause.** Instructors may speak in idle moments because the step just

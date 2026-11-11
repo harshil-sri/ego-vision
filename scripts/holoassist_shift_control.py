@@ -44,7 +44,7 @@ def main() -> None:
     from sklearn.model_selection import GroupKFold
     rng = np.random.default_rng(0)
 
-    F, ST, Y, names, vid = holoassist_ticks(args.window)
+    F, ST, Y, names, vid, types = holoassist_ticks(args.window, with_types=True)
     F = (F - F.mean(0)) / (F.std(0) + 1e-6)
     sess = np.array([n.split("-")[0] for n in vid])
     gid = np.array([0 if n in FINE else 1 if n in FREE else 2 for n in names])
@@ -87,6 +87,28 @@ def main() -> None:
                                    round(float(np.percentile(null[:, i], 2.5) / exp[i]), 3),
                                    round(float(np.percentile(null[:, i], 97.5) / exp[i]), 3)]
                                for i, l in enumerate(labels)}
+    # the pilot's contrast (part 1), now with the hand state seen by the model:
+    # routine speech avoids busy hands; do corrections?
+    by_type = {}
+    for tname, flag in types.items():
+        row = {}
+        for fname in ("predicted group", "labelled group"):
+            sfield = fields[fname]
+            obs, null = np.zeros(3), np.zeros((args.shifts, 3))
+            for v in np.unique(vid):
+                sv, e = sfield[vid == v], np.flatnonzero(flag[vid == v])
+                if len(e) == 0:
+                    continue
+                obs += np.bincount(sv[e], minlength=3)
+                st = sv[(e[None, :] + rng.integers(0, len(sv), size=args.shifts)[:, None]) % len(sv)]
+                for k in range(3):
+                    null[:, k] += (st == k).sum(1)
+            exp = null.mean(0)
+            row[fname] = {"n": int(obs.sum()),
+                          **{g: [round(float(obs[i] / exp[i]), 3), round(float(np.percentile(null[:, i], 2.5) / exp[i]), 3),
+                                 round(float(np.percentile(null[:, i], 97.5) / exp[i]), 3)] for i, g in enumerate(GROUPS)}}
+        by_type[tname] = row
+    res["by_utterance_type"] = by_type
     res["group_accuracy"] = round(group_acc, 4)
     res["group_majority_baseline"] = round(float(np.bincount(lg).max() / len(lg)), 4)
     res["group_confusion_rows_labelled_cols_predicted"] = conf.tolist()
@@ -102,6 +124,13 @@ def main() -> None:
         sh = res["share_of_time"][fname]
         L.append(f"| {fname} | " + " | ".join(
             f"{l}: {v[0]:.2f} [{v[1]:.2f}, {v[2]:.2f}], time {sh[l]:.0%}" for l, v in r.items()) + " |")
+    L += ["", "## By type of instructor utterance", "",
+          "Same statistic. Urgent speech (corrections) should not avoid busy hands if the pilot's part 1 holds.", "",
+          "| utterance type | state from | n | fine | free | other |", "|---|---|---|---|---|---|"]
+    for tname, row in by_type.items():
+        for fname, c in row.items():
+            L.append(f"| {tname} | {fname} | {c['n']} | " + " | ".join(
+                f"{c[g][0]:.2f} [{c[g][1]:.2f}, {c[g][2]:.2f}]" for g in GROUPS) + " |")
     L += ["", "## The classifier at group level", "",
           f"Accuracy on the three groups: {res['group_accuracy']:.3f} "
           f"(always the most common group: {res['group_majority_baseline']:.3f}). "

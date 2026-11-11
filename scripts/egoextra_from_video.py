@@ -64,8 +64,10 @@ GROUPS = ["fine", "free", "other"]
 THIRDS = ["low", "mid", "high"]
 
 
-def holoassist_ticks(window: float):
-    """-> features (n, 768), hand state id (n,), onset in next second (n,), state names, video name (n,)."""
+def holoassist_ticks(window: float, with_types: bool = False):
+    """-> features (n, 768), hand state id (n,), onset in next second (n,), state names, video name (n,).
+    with_types: also a dict {utterance type: (n,) bool}, true where an instructor utterance of that
+    type (follow_up, high_level, confirm, correct) starts within one tick after the tick."""
     fd = Path(resolve_data_path(HOLO)) / f"features_w{window}"
     meta, feats = pd.read_csv(fd / "meta.csv"), np.load(fd / "feats.npy").astype(np.float32)
     tick = float(json.loads((fd / "info.json").read_text())["tick_s"])
@@ -74,6 +76,7 @@ def holoassist_ticks(window: float):
                      if e["label"] == "Fine grained action")
     top = [v for v, _ in counts.most_common(20)]
     rows, ST, Y = [], [], []
+    types = {}
     for name, g in meta.groupby("video_name", sort=False):
         v = data.get(name)
         V = build_video(v, top) if v is not None else None
@@ -85,9 +88,23 @@ def holoassist_ticks(window: float):
             continue
         f = tick_features(V, v, t[keep], horizon=tick)
         rows.append(g.index.to_numpy()[keep]); ST.append(f[1][:, 0].astype(int)); Y.append(f[2])
+        for gname, on in V["onsets"].items():
+            on = np.sort(np.asarray(on, dtype=float))
+            n_in = np.searchsorted(on, t[keep] + tick, side="right") - np.searchsorted(on, t[keep], side="right")
+            types.setdefault(gname, []).append((name, n_in > 0))
     rows = np.concatenate(rows)
-    return (feats[rows], np.concatenate(ST), np.concatenate(Y), top + ["other_verb", "idle"],
-            meta["video_name"].to_numpy()[rows])
+    out = (feats[rows], np.concatenate(ST), np.concatenate(Y), top + ["other_verb", "idle"],
+           meta["video_name"].to_numpy()[rows])
+    if with_types:
+        vids = out[4]
+        flags = {}
+        for gname, parts in types.items():                 # a type can be absent in some videos
+            fl = np.zeros(len(vids), dtype=bool)
+            for name, m in parts:
+                fl[vids == name] = m
+            flags[gname] = fl
+        return out + (flags,)
+    return out
 
 
 def main() -> None:
