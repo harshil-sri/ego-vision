@@ -77,12 +77,14 @@ class CookingEngine:
 
     def __init__(self, frame_source, config: EngineConfig,
                  recipe_path: str, verb_source=None, embedder=None,
-                 bus: EventBus | None = None) -> None:
+                 bus: EventBus | None = None, hand_state=None) -> None:
         """
         frame_source: object with start()/stop() and either latest() (camera)
             or next_frame() (clip/synthetic) returning FramePacket|None.
         verb_source: KeyboardVerbSource | ModelVerbSource (default: keyboard).
         embedder: callable for the matcher (default: config.embedder name).
+        hand_state: optional src.pipeline.hand_state.HandStateScorer
+            (experimental). Needs a verb source with `last_feature`.
         """
         self.cfg = config
         self.bus = bus or EventBus()
@@ -91,6 +93,8 @@ class CookingEngine:
         self.recipe_path = recipe_path
         self.verb_source = verb_source  # may be None -> lazy keyboard
         self._embedder = embedder
+        self.hand_state = hand_state
+        self._hands: dict | None = None      # newest hand-state reading, or None
 
         matcher_cls = registry.get_class("enrollment")
         self.matcher = matcher_cls(self._get_embedder,
@@ -337,6 +341,8 @@ class CookingEngine:
                          "confidence": round(self._last_verb[1], 3)},
                 "ingredient": {"name": self._ingredient[0],
                                "score": round(self._ingredient[1], 3)},
+                # experimental: {"fine", "free", "other", "state"} or None
+                "hands": self._hands,
                 "warning": ({"message": self._warning_msg}
                             if time.monotonic() < self._warning_until else None),
                 "metrics": {"fps": round(self._frames_pushed_per_s(), 1),
@@ -482,6 +488,9 @@ class CookingEngine:
         self._last_infer_ms = (time.monotonic() - t0) * 1000.0
         if probs is None:  # keyboard source: verbs arrive via inject_verb
             return
+        feature = getattr(self.verb_source, "last_feature", None)
+        if self.hand_state is not None and feature is not None:
+            self._hands = self.hand_state.update(feature)
         if self.cfg.recipe_prior:
             from src.pipeline.prior import apply_recipe_prior, legal_verbs
             legal = legal_verbs(self.recipe.steps, self.machine.current_index)

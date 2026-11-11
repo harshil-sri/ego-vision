@@ -28,6 +28,9 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--clip", default=None, help="video file for --mode clip")
     p.add_argument("--run-dir", default=None, help="runs/<id> with a checkpoint")
     p.add_argument("--port", type=int, default=8000)
+    p.add_argument("--hand-state-dir", default=None,
+                   help="experimental: runs/hand_state_holoassist (scripts.train_hand_state_head); "
+                        "adds 'hands' to the engine state. VideoMAE runs only.")
     p.add_argument("--device", default=None,
                    help="cpu | cuda (overrides the config; the VideoMAE model needs cuda)")
     p.add_argument("--synthetic", action="store_true",
@@ -74,7 +77,11 @@ def build_engine(args):
     if getattr(verb_source, "window_s", None):
         cfg.window_seconds = float(verb_source.window_s)
 
-    return CookingEngine(source, cfg, args.recipe, verb_source=verb_source)
+    hand_state = None
+    if args.hand_state_dir and getattr(verb_source, "kind", "") == "frozen_videomae":
+        from src.pipeline.hand_state import HandStateScorer
+        hand_state = HandStateScorer(args.hand_state_dir, cfg.device)
+    return CookingEngine(source, cfg, args.recipe, verb_source=verb_source, hand_state=hand_state)
 
 
 def run_cv_ui(engine):

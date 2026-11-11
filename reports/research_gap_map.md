@@ -269,6 +269,13 @@ without "drop"; ROC AUC):
   history + video is close to labels + history. The subset is small for
   this question, and no intervals were computed.
 
+- In the app: the classifier is available as an experimental signal
+  (`src/pipeline/hand_state.py`). On EPIC-KITCHENS ticks it gives a mean
+  fine-motor probability of 0.20 for wash, 0.18 for cut, 0.13 for mix,
+  and 0.06 to 0.07 for take, put, open, close and no-action ticks. That
+  ordering is plausible; it is not a validation (EPIC has no hand-state
+  labels, and "fine-motor" was defined on screws, not knives).
+
 ### What the pilot does not show
 
 - **Cause.** Instructors may speak in idle moments because the step just

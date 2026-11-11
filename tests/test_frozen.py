@@ -133,3 +133,31 @@ def test_resolve_data_path(monkeypatch):
     monkeypatch.setenv("EGO_DATA_ROOT", "D:/data")
     assert resolve_data_path("/mnt/ssd/epic/x") == "D:/data/epic/x"
     assert resolve_data_path("runs/baseline") == "runs/baseline"
+
+
+def test_hand_state_scorer_groups_and_smoothing(tmp_path):
+    """Scorer: 768-d vector -> 3 group probabilities that sum to 1; the
+    running average moves toward the newest reading."""
+    import torch
+    from src.models.frozen import FeatureHead
+    from src.pipeline.hand_state import HandStateScorer
+
+    torch.manual_seed(0)
+    head = FeatureHead(768, 5, kind="mlp", hidden=16, dropout=0.0)
+    torch.save({"model_state_dict": head.state_dict(), "head": head.config(),
+                "states": ["screw", "idle", "grab", "hold", "lift"],
+                "group_of_state": [0, 1, 2, 1, 2], "groups": ["fine", "free", "other"]},
+               tmp_path / "last.pt")
+    sc = HandStateScorer(tmp_path, alpha=0.5)
+    rng = np.random.default_rng(0)
+    a, b = rng.normal(size=768).astype(np.float32), rng.normal(size=768).astype(np.float32)
+    first = sc.update(a)
+    assert set(first) == {"fine", "free", "other", "state"}
+    assert abs(first["fine"] + first["free"] + first["other"] - 1.0) < 0.01
+    assert first["state"] == max(("fine", "free", "other"), key=first.get)
+    second = sc.update(b)
+    sc.reset()
+    only_b = sc.update(b)
+    for g in ("fine", "free", "other"):                  # average of the two readings
+        assert abs(second[g] - (first[g] + only_b[g]) / 2) < 0.002
+

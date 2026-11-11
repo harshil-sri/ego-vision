@@ -18,3 +18,4 @@ runs/baseline/
 runs/dino_*/
 runs/videomae_*/
 runs/fused_*/
+runs/hand_state_*/

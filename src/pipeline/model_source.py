@@ -135,6 +135,8 @@ class FrozenVerbSource:
         else:
             self.encoder = DinoFrameEncoder(device=device)
         self.device = device
+        # VideoMAE vector (768,) of the newest window; src.pipeline.hand_state reads it
+        self.last_feature: np.ndarray | None = None
 
     def predict(self, window) -> np.ndarray | None:
         """window: list[FramePacket] (BGR uint8) -> (num_verbs,) float64
@@ -148,7 +150,8 @@ class FrozenVerbSource:
             n = self.encoder.frames                               # 16
             if len(frames) != n:   # repeat or thin frames to the count the encoder needs
                 frames = frames[np.linspace(0, len(frames) - 1, n).round().astype(int)]
-            x = torch.from_numpy(self.encoder.encode_window(frames))[None]   # (1, 768)
+            self.last_feature = self.encoder.encode_window(frames)        # (768,)
+            x = torch.from_numpy(self.last_feature)[None]                    # (1, 768)
         else:
             x = torch.from_numpy(self.encoder.encode_numpy(frames))[None]    # (1, T, 768)
         with torch.no_grad():
