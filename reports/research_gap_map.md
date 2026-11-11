@@ -340,6 +340,12 @@ started:
 - Together this is the shape the first idea predicted: a low-urgency
   message waits for the hands, an urgent one does not. It is the best
   support so far, and it is from the full dataset.
+- From video (`reports/holoassist_need_controlled_video.md`, 305 videos,
+  1 s ticks, predicted group against the "free" group): test A gives
+  0.22 (0.10 to 0.41) for predicted fine-motor ticks, and 0.24 (0.13 to
+  0.39) with the labels on the same ticks. Test B gives 1.25 (0.85 to
+  1.89): no sign that corrections wait. So the part 6 pattern does not
+  depend on the human labels.
 - The caveat for A stays: a performer who stops and waits after a step
   is idle BECAUSE the next instruction is needed. Idle hands then signal
   need, and the instructor may be reacting to that, not sparing busy

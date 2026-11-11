@@ -45,6 +45,7 @@ def main() -> None:
     rng = np.random.default_rng(0)
 
     F, ST, Y, names, vid, types = holoassist_ticks(args.window, with_types=True)
+    t_end = types.pop("_t_end")
     F = (F - F.mean(0)) / (F.std(0) + 1e-6)
     sess = np.array([n.split("-")[0] for n in vid])
     gid = np.array([0 if n in FINE else 1 if n in FREE else 2 for n in names])
@@ -64,6 +65,12 @@ def main() -> None:
         lo, hi = np.percentile(score[m], [100 / 3, 200 / 3])
         fields["onset score third"][m] = (score[m] > lo).astype(int) + (score[m] > hi)
 
+    # cross-fitted predictions per tick, for scripts.holoassist_need_controlled --video
+    from pathlib import Path as _P
+    from src.paths import resolve_data_path
+    np.savez(_P(resolve_data_path("/mnt/ssd/holoassist")) / f"features_w{args.window}" / "oof_groups.npz",
+             video=vid, t_end=t_end, predicted=fields["predicted group"], labelled=fields["labelled group"],
+             p_group=G)
     # how good is the classifier at the level that matters for timing: the three groups?
     pg, lg = fields["predicted group"], fields["labelled group"]
     conf = np.array([[int(((lg == i) & (pg == j)).sum()) for j in range(3)] for i in range(3)])

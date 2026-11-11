@@ -75,7 +75,7 @@ def holoassist_ticks(window: float, with_types: bool = False):
     counts = Counter(e["attributes"].get("Verb") for v in data.values() for e in v["events"]
                      if e["label"] == "Fine grained action")
     top = [v for v, _ in counts.most_common(20)]
-    rows, ST, Y = [], [], []
+    rows, ST, Y, T = [], [], [], []
     types = {}
     for name, g in meta.groupby("video_name", sort=False):
         v = data.get(name)
@@ -88,6 +88,7 @@ def holoassist_ticks(window: float, with_types: bool = False):
             continue
         f = tick_features(V, v, t[keep], horizon=tick)
         rows.append(g.index.to_numpy()[keep]); ST.append(f[1][:, 0].astype(int)); Y.append(f[2])
+        T.append(t[keep])
         for gname, on in V["onsets"].items():
             on = np.sort(np.asarray(on, dtype=float))
             n_in = np.searchsorted(on, t[keep] + tick, side="right") - np.searchsorted(on, t[keep], side="right")
@@ -103,6 +104,7 @@ def holoassist_ticks(window: float, with_types: bool = False):
             for name, m in parts:
                 fl[vids == name] = m
             flags[gname] = fl
+        flags["_t_end"] = np.concatenate(T)                # seconds, end of each tick's window
         return out + (flags,)
     return out
 
