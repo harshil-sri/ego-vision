@@ -1,0 +1,91 @@
+{
+  "ticks": 180505,
+  "videos": 128,
+  "boot": 500,
+  "targets": {
+    "trainee turn": {
+      "base_rate": 0.0677,
+      "n": 12225,
+      "ap": {
+        "history": 0.1375,
+        "video": 0.0732,
+        "history + video": 0.1394,
+        "history + hands": 0.1385
+      },
+      "auc": {
+        "history": 0.7436,
+        "video": 0.5273,
+        "history + video": 0.7451,
+        "history + hands": 0.7454
+      },
+      "ap_difference_95": {
+        "history + video minus history": [
+          0.002,
+          -0.0007,
+          0.0049
+        ],
+        "history + hands minus history": [
+          0.0011,
+          -0.0008,
+          0.0031
+        ]
+      }
+    },
+    "expert, unasked, long": {
+      "base_rate": 0.0135,
+      "n": 2443,
+      "ap": {
+        "history": 0.0574,
+        "video": 0.0146,
+        "history + video": 0.0548,
+        "history + hands": 0.0541
+      },
+      "auc": {
+        "history": 0.8645,
+        "video": 0.5263,
+        "history + video": 0.864,
+        "history + hands": 0.8621
+      },
+      "ap_difference_95": {
+        "history + video minus history": [
+          -0.0028,
+          -0.0067,
+          0.0012
+        ],
+        "history + hands minus history": [
+          -0.0034,
+          -0.0066,
+          -0.0006
+        ]
+      }
+    },
+    "expert, after trainee": {
+      "base_rate": 0.0258,
+      "n": 4662,
+      "ap": {
+        "history": 0.1636,
+        "video": 0.0295,
+        "history + video": 0.1662,
+        "history + hands": 0.1625
+      },
+      "auc": {
+        "history": 0.9183,
+        "video": 0.5518,
+        "history + video": 0.9178,
+        "history + hands": 0.9182
+      },
+      "ap_difference_95": {
+        "history + video minus history": [
+          0.0027,
+          -0.0037,
+          0.0094
+        ],
+        "history + hands minus history": [
+          -0.001,
+          -0.005,
+          0.0033
+        ]
+      }
+    }
+  }
+}

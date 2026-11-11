@@ -42,6 +42,9 @@ middle of fine work costs you something.
    no avoidance of fine-motor moments predicted by the HoloAssist model
    (1.11 times chance). The TRAINEE's speech does avoid them (0.90; 0.77
    in assembly).
+   As a prediction task, video adds nothing to the dialogue history on
+   Ego-EXTRA (who spoke how long ago predicts the next turn; the frozen
+   video features do not improve it).
 6. **Experts told to hold back still speak up.** In Ego-EXTRA's "speak
    only when asked or necessary" recordings, experts start about 0.8
    unasked turns per minute, the same as in the proactive recordings.
@@ -66,8 +69,8 @@ middle of fine work costs you something.
    score this. Running at full scale now (all HoloAssist videos).
 2. Tighten the fixed-need test (finding 3), and repeat it from video on
    all videos.
-3. The worker-side signal (when does the person want to talk) as a
-   smaller, better supported claim.
+3. The worker-side signal (when does the person want to talk): present
+   on both datasets, but small on Ego-EXTRA.
 4. A small controlled study with participants. Only this can show cost.
 
 ## In the app

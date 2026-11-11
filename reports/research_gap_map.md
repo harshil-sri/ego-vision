@@ -465,7 +465,9 @@ hands are busy". The order is therefore changed.
    assembly): people start speaking less during fine-motor work,
    and gaze behaves differently before unasked and asked expert turns. An
    assistant could use this to predict questions and to time its turn in
-   a dialogue. Smaller claim, better supported.
+   a dialogue. Caution: as a prediction task on Ego-EXTRA, video adds
+   nothing to the dialogue history (`reports/egoextra_predict.md`), so
+   this is a small effect there, not a usable signal yet.
 4. **A small controlled study of cost.** Same instruction delivered during
    fine-motor work or at the next free moment; task time and errors
    measured. Still the only route to a causal claim. Needs participants.
@@ -601,3 +603,13 @@ careful negative or positive answer on hand-state cost.
    and 13% with a moving wrist, and "free" for 21% of the ticks with no
    tracked hand against 10% to 14% otherwise. And it finds structure in
    trainee speech. It was still never checked against labels here.
+   As a prediction task (`reports/egoextra_predict.md`, 180,505 ticks,
+   whole videos held out): the video adds NOTHING to the dialogue history
+   on Ego-EXTRA. Trainee turn in the next second: average precision 0.138
+   from history (time since each speaker spoke), 0.139 with video (the
+   difference: +0.002, interval -0.001 to +0.005); video alone 0.073
+   against a base rate of 0.068. Unasked expert turns: 0.057 from
+   history, 0.055 with video. On HoloAssist the same kind of video vector
+   alone reached 0.104 against a base rate of 0.044 (part 5). So the
+   shift-test effects on Ego-EXTRA are real but too small to matter for
+   prediction, with these frozen features.

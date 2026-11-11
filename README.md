@@ -68,6 +68,7 @@ python -m scripts.egoextra_speech
 python -m scripts.egoextra_hands --signal wrist        # also: fingers, gaze, gaze_depth
 python -m scripts.holoassist_video_features --root /mnt/ssd/ego-extra --center 320
 python -m scripts.egoextra_from_video
+python -m scripts.egoextra_predict
 # the hand-state signal inside the app (experimental)
 python -m scripts.train_hand_state_head
 python -m scripts.run_app --config configs/app_demo_videomae.yaml --mode clip --clip <video.mp4> --run-dir runs/videomae_mlp --hand-state-dir runs/hand_state_holoassist
