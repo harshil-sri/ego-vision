@@ -316,3 +316,22 @@ untouched pending D6/D9/D10 sign-off. Tests: 2 new engine wiring tests
 optimistic publishes step_advanced and jumps to index 3). Suite: 104
 passed in 17.62s (fresh run above). Owner also asked to disable the
 hourly wake-up automation — deleted this session.
+
+**2026-11-10 / 11 (Windows session) - frozen-feature verb model + research pilot.**
+Moved to native Windows (`C:\ssd-data`, `src/paths.py`). Found that the
+old pipeline matched the raw narration word, not the verb class: 2,995
+clips used where 5,435 were usable. Extracted frozen features for all
+6,991 segments: DINOv2 ViT-S/14 (878 s) and VideoMAE-B SSv2 (937 s).
+Heads on the V1 split (train 3,720 / val 1,715, majority 0.319), last
+epoch, 3 seeds: DINOv2 best 0.42 acc / 0.33 mca; VideoMAE 0.67 acc /
+0.65 mca (`python -m scripts.train_head --sweep`). Saved
+`runs/videomae_mlp`. App path equals cached features on 40 clips; 88 ms
+per prediction on the GPU. Sliding-window evaluation on the full held-out
+videos (10,205 ticks): 0.56 accuracy on demo-verb ticks, confident on
+about 60% of no-demo-verb ticks; a "none"-class head trained on sliding
+windows did not beat thresholding (`reports/verb_model_frozen.md`).
+Clip mode ran end to end on P30_110. Tests: 117 passed, 0 skipped.
+Research: HoloAssist pilot parts 1, 2, 2b, 3, 4 and the gap map
+(`reports/research_gap_map.md`). NOT RUN: live mode on a real recipe,
+matcher on real ingredient frames. Nothing pushed.
+

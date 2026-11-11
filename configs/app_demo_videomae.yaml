@@ -1,0 +1,42 @@
+# Demo preset for the frozen VideoMAE verb model (runs/videomae_mlp).
+# Evidence: reports/verb_model_frozen.md, reports/sliding_eval_trimmed_w2.0.md
+# (2026-11-11, held-out participants P22 + P30, continuous sliding windows).
+#   - tick_hz 2.0: the smoother numbers were measured at one prediction
+#     every 0.5 s. One prediction takes about 90 ms on the RTX 4060.
+#   - ema alpha 0.5 + min_conf 0.5: 5.4 false fires per minute, lenient
+#     precision 0.62, action recall 0.61 on dense EPIC kitchen video.
+#     Fewer false fires: min_conf 0.6 (2.8 per minute, recall 0.48).
+#   - T and window_seconds are set by the model at load time (16 frames).
+#   - device cuda: the video encoder is too slow on the CPU for live use.
+# Run:
+#   python -m scripts.run_app --config configs/app_demo_videomae.yaml \
+#       --mode live --run-dir runs/videomae_mlp
+mode: keyboard
+window_seconds: 2.0
+T: 16
+tick_hz: 2.0
+matcher_hz: 2.0
+smoother: ema
+smoother_args: {alpha: 0.5}
+min_conf: 0.5
+recipe_prior: true
+prior_leak: 0.05
+policy: optimistic
+embedder: dinov2
+matcher_threshold: 0.5
+ingredient_crop: show_zone
+show_zone: [0.30, 0.25, 0.40, 0.50]
+scan_seconds: 10.0
+scan_fps: 3.0
+idle_timeout_s: 45.0
+metrics_every_s: 2.0
+window_sample_every_s: 5.0
+record_video: false
+device: cuda
+
+camera:
+  source: /dev/video0
+  width: 640
+  height: 480
+  fps: 30
+  pixel_format: MJPG

@@ -1,5 +1,58 @@
 # HANDOFF
 
+## 0. Update 2026-11-11 (Windows, frozen-feature verb model, research pilot)
+
+Read this section first. Sections 1 to 8 below are the October state and
+are kept for the record; where they disagree with this section, this
+section is right.
+
+**Environment.** The project now runs on native Windows from
+`C:\Users\Harshil\dev\ego-vision` with the global uv venv. Data is at
+`C:\ssd-data`; configs keep the `/mnt/ssd/...` spelling and `src/paths.py`
+translates it. The camera opens through DirectShow.
+
+**What runs today.**
+
+| Thing | Command | Status |
+|---|---|---|
+| Tests | `python -m pytest tests -q` | 117 passed, 0 skipped (2026-11-11) |
+| Verb model | `runs/videomae_mlp` | 0.68 accuracy, 0.65 mean-class accuracy on held-out participants (old model 0.22). Under live sliding windows: 0.56 on demo-verb ticks, and it fires on many no-action moments. See `reports/verb_model_frozen.md`. |
+| Tier 2 (clip) | `python -m scripts.run_app --config configs/app_demo_videomae.yaml --mode clip --clip <mp4> --run-dir runs/videomae_mlp` | Ran end to end on P30_110 (mechanics only) |
+| Tier 3 (live) | same with `--mode live` | NOT RUN with a real recipe. Camera index 0 opens (1280x720). |
+| Ingredient matcher on real frames | `python -m scripts.eval_matcher --root data/ingredients` | NOT RUN (no recorded frames). Note: the DINOv2 embedder was missing ImageNet normalisation until today; fixed. |
+
+**New code, one line each.**
+
+- `src/models/frozen.py`: frozen encoders (DINOv2, VideoMAE) and `FeatureHead`.
+- `scripts/extract_features.py`, `scripts/train_head.py`: cache features once, train a head in seconds.
+- `src/pipeline/model_source.py` `FrozenVerbSource`: the app's verb source for these runs.
+- `scripts/extract_sliding.py`, `scripts/eval_sliding.py`, `scripts/train_window_head.py`,
+  `src/data/window_labels.py`: evaluation and training on the windows the live app sees.
+- `scripts/holoassist_*.py`: the research pilot (5 analyses), reports in `reports/holoassist_*.md`.
+- `reports/research_gap_map.md`: the research gap, what was read, what was measured, what is a guess.
+- `docs/STUDY_QUEUE.md` items 12 to 19: foundations behind the new code.
+
+**Decisions that are yours.**
+
+1. Backbone: the spec said DINOv2. DINOv2 heads reached 0.33 mean-class
+   accuracy, VideoMAE 0.65. The demo preset uses VideoMAE.
+2. Demo thresholds: `configs/app_demo_videomae.yaml` uses EMA 0.5 and
+   min_conf 0.5 (5.4 false fires per minute on EPIC footage). min_conf
+   0.6 halves the false fires and costs recall.
+3. Research direction: `reports/research_gap_map.md` section 6.
+
+**Known limits.**
+
+- The verb model has no "nothing is happening" class. A head trained
+  with one did not beat the simple model with a higher threshold
+  (`reports/verb_model_frozen.md` section 4).
+- `core/` (your own implementations) still does not exist; the registry
+  still points at `reference/`.
+- `main` is far behind `glm-window`. Nothing from November is pushed.
+
+---
+
+
 GLM window deliverable, branch `glm-window` (pushed to
 github.com/harshil-sri/ego-vision). Written 2026-10-24 ~01:20 IST;
 numbers updated as runs completed (see the log at the bottom).

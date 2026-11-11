@@ -287,5 +287,8 @@ benchmarks lack.
 2. Repeat part 2 with hand state predicted by a video model on HoloAssist
    (needs the 144.6 GB compressed videos, or features from a subset).
 3. Build the stay-silent metric from the self-corrected wrong actions.
-4. Check Ego-EXTRA access; it has gaze and hand keypoints and real expert
-   speech, and would be a second dataset.
+4. Ego-EXTRA as a second dataset: it has gaze, hand keypoints and real
+   expert speech, and it includes kitchen and bakery scenes (closer to this
+   project than HoloAssist). Its project page
+   (fpv-iplab.github.io/Ego-EXTRA) lists download links; the licence terms
+   and sizes have not been checked yet.
