@@ -238,10 +238,13 @@ Predicting a routine instructor onset in the next second (base rate
   (0.018 to 0.031), predicted +0.022 (0.016 to 0.029). Predicted minus
   labelled: -0.001 (-0.009 to +0.007), so the two are not distinguishable
   here.
-- This holds although the classifier is right only 36% of the time. A
-  likely reason: it is best on exactly the states that matter for timing
-  (screw, unscrew, insert, idle), and its errors are between states with
-  similar onset rates. That reason is not tested.
+- This holds although the classifier is right only 36% of the time on
+  22 states. The reason, checked in `reports/holoassist_shift_control.md`:
+  on the three groups that matter for timing (fine-motor: screw, unscrew,
+  insert; free: idle, hold, place, inspect; other) it is right 64% of
+  the time, it finds 75% of the fine-motor ticks, and it calls a
+  fine-motor tick "free" only 3% of the time. Its weak point is the
+  free group (35% found; most are called "other").
 - Routing the video through the hand-state classifier works better than
   giving the timing model the video vector directly: +0.008 (0.000 to
   0.015), a small margin.
@@ -355,8 +358,7 @@ benchmarks lack.
 
 1. Full read of the seven P papers, plus EgoVoice, and an HCI search.
 2. Done on a 305-video subset (part 5), with intervals. Open: the
-   full 1,493 usable videos (about 80 GB more), and a check of which
-   hand-state confusions are harmless for timing.
+   full 1,493 usable videos (about 80 GB more).
 3. Build the stay-silent metric from the self-corrected wrong actions.
 4. Ego-EXTRA as a second dataset: it has gaze, hand keypoints and real
    expert speech, and it includes kitchen and bakery scenes (closer to this

@@ -72,5 +72,24 @@
         1.046
       ]
     }
-  }
+  },
+  "group_accuracy": 0.6384,
+  "group_majority_baseline": 0.3812,
+  "group_confusion_rows_labelled_cols_predicted": [
+    [
+      19239,
+      659,
+      5632
+    ],
+    [
+      1807,
+      8347,
+      13376
+    ],
+    [
+      3441,
+      3751,
+      23028
+    ]
+  ]
 }
