@@ -349,3 +349,17 @@ measured wrist speed and finger motion show NO relation to unasked
 expert speech (`reports/egoextra_hands.md`, `_fingers.md`). Test with a
 video-based hand state on Ego-EXTRA: see the next entry. Nothing pushed.
 
+**2026-11-11 (evening) - Ego-EXTRA from video; the cost reading is weakened.**
+Downloaded the 136 Ego-EXTRA trainee videos (22 GB), VideoMAE features
+for 191,658 ticks (central crop of the wide-angle frame). HoloAssist
+models applied unchanged (`reports/egoextra_from_video.md`): unasked
+expert speech does not avoid predicted fine-motor moments (1.11 times
+chance); trainee speech does (0.90, assembly 0.77). On HoloAssist,
+corrections avoid fine-motor moments as much as routine speech (0.41 to
+0.51) and mistakes are rare there (0.5 per minute against 1.9), so need
+explains most of the effect (`reports/holoassist_shift_control.md`).
+Gap map sections 6 and 7 rewritten accordingly. Also today: HCI
+literature pass, experimental hand-state signal in the app
+(`src/pipeline/hand_state.py`), tests 123 passed. NOT RUN: live mode on
+a real recipe, matcher on real ingredient frames. Nothing pushed.
+

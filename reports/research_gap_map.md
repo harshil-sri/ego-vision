@@ -348,26 +348,37 @@ speaking there measures something other than expert timing. This needs a
 check against the EgoServe paper's own description of how windows were
 built before it is stated publicly.
 
-## 6. Candidate contributions, in order of preference
+## 6. Candidate contributions, revised 2026-11-11
 
-1. **Interruptibility-aware timing with an urgency trade-off.** A gate
-   score = need(t) x urgency - cost(hand state at t). Train and test on
-   HoloAssist instructor onsets, with hand state predicted from video.
-   Compare against need-only baselines. The pilot gives the oracle upper
-   bound (AP 0.068 to 0.087); the open question is how much survives with
-   predicted hand state.
-2. **A "should stay silent" evaluation.** Use the self-corrected mistakes
-   as negatives. A good assistant should not speak on them. This turns the
-   EgoServe observation into a metric and needs no new data. Part 4 shows
-   the target is learnable from labels (AUC 0.83 without "drop"); the open
-   question is the same as for item 1: how much survives from video.
-3. **A small controlled study of cost.** Same instruction delivered during
-   a fine-motor action or at the next free moment, with task time and
-   errors measured. This is the only route to a causal claim. It needs
-   participants and is outside the 5-day window.
+The first version of this section put "a gate that respects busy hands,
+validated against instructor timing" on top. The evidence since then
+(section 7, status) does not support "instructors hold back because the
+hands are busy". The order is therefore changed.
 
-Item 1 and item 2 can share one paper: a model, and a metric that existing
-benchmarks lack.
+1. **A "should stay silent" evaluation.** Unchanged, and now first. Use
+   the mistakes that performers fix alone as negatives: a good assistant
+   should not speak on them. Existing benchmarks do not score this
+   (section 5). Part 4: learnable from labels (AUC 0.83 without "drop").
+   Part 5: from history + video 0.73 on a small subset, no intervals.
+   Next: the full HoloAssist videos, and Ego-EXTRA protocol 2 as a second
+   source of "the expert chose silence".
+2. **Need-controlled test of interruption cost, from existing data.** The
+   honest open question. Find pairs of moments with the same need (same
+   step, same kind of pending instruction) and different hand state, and
+   compare what the instructor does. HoloAssist has coarse step labels
+   for this. If hand state still matters at equal need, the cost reading
+   is back; if not, it is closed with evidence.
+3. **Worker-side signal: when does the person want to talk?** Supported
+   on both datasets: people start speaking less during fine-motor work,
+   and gaze behaves differently before unasked and asked expert turns. An
+   assistant could use this to predict questions and to time its turn in
+   a dialogue. Smaller claim, better supported.
+4. **A small controlled study of cost.** Same instruction delivered during
+   fine-motor work or at the next free moment; task time and errors
+   measured. Still the only route to a causal claim. Needs participants.
+
+Items 1 and 2 can share one paper: a metric that benchmarks lack, plus a
+careful negative or positive answer on hand-state cost.
 
 ## 7. What would weaken the idea
 
@@ -379,7 +390,19 @@ benchmarks lack.
   practice (for example, annotators segmenting actions around speech).
   Check: repeat part 1 with action boundaries from the hand-pose stream
   instead of the labels.
-- Status 2026-11-11: the second item did not happen (part 5: the gain
+- Status 2026-11-11, evening: three results now weaken the idea as first
+  stated. (1) On HoloAssist, corrections avoid fine-motor moments as much
+  as routine speech does, and mistakes are rare there: need explains most
+  of the effect (section 4, part 5). (2) On Ego-EXTRA, measured hand
+  motion has no relation to unasked expert speech. (3) On Ego-EXTRA, the
+  video-based hand state trained on HoloAssist shows no avoidance by the
+  expert either; it shows that the TRAINEE speaks less during fine-motor
+  work (section 8, item 4). What is left standing: hand state from video
+  predicts when dialogue happens on HoloAssist (part 5), and the person
+  doing the task talks less when the hands are in fine work, on both
+  datasets' closest scenarios. That is a statement about the worker, not
+  about a cost that the helper respects.
+- Status 2026-11-11, afternoon: the second item did not happen (part 5: the gain
   stays with predicted hand state). The third item is open and the first
   attempt at it does not support the idea: on Ego-EXTRA, measured wrist
   speed has no relation to when experts speak unasked (section 8, item
@@ -453,3 +476,29 @@ benchmarks lack.
    turns are RARER when the wrist is still (0.82; 95% of shifts 0.89 to
    1.10). That fits limit (c): in assembly a still wrist often means
    fine work, not free hands. The video-based test below addresses this.
+   Video-based test (`reports/egoextra_from_video.md`, 128 videos, 50 h,
+   191,658 ticks): the hand-state classifier and an onset-score model,
+   both trained on HoloAssist only, applied unchanged. The control on
+   HoloAssist itself gives 0.35 times chance for instructor speech in
+   predicted fine-motor ticks. On Ego-EXTRA:
+
+   | Onsets | n | Predicted fine | Predicted free | HoloAssist onset score, top third |
+   |---|---|---|---|---|
+   | Expert, unasked, long | 2,444 | 1.11 (0.93 to 1.06) | 0.92 (0.90 to 1.10) | 0.93 (0.95 to 1.05) |
+   | Expert, unasked, short | 1,120 | 1.23 (0.90 to 1.10) | 0.88 (0.85 to 1.16) | 0.86 (0.93 to 1.08) |
+   | Expert, after trainee speech, long | 4,662 | 0.80 (0.95 to 1.05) | 1.05 (0.93 to 1.07) | 1.09 (0.96 to 1.04) |
+   | Trainee turn | 12,225 | 0.90 (0.97 to 1.03) | 1.11 (0.96 to 1.04) | 1.10 (0.98 to 1.02) |
+
+   (Observed / chance; in brackets the range of 95% of 1,000 shifts.)
+   The HoloAssist pattern does NOT transfer to unasked expert speech.
+   Unasked turns are slightly MORE frequent in predicted fine-motor
+   moments, also in furniture assembly (0.95, inside the range). What
+   does transfer is the trainee's side: trainees start to speak less
+   during predicted fine-motor moments (0.90 overall, 0.77 in assembly),
+   and the expert's answers follow (0.80 overall, 0.61 in assembly, 0.59
+   in the kitchen).
+   Is the classifier meaningful on this video? Two label-free signs say
+   partly yes: it predicts "fine" for 34% of the ticks with a still wrist
+   and 13% with a moving wrist, and "free" for 21% of the ticks with no
+   tracked hand against 10% to 14% otherwise. And it finds structure in
+   trainee speech. It was still never checked against labels here.
