@@ -76,7 +76,7 @@ def mistake_rows(data: list[dict], max_after: float = 10.0) -> list[dict]:
                 since_utt = e["start"] - utt_end[j - 1] if j > 0 else 300.0
                 k = np.searchsorted(corr, e["start"], side="left")
                 first = float(corr[k]) if k < len(corr) and corr[k] <= e["end"] + max_after else float("nan")
-                rows.append({"session": v["video_name"].split("-")[0], "task": v.get("taskType", "?"),
+                rows.append({"video": v["video_name"], "session": v["video_name"].split("-")[0], "task": v.get("taskType", "?"),
                              "verb": e["attributes"].get("Verb", "?"), "noun": e["attributes"].get("Noun", "?"),
                              "t": e["start"] - t0, "frac": (e["start"] - t0) / dur,
                              "since_utt": min(since_utt, 300.0), "wrong_so_far": wrong_so_far,
