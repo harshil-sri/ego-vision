@@ -1,0 +1,132 @@
+{
+  "videos": 960,
+  "idle_ticks": 13644,
+  "instructions": 2734,
+  "boot": 100,
+  "all": {
+    "0 to 0.5 s": {
+      "ticks": 3090,
+      "raw_chance_per_tick": 0.1812,
+      "odds_ratio_vs_4s": [
+        1.339,
+        1.163,
+        1.522
+      ]
+    },
+    "0.5 to 1 s": {
+      "ticks": 2129,
+      "raw_chance_per_tick": 0.2395,
+      "odds_ratio_vs_4s": [
+        1.676,
+        1.455,
+        1.969
+      ]
+    },
+    "1 to 2 s": {
+      "ticks": 2898,
+      "raw_chance_per_tick": 0.2626,
+      "odds_ratio_vs_4s": [
+        1.842,
+        1.566,
+        2.039
+      ]
+    },
+    "2 to 4 s": {
+      "ticks": 2686,
+      "raw_chance_per_tick": 0.2014,
+      "odds_ratio_vs_4s": [
+        1.451,
+        1.279,
+        1.63
+      ]
+    },
+    "4 s or more": {
+      "ticks": 2841,
+      "raw_chance_per_tick": 0.1274
+    }
+  },
+  "fine-motor action": {
+    "0 to 0.5 s": {
+      "ticks": 163,
+      "raw_chance_per_tick": 0.1411,
+      "odds_ratio_vs_4s": [
+        1.023,
+        0.478,
+        1.993
+      ]
+    },
+    "0.5 to 1 s": {
+      "ticks": 140,
+      "raw_chance_per_tick": 0.2571,
+      "odds_ratio_vs_4s": [
+        2.19,
+        1.339,
+        3.483
+      ]
+    },
+    "1 to 2 s": {
+      "ticks": 229,
+      "raw_chance_per_tick": 0.3275,
+      "odds_ratio_vs_4s": [
+        3.151,
+        1.805,
+        6.438
+      ]
+    },
+    "2 to 4 s": {
+      "ticks": 225,
+      "raw_chance_per_tick": 0.2311,
+      "odds_ratio_vs_4s": [
+        2.032,
+        1.189,
+        4.169
+      ]
+    },
+    "4 s or more": {
+      "ticks": 207,
+      "raw_chance_per_tick": 0.1304
+    }
+  },
+  "other action": {
+    "0 to 0.5 s": {
+      "ticks": 2927,
+      "raw_chance_per_tick": 0.1835,
+      "odds_ratio_vs_4s": [
+        1.358,
+        1.183,
+        1.584
+      ]
+    },
+    "0.5 to 1 s": {
+      "ticks": 1989,
+      "raw_chance_per_tick": 0.2383,
+      "odds_ratio_vs_4s": [
+        1.664,
+        1.393,
+        1.91
+      ]
+    },
+    "1 to 2 s": {
+      "ticks": 2669,
+      "raw_chance_per_tick": 0.257,
+      "odds_ratio_vs_4s": [
+        1.79,
+        1.528,
+        1.947
+      ]
+    },
+    "2 to 4 s": {
+      "ticks": 2461,
+      "raw_chance_per_tick": 0.1987,
+      "odds_ratio_vs_4s": [
+        1.433,
+        1.235,
+        1.667
+      ]
+    },
+    "4 s or more": {
+      "ticks": 2634,
+      "raw_chance_per_tick": 0.1272
+    }
+  }
+}

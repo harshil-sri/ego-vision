@@ -351,6 +351,19 @@ started:
   need, and the instructor may be reacting to that, not sparing busy
   hands. Test A cannot tell the two apart; test B is not affected.
 
+- A closer look at the caveat (`reports/holoassist_idle_spell.md`, 13,644
+  idle ticks inside pending-instruction episodes). The chance per 0.5 s
+  that the instruction starts, by how long the hands have been idle:
+  0.18 in the first half second, 0.24 at 0.5 to 1 s, 0.26 at 1 to 2 s,
+  0.20 at 2 to 4 s, 0.13 after 4 s. After a fine-motor action the peak
+  is sharper (0.33 at 1 to 2 s; odds 3.2 times the 4 s level, interval
+  1.8 to 6.4). So the instruction follows the END of an action by about
+  1 to 2 s and becomes less likely the longer the performer waits. That
+  rules out "the instructor reacts to a performer who has been stuck for
+  a while". It does not rule out "stopping is itself the cue": both a
+  waiting instructor and a noticing instructor need about a second to
+  react. The labels cannot separate these two.
+
 ### What the pilot does not show
 
 - **Cause.** Instructors may speak in idle moments because the step just
