@@ -371,7 +371,12 @@ Part 6 from video (305 videos): pending instruction in predicted
 fine-motor ticks 0.22 (0.10 to 0.41). Part 6c: a pending instruction
 follows the end of an action by 1 to 2 s. Part 7: performer questions
 avoid fine-motor work as much as instructor speech does (0.40 against
-0.34). Started the download of all 1,493 usable HoloAssist videos
+0.34). Part 8 (`reports/holoassist_wait_policy.md`): a stay-silent
+score for corrections. Waiting before correcting does not separate the
+mistakes performers fix alone from the ones instructors correct (both
+take about 2 s); a model that knows the kind of mistake and the session
+history does (without "drop": 29% unneeded speech at 20% failed
+corrections, against 87% for waiting). Started the download of all 1,493 usable HoloAssist videos
 (101.5 GB) with a feature loop; part 5 and the control rerun on all
 videos when it ends (305-video results kept as `reports/*_305.*`).
 

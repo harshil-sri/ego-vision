@@ -391,6 +391,36 @@ Labels only, 1,568 videos. Onsets by hand state, observed / chance:
   in the sense that people do not talk then. Whether talking then would
   HURT is still not shown by any of this.
 
+### Part 8: a stay-silent score for corrections (`reports/holoassist_wait_policy.md`)
+
+Labels only. The assistant is told when a wrong action starts (a perfect
+detector) and decides if and when to speak. "Unneeded": it speaks on a
+mistake the performer fixed alone. "Failed": on a mistake the instructor
+corrected, it stays silent or speaks later than the instructor did.
+Without "drop": 1,912 self-corrected, 3,298 instructor-corrected with a
+correction time.
+
+- A self-corrected wrong action lasts 1.95 s (median). The instructor
+  corrects 1.99 s (median) after a wrong action starts. The two
+  distributions are almost the same, so waiting cannot separate them.
+
+| Policy | Unneeded at 10% failed | at 20% | at 30% |
+|---|---|---|---|
+| Wait d seconds, speak if the wrong action continues | 1.00 | 0.87 (0.85 to 0.89) | 0.76 (0.73 to 0.78) |
+| Gate: speak at once if the part 4 model expects a correction | 0.45 (0.40 to 0.49) | 0.29 (0.25 to 0.33) | 0.20 (0.16 to 0.23) |
+| Gate, then wait | same as gate | same | same |
+
+- If the assistant may be up to 2 s later than the instructor, waiting
+  improves (0.43 / 0.35 / 0.29) but the gate is still as good or better
+  at 20% and 30%, and gate + wait is best at 10% (0.38).
+- Limits. (1) The instructor's correction ends the wrong action, so
+  nobody knows if the performer would have fixed it alone a second
+  later. "Failed" therefore means "later than a human", not "harm".
+  (2) 742 instructor-corrected mistakes have no correction utterance
+  within 10 s and are left out. (3) The gate uses the labelled verb,
+  object and task; from video this will be worse (part 5: AUC 0.73 on a
+  small subset).
+
 ### What the pilot does not show
 
 - **Cause.** Instructors may speak in idle moments because the step just
@@ -412,6 +442,7 @@ depends on the type of message. A "need" account can still explain part
 of it: a person who is screwing usually knows what to do, so need is low
 then. Part 2 controls for need only with crude task-progress proxies. The
 contrast is evidence that fits the interruptibility idea, not proof of it.
+
 
 ## 5. Observation on the EgoServe benchmark
 

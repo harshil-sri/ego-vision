@@ -63,6 +63,25 @@ def test_tar_octal_field():
     assert _octal(b"\0" * 12) == 0
 
 
+def test_wait_policy_rates():
+    """Part 8: unneeded / failed rates of the wait and gate policies on four hand-made mistakes."""
+    from scripts.holoassist_wait_policy import DELAYS, THRESH, best, rates
+
+    silent = np.array([1, 1, 0, 0])
+    D = np.array([1.0, 4.0, 9.0, 9.0])                   # self-corrected ones last 1 s and 4 s
+    L = np.array([np.nan, np.nan, 0.6, 3.0])             # instructor corrects after 0.6 s and 3 s
+    p = np.array([0.1, 0.6, 0.4, 0.9])                   # model: probability that the instructor corrects
+    U, F = rates(p, silent, D, L)
+    k2 = int(np.flatnonzero(DELAYS == 2.0)[0])
+    assert U[0, 0] == 1.0 and F[0, 0] == 0.0             # speak at once: always unneeded, never late
+    assert U[0, k2] == 0.5 and F[0, k2] == 0.5           # wait 2 s: one of each
+    i = int(np.flatnonzero(np.isclose(THRESH, 0.5))[0])  # gate fires when p > 0.5
+    assert U[i, -1] == 0.5 and F[i, -1] == 0.5           # gate alone: speaks on mistakes 2 and 4
+    assert best(U, F, "wait d", 0.0)[0] == 1.0           # never late only by not waiting
+    u, thr, d = best(U, F, "gate + wait d", 0.0)         # a gate at p > 0.3 catches both corrections
+    assert u == 0.5 and np.isinf(d) and 1 - thr < 0.4
+
+
 def test_need_controlled_episodes():
     """Part 6 episode builders on a hand-made video."""
     from scripts.holoassist_need_controlled import episodes_a, episodes_b, group_ids

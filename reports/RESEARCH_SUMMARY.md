@@ -49,6 +49,15 @@ middle of fine work costs you something.
    only when asked or necessary" recordings, experts start about 0.8
    unasked turns per minute, the same as in the proactive recordings.
 
+7. **"Wait and see" is a poor way to stay silent.** Performers fix 43% of
+   their mistakes alone, in about 2 s. Instructors who correct also
+   speak after about 2 s. So an assistant that waits before correcting
+   is either late or speaks when it was not needed. A model that knows
+   the kind of mistake and the history of the session does much better:
+   at 20% failed corrections it speaks without need on 29% of
+   self-corrected mistakes, waiting on 87%. (HoloAssist labels, "drop"
+   mistakes removed.)
+
 ## What it means
 
 - Supported: fine-motor moments are quiet moments, from both sides of the
@@ -66,7 +75,8 @@ middle of fine work costs you something.
 
 1. A "should stay silent" evaluation: mistakes that performers fix alone
    are moments where a good assistant says nothing. Benchmarks do not
-   score this. Running at full scale now (all HoloAssist videos).
+   score this. A first score exists (finding 7, from labels). Open: the
+   same from video, on all HoloAssist videos (download running).
 2. Tighten the fixed-need test (finding 3), and repeat it from video on
    all videos.
 3. The worker-side signal (when does the person want to talk): present

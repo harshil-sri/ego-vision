@@ -46,12 +46,17 @@ BY_INSTRUCTOR = "Wrong Action, corrected by instructor verbally"
 BY_STUDENT = "Wrong Action, corrected by student"
 
 
-def main() -> None:
-    from sklearn.ensemble import HistGradientBoostingClassifier
-    from sklearn.metrics import average_precision_score, roc_auc_score
-    from sklearn.model_selection import GroupKFold
+CORRECTION = "instructor-start-conversation_correct the wrong action"
 
-    data = json.loads(Path(resolve_data_path(LABELS)).read_text(encoding="utf-8"))
+
+def mistake_rows(data: list[dict], max_after: float = 10.0) -> list[dict]:
+    """One row per wrong action that was fixed (by the instructor or by the performer).
+
+    Besides the features of part 4, each row has "start" and "end" of the
+    wrong action (seconds in the video) and "corr": the onset of the first
+    "correct the wrong action" utterance in [start, end + max_after], nan
+    if there is none.
+    """
     rows = []
     for v in data:
         ev = v["events"]
@@ -61,21 +66,30 @@ def main() -> None:
         t0, dur = fine[0]["start"], max(max(e["end"] for e in fine) - fine[0]["start"], 1.0)
         utt_end = np.array(sorted(e["end"] for e in ev if e["label"] == "Conversation"
                                   and e["attributes"].get("Conversation Purpose", "").startswith("instructor")))
+        corr = np.array(sorted(e["start"] for e in ev if e["label"] == "Conversation"
+                               and e["attributes"].get("Conversation Purpose", "") == CORRECTION))
         wrong_so_far = corrected_so_far = 0
         for e in fine:
             c = e["attributes"].get("Action Correctness", "")
             if c in (BY_INSTRUCTOR, BY_STUDENT):
                 j = np.searchsorted(utt_end, e["start"], side="right")
                 since_utt = e["start"] - utt_end[j - 1] if j > 0 else 300.0
+                k = np.searchsorted(corr, e["start"], side="left")
+                first = float(corr[k]) if k < len(corr) and corr[k] <= e["end"] + max_after else float("nan")
                 rows.append({"session": v["video_name"].split("-")[0], "task": v.get("taskType", "?"),
                              "verb": e["attributes"].get("Verb", "?"), "noun": e["attributes"].get("Noun", "?"),
                              "t": e["start"] - t0, "frac": (e["start"] - t0) / dur,
                              "since_utt": min(since_utt, 300.0), "wrong_so_far": wrong_so_far,
-                             "corrected_so_far": corrected_so_far, "silent": int(c == BY_STUDENT)})
+                             "corrected_so_far": corrected_so_far, "silent": int(c == BY_STUDENT),
+                             "start": e["start"], "end": e["end"], "corr": first})
                 corrected_so_far += int(c == BY_INSTRUCTOR)
             if c.startswith("Wrong"):
                 wrong_so_far += 1
+    return rows
 
+
+def feature_sets(rows: list[dict]) -> tuple[dict, list[str], list[str]]:
+    """-> ({name: (X, categorical column indices or None)}, verb names, task names)"""
     def codes(key, top=None):
         cnt = Counter(r[key] for r in rows)
         keep = [k for k, _ in cnt.most_common(top)]
@@ -87,17 +101,28 @@ def main() -> None:
     task, task_names = codes("task")
     hist = np.array([[r["t"], r["frac"], r["since_utt"], r["wrong_so_far"], r["corrected_so_far"]]
                      for r in rows])
-    y = np.array([r["silent"] for r in rows])
-    groups = np.array([r["session"] for r in rows])
-    print(f"{len(y)} wrong actions, {y.mean():.3f} left to the performer, {len(set(groups))} sessions")
-
-    sets = {
+    return {
         "verb": (verb[:, None], [0]),
         "verb + noun": (np.stack([verb, noun], 1), [0, 1]),
         "verb + noun + task": (np.stack([verb, noun, task], 1), [0, 1, 2]),
         "history only": (hist, None),
         "all": (np.concatenate([np.stack([verb, noun, task], 1), hist], 1), [0, 1, 2]),
-    }
+    }, verb_names, task_names
+
+
+def main() -> None:
+    from sklearn.ensemble import HistGradientBoostingClassifier
+    from sklearn.metrics import average_precision_score, roc_auc_score
+    from sklearn.model_selection import GroupKFold
+
+    data = json.loads(Path(resolve_data_path(LABELS)).read_text(encoding="utf-8"))
+    rows = mistake_rows(data)
+
+    sets, _, _ = feature_sets(rows)
+    y = np.array([r["silent"] for r in rows])
+    groups = np.array([r["session"] for r in rows])
+    print(f"{len(y)} wrong actions, {y.mean():.3f} left to the performer, {len(set(groups))} sessions")
+
     # "drop" is 16% of all wrong actions and 99% self-corrected (a dropped
     # part is obvious to the performer). It makes the task look easier than
     # it is, so every model is also scored with drops removed.

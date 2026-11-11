@@ -1,0 +1,418 @@
+{
+  "sessions": 305,
+  "boot": 300,
+  "all": {
+    "self_corrected": 3061,
+    "instructor_corrected": 3306,
+    "instructor_corrected_without_correction_time": 746,
+    "D_percentiles_s": {
+      "10": 0.63,
+      "25": 0.95,
+      "50": 1.49,
+      "75": 2.59,
+      "90": 4.82
+    },
+    "L_percentiles_s": {
+      "10": 0.44,
+      "25": 1.02,
+      "50": 1.99,
+      "75": 3.73,
+      "90": 6.58
+    },
+    "wait_curve": {
+      "0": {
+        "unneeded": 1.0,
+        "failed": 0.0
+      },
+      "0.5": {
+        "unneeded": 0.947,
+        "failed": 0.112
+      },
+      "1": {
+        "unneeded": 0.702,
+        "failed": 0.237
+      },
+      "2": {
+        "unneeded": 0.343,
+        "failed": 0.502
+      },
+      "3": {
+        "unneeded": 0.192,
+        "failed": 0.666
+      },
+      "5": {
+        "unneeded": 0.095,
+        "failed": 0.835
+      },
+      "8": {
+        "unneeded": 0.037,
+        "failed": 0.933
+      }
+    },
+    "best": {
+      "wait d": {
+        "10%": {
+          "unneeded": 0.999,
+          "interval": [
+            0.998,
+            1.0
+          ],
+          "gate_fires_above_p": 1.0,
+          "delay_s": 0.25
+        },
+        "20%": {
+          "unneeded": 0.844,
+          "interval": [
+            0.827,
+            0.863
+          ],
+          "gate_fires_above_p": 1.0,
+          "delay_s": 0.75
+        },
+        "30%": {
+          "unneeded": 0.702,
+          "interval": [
+            0.674,
+            0.731
+          ],
+          "gate_fires_above_p": 1.0,
+          "delay_s": 1.0
+        }
+      },
+      "gate": {
+        "10%": {
+          "unneeded": 0.278,
+          "interval": [
+            0.249,
+            0.32
+          ],
+          "gate_fires_above_p": 0.5,
+          "delay_s": null
+        },
+        "20%": {
+          "unneeded": 0.182,
+          "interval": [
+            0.161,
+            0.213
+          ],
+          "gate_fires_above_p": 0.65,
+          "delay_s": null
+        },
+        "30%": {
+          "unneeded": 0.123,
+          "interval": [
+            0.105,
+            0.149
+          ],
+          "gate_fires_above_p": 0.74,
+          "delay_s": null
+        }
+      },
+      "gate + wait d": {
+        "10%": {
+          "unneeded": 0.278,
+          "interval": [
+            0.249,
+            0.32
+          ],
+          "gate_fires_above_p": 0.5,
+          "delay_s": null
+        },
+        "20%": {
+          "unneeded": 0.182,
+          "interval": [
+            0.161,
+            0.212
+          ],
+          "gate_fires_above_p": 0.65,
+          "delay_s": null
+        },
+        "30%": {
+          "unneeded": 0.123,
+          "interval": [
+            0.105,
+            0.149
+          ],
+          "gate_fires_above_p": 0.74,
+          "delay_s": null
+        }
+      }
+    }
+  },
+  "without_drop": {
+    "self_corrected": 1912,
+    "instructor_corrected": 3298,
+    "instructor_corrected_without_correction_time": 742,
+    "D_percentiles_s": {
+      "10": 0.68,
+      "25": 1.03,
+      "50": 1.95,
+      "75": 3.41,
+      "90": 6.26
+    },
+    "L_percentiles_s": {
+      "10": 0.44,
+      "25": 1.02,
+      "50": 1.99,
+      "75": 3.72,
+      "90": 6.59
+    },
+    "wait_curve": {
+      "0": {
+        "unneeded": 1.0,
+        "failed": 0.0
+      },
+      "0.5": {
+        "unneeded": 0.956,
+        "failed": 0.112
+      },
+      "1": {
+        "unneeded": 0.757,
+        "failed": 0.237
+      },
+      "2": {
+        "unneeded": 0.476,
+        "failed": 0.502
+      },
+      "3": {
+        "unneeded": 0.293,
+        "failed": 0.666
+      },
+      "5": {
+        "unneeded": 0.151,
+        "failed": 0.836
+      },
+      "8": {
+        "unneeded": 0.059,
+        "failed": 0.933
+      }
+    },
+    "best": {
+      "wait d": {
+        "10%": {
+          "unneeded": 1.0,
+          "interval": [
+            1.0,
+            1.0
+          ],
+          "gate_fires_above_p": 1.0,
+          "delay_s": 0.0
+        },
+        "20%": {
+          "unneeded": 0.871,
+          "interval": [
+            0.851,
+            0.892
+          ],
+          "gate_fires_above_p": 1.0,
+          "delay_s": 0.75
+        },
+        "30%": {
+          "unneeded": 0.757,
+          "interval": [
+            0.728,
+            0.782
+          ],
+          "gate_fires_above_p": 1.0,
+          "delay_s": 1.0
+        }
+      },
+      "gate": {
+        "10%": {
+          "unneeded": 0.445,
+          "interval": [
+            0.396,
+            0.492
+          ],
+          "gate_fires_above_p": 0.5,
+          "delay_s": null
+        },
+        "20%": {
+          "unneeded": 0.291,
+          "interval": [
+            0.25,
+            0.327
+          ],
+          "gate_fires_above_p": 0.65,
+          "delay_s": null
+        },
+        "30%": {
+          "unneeded": 0.197,
+          "interval": [
+            0.162,
+            0.229
+          ],
+          "gate_fires_above_p": 0.74,
+          "delay_s": null
+        }
+      },
+      "gate + wait d": {
+        "10%": {
+          "unneeded": 0.445,
+          "interval": [
+            0.396,
+            0.489
+          ],
+          "gate_fires_above_p": 0.5,
+          "delay_s": null
+        },
+        "20%": {
+          "unneeded": 0.291,
+          "interval": [
+            0.25,
+            0.325
+          ],
+          "gate_fires_above_p": 0.65,
+          "delay_s": null
+        },
+        "30%": {
+          "unneeded": 0.197,
+          "interval": [
+            0.162,
+            0.228
+          ],
+          "gate_fires_above_p": 0.74,
+          "delay_s": null
+        }
+      }
+    }
+  },
+  "without_drop_slack_2s": {
+    "self_corrected": 1912,
+    "instructor_corrected": 3298,
+    "instructor_corrected_without_correction_time": 742,
+    "D_percentiles_s": {
+      "10": 0.68,
+      "25": 1.03,
+      "50": 1.95,
+      "75": 3.41,
+      "90": 6.26
+    },
+    "L_percentiles_s": {
+      "10": 0.44,
+      "25": 1.02,
+      "50": 1.99,
+      "75": 3.72,
+      "90": 6.59
+    },
+    "wait_curve": {
+      "0": {
+        "unneeded": 1.0,
+        "failed": 0.0
+      },
+      "0.5": {
+        "unneeded": 0.956,
+        "failed": 0.0
+      },
+      "1": {
+        "unneeded": 0.757,
+        "failed": 0.0
+      },
+      "2": {
+        "unneeded": 0.476,
+        "failed": 0.0
+      },
+      "3": {
+        "unneeded": 0.293,
+        "failed": 0.237
+      },
+      "5": {
+        "unneeded": 0.151,
+        "failed": 0.666
+      },
+      "8": {
+        "unneeded": 0.059,
+        "failed": 0.879
+      }
+    },
+    "best": {
+      "wait d": {
+        "10%": {
+          "unneeded": 0.431,
+          "interval": [
+            0.397,
+            0.461
+          ],
+          "gate_fires_above_p": 1.0,
+          "delay_s": 2.25
+        },
+        "20%": {
+          "unneeded": 0.347,
+          "interval": [
+            0.319,
+            0.374
+          ],
+          "gate_fires_above_p": 1.0,
+          "delay_s": 2.75
+        },
+        "30%": {
+          "unneeded": 0.293,
+          "interval": [
+            0.264,
+            0.32
+          ],
+          "gate_fires_above_p": 1.0,
+          "delay_s": 3.0
+        }
+      },
+      "gate": {
+        "10%": {
+          "unneeded": 0.445,
+          "interval": [
+            0.4,
+            0.497
+          ],
+          "gate_fires_above_p": 0.5,
+          "delay_s": null
+        },
+        "20%": {
+          "unneeded": 0.291,
+          "interval": [
+            0.254,
+            0.333
+          ],
+          "gate_fires_above_p": 0.65,
+          "delay_s": null
+        },
+        "30%": {
+          "unneeded": 0.197,
+          "interval": [
+            0.167,
+            0.233
+          ],
+          "gate_fires_above_p": 0.74,
+          "delay_s": null
+        }
+      },
+      "gate + wait d": {
+        "10%": {
+          "unneeded": 0.382,
+          "interval": [
+            0.353,
+            0.413
+          ],
+          "gate_fires_above_p": 0.9,
+          "delay_s": 2.75
+        },
+        "20%": {
+          "unneeded": 0.29,
+          "interval": [
+            0.251,
+            0.313
+          ],
+          "gate_fires_above_p": 0.68,
+          "delay_s": 9.25
+        },
+        "30%": {
+          "unneeded": 0.197,
+          "interval": [
+            0.165,
+            0.228
+          ],
+          "gate_fires_above_p": 0.74,
+          "delay_s": null
+        }
+      }
+    }
+  }
+}
