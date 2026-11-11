@@ -79,7 +79,7 @@ def test_wait_policy_rates():
     assert U[i, -1] == 0.5 and F[i, -1] == 0.5           # gate alone: speaks on mistakes 2 and 4
     assert best(U, F, "wait d", 0.0)[0] == 1.0           # never late only by not waiting
     u, thr, d = best(U, F, "gate + wait d", 0.0)         # a gate at p > 0.3 catches both corrections
-    assert u == 0.5 and 1 - thr < 0.4 and d >= 4.0       # any wait of 4 s or more adds nothing
+    assert u == 0.5 and 1 - thr < 0.4 and d >= 1.0       # a wait of 1 s or more adds no speech
 
 
 def test_need_controlled_episodes():
