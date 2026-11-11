@@ -160,6 +160,9 @@ def main() -> None:
     sets = {"all videos": videos,
             "protocol 1 (proactive)": [v for v in videos if v["protocol"] == 1],
             "protocol 2 (only when asked or necessary)": [v for v in videos if v["protocol"] == 2]}
+    for sc in sorted({v["vid"].split("_")[0] for v in videos}):       # scenario = first part of the video id
+        sets[f"scenario {sc}"] = [v for v in videos if v["vid"].startswith(sc + "_")]
+    sets = {k: v for k, v in sets.items() if v}
     allg = np.concatenate([v["group"] for v in videos])
     res = {"videos": len(videos), "hours": round(len(allg) / 3600, 1), "shifts": args.shifts,
            "holoassist_ticks": int(len(Y)),

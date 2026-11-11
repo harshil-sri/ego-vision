@@ -42,6 +42,10 @@ def main() -> None:
     ap.add_argument("--workers", type=int, default=3)
     ap.add_argument("--batch", type=int, default=8)
     ap.add_argument("--root", default=ROOT, help="dataset folder with videos/ (also used for Ego-EXTRA)")
+    ap.add_argument("--center", type=int, default=0,
+                    help="for square wide-angle video (Ego-EXTRA, Aria glasses): resize to this side and "
+                         "use only the central 224 x 224. 320 keeps the central 70%% of the view, closer "
+                         "to the narrower HoloLens camera that the hand-state head was trained on.")
     ap.add_argument("--limit", type=int, default=0, help="smoke test: first N videos, output in features_w<W>_smoke")
     args = ap.parse_args()
 
@@ -64,8 +68,11 @@ def main() -> None:
             cap.release()
         if len(sizes) != 1:
             raise SystemExit(f"videos have different frame sizes: {sizes}")
-        hw = target_size(*sizes.pop())
+        hw = (args.center, args.center) if args.center else target_size(*sizes.pop())
         crops = sorted({0, (hw[1] - 224) // 2, hw[1] - 224})
+        top = (hw[0] - 224) // 2                              # 0 unless --center
+        if args.center:
+            crops = [(hw[1] - 224) // 2]
         print(f"{len(videos)} new videos ({len(everything) - len(videos)} done before), input {hw}, "
               f"fps {min(fps):.2f}..{max(fps):.2f}", flush=True)
 
@@ -75,7 +82,7 @@ def main() -> None:
             batch_size=args.batch, num_workers=args.workers)
         feats, vid, frame = [], [], []
         for clips, v, f in loader:                                    # clips (B, 1, 16, h, w, 3)
-            x = clips[:, 0]
+            x = clips[:, 0][:, :, top:top + 224]
             e = torch.stack([enc.encode(x[:, :, :, c:c + 224]) for c in crops]).mean(0)   # (B, 768)
             feats.append(e.numpy().astype(np.float16)); vid += v.tolist(); frame += f.tolist()
             if len(frame) % 4000 < len(f):
