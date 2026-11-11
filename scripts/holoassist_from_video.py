@@ -97,6 +97,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--window", type=float, default=2.0)
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
+    ap.add_argument("--boot", type=int, default=1000, help="session resamples for the intervals")
     ap.add_argument("--smoke", action="store_true", help="read features_w<W>_smoke, write reports/..._smoke")
     args = ap.parse_args()
 
@@ -170,6 +171,7 @@ def main() -> None:
     res = {k: {"auc": [], "ap": []} for k in
            ["task", "task + oracle hand", "task + predicted hand", "task + video", "oracle hand only",
             "predicted hand only", "video only"]}
+    oof = {k: np.zeros(len(Y)) for k in res}              # out-of-fold probabilities, for the intervals
     for k, (tr, te) in enumerate(outer):
         head = fit_head(Fv[tr], ST[tr], S, args.device)
         P[te] = predict_head(head, Fv[te], args.device)
@@ -197,6 +199,7 @@ def main() -> None:
             m = HistGradientBoostingClassifier(max_iter=200, learning_rate=0.1, categorical_features=cat,
                                                random_state=0).fit(a, Y[tr])
             p = m.predict_proba(b)[:, 1]
+            oof[name][te] = p
             res[name]["auc"].append(roc_auc_score(Y[te], p)); res[name]["ap"].append(average_precision_score(Y[te], p))
         print(f"  fold {k + 1}/5 done", flush=True)
 
@@ -212,6 +215,22 @@ def main() -> None:
            "hand_state_from_video": hand,
            "timing": {k: {"auc": round(float(np.mean(r["auc"])), 4), "ap": round(float(np.mean(r["ap"])), 4),
                           "ap_folds": [round(float(x), 4) for x in r["ap"]]} for k, r in res.items()}}
+
+    # 95% intervals: resample recording sessions with replacement, pool their ticks, recompute
+    # average precision. Differences are computed inside each resample (paired).
+    rng = np.random.default_rng(0)
+    by_sess = {s_: np.flatnonzero(sess == s_) for s_ in np.unique(sess)}
+    keys_s = list(by_sess)
+    pairs = [("task + oracle hand", "task"), ("task + predicted hand", "task"), ("task + video", "task"),
+             ("task + predicted hand", "task + oracle hand"), ("task + predicted hand", "task + video")]
+    draws = {a + " minus " + b: [] for a, b in pairs}
+    for _ in range(args.boot):
+        idx = np.concatenate([by_sess[keys_s[j]] for j in rng.integers(0, len(keys_s), len(keys_s))])
+        ap_ = {k: average_precision_score(Y[idx], oof[k][idx]) for k in {x for pr in pairs for x in pr}}
+        for a, b in pairs:
+            draws[a + " minus " + b].append(ap_[a] - ap_[b])
+    out["ap_difference_95"] = {k: [round(float(np.mean(v)), 4), round(float(np.percentile(v, 2.5)), 4),
+                                   round(float(np.percentile(v, 97.5)), 4)] for k, v in draws.items()}
 
     # ---- experiment B ---------------------------------------------------
     W = pd.DataFrame(wrong)
@@ -258,6 +277,8 @@ def main() -> None:
          "| features | ROC AUC | average precision | AP per fold |", "|---|---|---|---|"]
     for k, r in out["timing"].items():
         L.append(f"| {k} | {r['auc']} | {r['ap']} | {r['ap_folds']} |")
+    L += ["", f"Difference in average precision, mean [95% interval] over {args.boot} resamples of recording sessions:", ""]
+    L += [f"- {k}: {v[0]:+.4f} [{v[1]:+.4f}, {v[2]:+.4f}]" for k, v in out["ap_difference_95"].items()]
     if "silence" in out:
         L += ["", "## Experiment B: does the instructor stay silent on a mistake?", "",
               "ROC AUC, chance 0.5. Video = the window that ends about 1 s after the mistake starts.", "",

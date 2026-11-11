@@ -22,6 +22,14 @@ Base rate 4.36% (chance average precision).
 | predicted hand only | 0.7592 | 0.1061 | [0.106, 0.1047, 0.099, 0.1143, 0.1065] |
 | video only | 0.732 | 0.1041 | [0.1005, 0.1034, 0.0949, 0.1168, 0.1046] |
 
+Difference in average precision, mean [95% interval] over 1000 resamples of recording sessions:
+
+- task + oracle hand minus task: +0.0235 [+0.0176, +0.0305]
+- task + predicted hand minus task: +0.0223 [+0.0160, +0.0289]
+- task + video minus task: +0.0144 [+0.0082, +0.0210]
+- task + predicted hand minus task + oracle hand: -0.0012 [-0.0094, +0.0069]
+- task + predicted hand minus task + video: +0.0079 [+0.0002, +0.0149]
+
 ## Experiment B: does the instructor stay silent on a mistake?
 
 ROC AUC, chance 0.5. Video = the window that ends about 1 s after the mistake starts.

@@ -114,6 +114,33 @@
       ]
     }
   },
+  "ap_difference_95": {
+    "task + oracle hand minus task": [
+      0.0235,
+      0.0176,
+      0.0305
+    ],
+    "task + predicted hand minus task": [
+      0.0223,
+      0.016,
+      0.0289
+    ],
+    "task + video minus task": [
+      0.0144,
+      0.0082,
+      0.021
+    ],
+    "task + predicted hand minus task + oracle hand": [
+      -0.0012,
+      -0.0094,
+      0.0069
+    ],
+    "task + predicted hand minus task + video": [
+      0.0079,
+      0.0002,
+      0.0149
+    ]
+  },
   "silence": {
     "all mistakes": {
       "n": 1316,

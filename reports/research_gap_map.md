@@ -233,15 +233,24 @@ Predicting a routine instructor onset in the next second (base rate
 | Task progress + raw video vector (32 components) | 0.778 | 0.124 |
 
 - The predicted hand state recovers about 90% of the gain that the human
-  labels give (0.022 of 0.025 average precision). Both gains are positive
-  in all 5 folds. The difference between labelled and predicted is inside
-  the fold-to-fold spread.
+  labels give. Gain in average precision over task progress, with 95%
+  intervals from 1,000 resamples of recording sessions: labelled +0.024
+  (0.018 to 0.031), predicted +0.022 (0.016 to 0.029). Predicted minus
+  labelled: -0.001 (-0.009 to +0.007), so the two are not distinguishable
+  here.
 - This holds although the classifier is right only 36% of the time. A
   likely reason: it is best on exactly the states that matter for timing
   (screw, unscrew, insert, idle), and its errors are between states with
   similar onset rates. That reason is not tested.
 - Routing the video through the hand-state classifier works better than
-  giving the timing model the video vector directly.
+  giving the timing model the video vector directly: +0.008 (0.000 to
+  0.015), a small margin.
+- The same data as a shift test (`reports/holoassist_shift_control.md`):
+  routine onsets fall in ticks with a PREDICTED fine-motor state (screw,
+  unscrew, insert; 31% of the time) at 0.35 times the chance rate, and in
+  predicted free-hand states (idle, hold, place, inspect) at 1.22 times.
+  With the human labels: 0.38 and 1.32. This is the control for the
+  Ego-EXTRA test in section 8.
 
 Mistakes the instructor leaves alone (1,316 mistakes in the subset, 1,115
 without "drop"; ROC AUC):
@@ -345,7 +354,7 @@ benchmarks lack.
 ## 8. Next steps
 
 1. Full read of the seven P papers, plus EgoVoice, and an HCI search.
-2. Done on a 305-video subset (part 5). Open: intervals for part 5, the
+2. Done on a 305-video subset (part 5), with intervals. Open: the
    full 1,493 usable videos (about 80 GB more), and a check of which
    hand-state confusions are harmless for timing.
 3. Build the stay-silent metric from the self-corrected wrong actions.

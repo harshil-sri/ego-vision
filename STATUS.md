@@ -335,3 +335,17 @@ Research: HoloAssist pilot parts 1, 2, 2b, 3, 4 and the gap map
 (`reports/research_gap_map.md`). NOT RUN: live mode on a real recipe,
 matcher on real ingredient frames. Nothing pushed.
 
+**2026-11-11 (continued) - pilot part 5 from video, Ego-EXTRA as second dataset.**
+HoloAssist: indexed the 155 GB video tar by range requests, downloaded
+305 videos of 64 sessions (22 GB), VideoMAE features for 83,929 ticks
+(77 min). Part 5 (`reports/holoassist_from_video.md`): hand state
+predicted from video adds +0.022 average precision (95% interval 0.016 to
+0.029) to instructor-onset prediction; human labels add +0.024. Shift
+test (`reports/holoassist_shift_control.md`): onsets in predicted
+fine-motor ticks at 0.35 times chance. Ego-EXTRA (transcripts, hand
+tracking; 23.7 GB of video downloading): experts start about 0.8 unasked
+long turns per minute in both protocols (`reports/egoextra_speech.md`);
+measured wrist speed and finger motion show NO relation to unasked
+expert speech (`reports/egoextra_hands.md`, `_fingers.md`). Test with a
+video-based hand state on Ego-EXTRA: see the next entry. Nothing pushed.
+

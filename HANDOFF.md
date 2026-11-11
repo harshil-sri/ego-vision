@@ -28,7 +28,8 @@ translates it. The camera opens through DirectShow.
 - `src/pipeline/model_source.py` `FrozenVerbSource`: the app's verb source for these runs.
 - `scripts/extract_sliding.py`, `scripts/eval_sliding.py`, `scripts/train_window_head.py`,
   `src/data/window_labels.py`: evaluation and training on the windows the live app sees.
-- `scripts/holoassist_*.py`: the research pilot (5 analyses), reports in `reports/holoassist_*.md`.
+- `scripts/holoassist_*.py`: the research pilot (parts 1 to 5 and a control), reports in `reports/holoassist_*.md`.
+- `scripts/egoextra_*.py`: second dataset (Ego-EXTRA, data in `C:\ssd-data\ego-extra`), reports in `reports/egoextra_*.md`.
 - `reports/research_gap_map.md`: the research gap, what was read, what was measured, what is a guess.
 - `docs/STUDY_QUEUE.md` items 12 to 19: foundations behind the new code.
 
