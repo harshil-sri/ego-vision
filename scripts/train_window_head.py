@@ -15,6 +15,11 @@ Options that matter:
     --mix-trimmed   also train on the trimmed action clips
                     (scripts.extract_features, mean of the 3 crop vectors).
                     They are clean examples of each verb.
+    --mix-holoassist  also train on HoloAssist ticks (other dataset, other
+                    tasks; features from scripts.holoassist_video_features).
+                    "idle": only ticks labelled idle, as "none".
+                    "all": also grab -> take, place -> put, open, close,
+                    and every other HoloAssist verb -> "none".
     --none-weight   multiply the loss weight of "none". Above 1: fewer
                     false fires, more missed actions. Below 1: the reverse.
 
@@ -54,6 +59,7 @@ def main() -> None:
     ap.add_argument("--out", default=None, help="default: runs/videomae_window_w<window>")
     ap.add_argument("--ref", type=float, default=0.5, help="label moment inside the window (0.5 = centre)")
     ap.add_argument("--mix-trimmed", action="store_true")
+    ap.add_argument("--mix-holoassist", choices=["idle", "all"], default=None)
     ap.add_argument("--none-weight", type=float, default=1.0)
     ap.add_argument("--epochs", type=int, default=30)
     ap.add_argument("--batch", type=int, default=256)
@@ -103,6 +109,14 @@ def main() -> None:
         tx = np.load(td / "feats.npy", mmap_mode="r")
         Xtr = np.concatenate([Xtr, np.asarray(tx[keep], np.float32).mean(1)])
         ytr = np.concatenate([ytr, ty[keep]])
+    if args.mix_holoassist:
+        from scripts.egoextra_from_video import holoassist_ticks
+        hx, hst, _, hnames, _ = holoassist_ticks(window)
+        same = {"grab": "take", "place": "put", "open": "open", "close": "close"}
+        hid = np.array([verb_map[same[n]] if n in same else NONE_ID for n in hnames])
+        keep = (np.array(hnames)[hst] == "idle") if args.mix_holoassist == "idle" else np.ones(len(hst), bool)
+        Xtr = np.concatenate([Xtr, hx[keep]])
+        ytr = np.concatenate([ytr, hid[hst[keep]]])
     C = len(verbs)
     counts = np.bincount(ytr, minlength=C).astype(np.float64)
     print(f"window {window} s  train {len(ytr)} ({n_window} windows)  val {len(yva)}")
@@ -163,7 +177,7 @@ def main() -> None:
         {"model": "frozen_videomae", "encoder": info["model"], "T": 16, "window_s": window,
          "head": model.config(), "seed": args.seed, "epochs": args.epochs, "lr": args.lr,
          "heldout_participants": args.heldout, "trained_on": "sliding windows",
-         "mix_trimmed": args.mix_trimmed, "none_weight": args.none_weight, "label_ref": args.ref}))
+         "mix_trimmed": args.mix_trimmed, "mix_holoassist": args.mix_holoassist, "none_weight": args.none_weight, "label_ref": args.ref}))
     with open(out / "log.csv", "w", newline="") as f:
         wr = csv.DictWriter(f, fieldnames=list(rows[0])); wr.writeheader(); wr.writerows(rows)
     ev.update(verbs=verbs, train_counts=counts.astype(int).tolist(), n_train=int(len(ytr)), n_val=int(len(yva)),

@@ -97,6 +97,15 @@ Also tried, no gain (tick accuracy stayed at 0.48 to 0.50): adding the
 1 s window to the 2 s window, adding the windows 1 s and 2 s earlier,
 deciding about a moment further in the past.
 
+Also tried (2026-11-11), no gain: adding 79,280 HoloAssist ticks to the
+training set of the window head (`--mix-holoassist`; "idle" ticks as
+"none", or all ticks with grab -> take, place -> put, open, close). With
+EMA 0.5 and min_conf 0.5 the best variant gives 2.1 false fires per
+minute, lenient precision 0.74, action recall 0.42
+(`reports/sliding_eval_window_w2.0_mix_holo_all.md`). The trimmed-clip
+head reaches the same trade-off with a threshold between 0.6 and 0.7
+(table in section 3).
+
 Reading: with frozen features, "is a demo verb happening at this moment"
 is the hard part, and a head cannot fix it. The next step up is to
 fine-tune the video backbone on windows, or to use a detector for

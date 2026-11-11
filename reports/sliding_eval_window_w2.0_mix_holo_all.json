@@ -1,0 +1,93 @@
+{
+  "ticks": 10205,
+  "tick_seconds": 0.5,
+  "min_conf": 0.5,
+  "ref": 0.5,
+  "verbs": [
+    "close",
+    "cut",
+    "mix",
+    "open",
+    "pour",
+    "put",
+    "take",
+    "wash"
+  ],
+  "has_none_class": true,
+  "windows": {
+    "2.0": {
+      "demo_ticks": 5998,
+      "other_ticks": 1624,
+      "background_ticks": 2583,
+      "demo_tick_acc": 0.5067,
+      "demo_tick_mca": 0.5211,
+      "demo_tick_recall": {
+        "close": 0.48,
+        "cut": 0.86,
+        "mix": 0.65,
+        "open": 0.507,
+        "pour": 0.27,
+        "put": 0.445,
+        "take": 0.509,
+        "wash": 0.448
+      },
+      "demo_acc_when_confident": 0.7572,
+      "demo_confident_share": 0.4842,
+      "other_confident_share": 0.2986,
+      "background_confident_share": 0.2923,
+      "smoothers": {
+        "raw": {
+          "fires": 1329,
+          "fires_per_min": 15.63,
+          "false_fires_per_min": 6.61,
+          "precision_strict": 0.3762,
+          "precision_lenient": 0.5771,
+          "segment_recall": 0.5784
+        },
+        "majority_k3": {
+          "fires": 1602,
+          "fires_per_min": 18.84,
+          "false_fires_per_min": 8.49,
+          "precision_strict": 0.4007,
+          "precision_lenient": 0.5493,
+          "segment_recall": 0.6431
+        },
+        "majority_k5": {
+          "fires": 970,
+          "fires_per_min": 11.41,
+          "false_fires_per_min": 4.17,
+          "precision_strict": 0.4464,
+          "precision_lenient": 0.634,
+          "segment_recall": 0.516
+        },
+        "ema_0.5": {
+          "fires": 676,
+          "fires_per_min": 7.95,
+          "false_fires_per_min": 2.06,
+          "precision_strict": 0.5873,
+          "precision_lenient": 0.7411,
+          "segment_recall": 0.4169
+        },
+        "ema_0.3": {
+          "fires": 357,
+          "fires_per_min": 4.2,
+          "false_fires_per_min": 0.79,
+          "precision_strict": 0.6975,
+          "precision_lenient": 0.8123,
+          "segment_recall": 0.2729
+        },
+        "hysteresis": {
+          "fires": 357,
+          "fires_per_min": 4.2,
+          "false_fires_per_min": 0.79,
+          "precision_strict": 0.6975,
+          "precision_lenient": 0.8123,
+          "segment_recall": 0.2729
+        }
+      },
+      "demo_segments": 1715,
+      "demo_segments_per_min": 20.17
+    }
+  },
+  "run_dir": "runs\\videomae_window_w2.0_mix_holo_all"
+}
