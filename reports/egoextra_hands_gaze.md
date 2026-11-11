@@ -31,6 +31,42 @@ Each cell: onsets in this state, observed / expected by chance. In brackets: the
 | expert, after trainee speech, long | 2353 | 1.47 [0.82, 1.20] | 0.75 [0.95, 1.05] | 1.04 [0.94, 1.06] | 1.18 [0.95, 1.05] |
 | trainee turn | 5877 | 1.37 [0.84, 1.19] | 0.86 [0.97, 1.03] | 1.03 [0.97, 1.03] | 1.09 [0.97, 1.03] |
 
+## scenario 01 (27 videos)
+
+| onsets | n | none | still | mid | moving |
+|---|---|---|---|---|---|
+| expert, unasked, long | 372 | 1.23 [0.70, 1.34] | 1.35 [0.86, 1.14] | 0.88 [0.86, 1.16] | 0.73 [0.86, 1.15] |
+| expert, unasked, short | 79 | 1.27 [0.32, 1.59] | 1.23 [0.69, 1.35] | 0.95 [0.66, 1.33] | 0.75 [0.67, 1.37] |
+| expert, after trainee speech, long | 1033 | 1.13 [0.81, 1.22] | 0.92 [0.92, 1.09] | 1.04 [0.92, 1.08] | 1.01 [0.92, 1.09] |
+| trainee turn | 2671 | 1.05 [0.92, 1.09] | 1.01 [0.95, 1.05] | 0.97 [0.95, 1.05] | 1.00 [0.95, 1.05] |
+
+## scenario 02 (6 videos)
+
+| onsets | n | none | still | mid | moving |
+|---|---|---|---|---|---|
+| expert, unasked, long | 135 | 1.31 [0.66, 1.36] | 1.15 [0.73, 1.26] | 0.96 [0.75, 1.25] | 0.73 [0.75, 1.25] |
+| expert, unasked, short | 46 | 0.95 [0.48, 1.67] | 1.29 [0.57, 1.43] | 0.94 [0.58, 1.45] | 0.79 [0.57, 1.43] |
+| expert, after trainee speech, long | 273 | 0.90 [0.84, 1.17] | 1.13 [0.81, 1.18] | 1.10 [0.81, 1.20] | 0.84 [0.81, 1.18] |
+| trainee turn | 660 | 0.99 [0.88, 1.11] | 0.96 [0.88, 1.11] | 0.94 [0.88, 1.12] | 1.11 [0.89, 1.12] |
+
+## scenario 03 (35 videos)
+
+| onsets | n | none | still | mid | moving |
+|---|---|---|---|---|---|
+| expert, unasked, long | 612 | 22.73 [0.00, 22.73] | 0.84 [0.89, 1.11] | 1.15 [0.89, 1.10] | 1.01 [0.89, 1.10] |
+| expert, unasked, short | 325 | 131.58 [0.00, 26.32] | 1.17 [0.85, 1.15] | 0.91 [0.85, 1.15] | 0.88 [0.84, 1.14] |
+| expert, after trainee speech, long | 1009 | 137.50 [0.00, 12.50] | 0.69 [0.92, 1.09] | 1.04 [0.91, 1.09] | 1.24 [0.91, 1.09] |
+| trainee turn | 2819 | 100.88 [0.00, 4.39] | 0.81 [0.95, 1.05] | 1.02 [0.95, 1.05] | 1.14 [0.95, 1.05] |
+
+## scenario 04 (22 videos)
+
+| onsets | n | none | still | mid | moving |
+|---|---|---|---|---|---|
+| expert, unasked, long | 605 | 1.10 [0.59, 1.39] | 1.07 [0.89, 1.11] | 0.99 [0.89, 1.12] | 0.94 [0.89, 1.12] |
+| expert, unasked, short | 349 | 0.95 [0.58, 1.46] | 1.11 [0.85, 1.15] | 1.11 [0.85, 1.15] | 0.79 [0.87, 1.15] |
+| expert, after trainee speech, long | 1088 | 1.06 [0.78, 1.23] | 0.73 [0.92, 1.08] | 1.03 [0.92, 1.08] | 1.23 [0.93, 1.08] |
+| trainee turn | 3016 | 1.14 [0.82, 1.22] | 0.88 [0.95, 1.05] | 1.01 [0.95, 1.05] | 1.10 [0.95, 1.05] |
+
 ## Signal around the onset (all videos)
 
 Mean of the signal over the last 1 s, as a multiple of the video's average, at seconds relative to the onset.

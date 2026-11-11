@@ -239,6 +239,8 @@ def main() -> None:
     groups = {"all videos": videos,
               "protocol 1 (proactive)": [v for v in videos if v["protocol"] == 1],
               "protocol 2 (only when asked or necessary)": [v for v in videos if v["protocol"] == 2]}
+    for sc in sorted({v["vid"].split("_")[0] for v in videos}):       # 01 bike workshop, 02 bakery, 03 assembly, 04 kitchen
+        groups[f"scenario {sc}"] = [v for v in videos if v["vid"].startswith(sc + "_")]
     res = {"videos": len(videos), "skipped": skipped, "shifts": args.shifts,
            "hours": round(sum(len(v["state"]) for v in videos) * DT / 3600, 1),
            "state_share_of_time": {s: round(float(np.mean(np.concatenate([v["state"] for v in videos]) == i)), 3)

@@ -416,3 +416,11 @@ benchmarks lack.
    trainee asks first. The effect is small, it is one of four signals
    tested, and gaze distance (`_gaze_depth.md`) shows nothing for long
    turns. Treat it as a lead, not a result.
+   By scenario (01 bike workshop, 02 bakery, 03 furniture assembly, 04
+   kitchen; same reports): the gaze effect for long turns is not stable
+   (eyes jumping: 0.73 in the bakery, 1.01 in assembly, 0.94 in the
+   kitchen). For short turns it has the same sign everywhere (0.75 to
+   0.88). In assembly, the scenario closest to HoloAssist, unasked long
+   turns are RARER when the wrist is still (0.82; 95% of shifts 0.89 to
+   1.10). That fits limit (c): in assembly a still wrist often means
+   fine work, not free hands. The video-based test below addresses this.
