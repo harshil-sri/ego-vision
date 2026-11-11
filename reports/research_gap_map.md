@@ -378,3 +378,10 @@ benchmarks lack.
    contains head motion; (c) wrist speed is a poor stand-in for "busy":
    in HoloAssist the most avoided states were screw, unscrew and insert,
    where the wrist hardly travels.
+   Follow-up for limits (b) and (c) (`reports/egoextra_hands_fingers.md`,
+   82 videos with finger landmarks): finger motion = change of the hand's
+   shape, which head motion cannot produce. Same result: unasked long
+   expert turns in "still" 1.01, "moving" 0.98 times chance. Check on
+   limit (a): TRAINEE speech does relate to both signals (fewer turn
+   starts when the hands are still, 0.86 to 0.88 times chance, outside
+   the range of the shifts), so the alignment is not grossly wrong.

@@ -41,17 +41,18 @@ def main() -> None:
     ap.add_argument("--device", default="cuda")
     ap.add_argument("--workers", type=int, default=3)
     ap.add_argument("--batch", type=int, default=8)
+    ap.add_argument("--root", default=ROOT, help="dataset folder with videos/ (also used for Ego-EXTRA)")
     ap.add_argument("--limit", type=int, default=0, help="smoke test: first N videos, output in features_w<W>_smoke")
     args = ap.parse_args()
 
     import cv2
     from src.models.frozen import VideoMAEEncoder, target_size
 
-    root = Path(resolve_data_path(ROOT))
+    root = Path(resolve_data_path(args.root))
     out = root / (f"features_w{args.window}" + ("_smoke" if args.limit else ""))
     parts = out / "parts"                                 # one file per finished video: the run can be repeated
     parts.mkdir(parents=True, exist_ok=True)
-    everything = sorted((root / "videos").glob("*.mp4"))[:args.limit or None]
+    everything = sorted((root / "videos").rglob("*.mp4"))[:args.limit or None]
     videos = [p for p in everything if not (parts / f"{p.stem}.npz").exists()]
     t0 = time.time()
     if videos:
