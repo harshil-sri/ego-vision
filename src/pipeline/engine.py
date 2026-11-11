@@ -61,6 +61,8 @@ class EngineConfig:
     device: str = "cpu"
 
 
+from src.constants import NONE_VERB  # noqa: E402
+
 IDLE, SCANNING, COOKING, DONE = "idle", "scanning", "cooking", "done"
 
 
@@ -487,10 +489,17 @@ class CookingEngine:
             # which need not match the recipe's verb list or alphabetical order
             model_verbs = getattr(self.verb_source, "verbs", None)
             if legal and model_verbs:
+                # "nothing is happening" is always a legal answer
                 probs = apply_recipe_prior(
-                    probs, list(model_verbs), legal,
+                    probs, list(model_verbs), legal | {NONE_VERB},
                     leak=self.cfg.prior_leak)
         verb, conf = self.smoother.update(probs, time.monotonic_ns())
+        if verb == NONE_VERB:
+            # The model says no demo verb is happening. Nothing fires, and
+            # the last verb is cleared so the SAME verb can fire again later
+            # (take ... nothing ... take = two takes).
+            self._last_verb = (None, conf)
+            return
         if verb is not None and verb != self._last_verb[0]:
             self.bus.publish("verb_predicted", verb=verb,
                              confidence=round(conf, 3))

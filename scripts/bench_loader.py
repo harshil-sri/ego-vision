@@ -92,6 +92,9 @@ def main() -> int:
     parser.add_argument("--out", default=str(REPORT))
     args = parser.parse_args()
 
+    from src.paths import resolve_data_path
+    for key in ("annotations_dir", "videos_root", "downscaled_root"):
+        cfg[key] = resolve_data_path(cfg[key])
     downscaled_root = Path(cfg["downscaled_root"])
     videos_root = Path(cfg["videos_root"])
 

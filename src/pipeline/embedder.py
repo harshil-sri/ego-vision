@@ -55,6 +55,11 @@ class DinoEmbedder:
         batch = batch[..., ::-1]                                  # BGR->RGB
         t = self.torch.from_numpy(batch.copy()).permute(0, 3, 1, 2).float() / 255.0
         t = t.to(self.device)                                     # (N,3,224,224)
+        # DINOv2 was trained on ImageNet-normalised images. Without this
+        # step the features are off-distribution (bug until 2026-11-11).
+        mean = self.torch.tensor([0.485, 0.456, 0.406], device=self.device).view(1, 3, 1, 1)
+        std = self.torch.tensor([0.229, 0.224, 0.225], device=self.device).view(1, 3, 1, 1)
+        t = (t - mean) / std
         with self.torch.no_grad():
             feats = self.model(t)                                 # (N, 384)
         feats = feats.cpu().numpy().astype(np.float32)

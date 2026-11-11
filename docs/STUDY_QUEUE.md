@@ -27,3 +27,19 @@ will show you.
 
 Cold-rebuild exam target (roadmap W7): metrics, sampler, matcher,
 attention — 25 minutes each, no help.
+
+## Added 2026-11-11: foundations behind the frozen-feature model and the pilot
+
+Same method as above (read, trace on paper, rewrite, cold-redo). These
+have no core/ stub yet; the "check yourself" column is the exam.
+
+| # | Topic | Where it is used here | Check yourself | External resource |
+|---|---|---|---|---|
+| 12 | Self-attention and the Vision Transformer: patches, tokens, class token, position embeddings | `src/models/frozen.py` (`FeatureHead` kind `tfm`), DINOv2, VideoMAE | By hand: 3 tokens of width 2, one attention head, compute the output. Explain why the `mean` head cannot tell "open" from "close" and the `tfm` head can (`tests/test_frozen.py`). | d2l.ai chapter 11; "An Image is Worth 16x16 Words" |
+| 13 | Self-supervised pretraining and frozen features (linear probe) | `scripts/extract_features.py`, `scripts/train_head.py` | Explain why 3,720 clips overfit a fine-tuned ResNet-34 but train a head on frozen features well. State which weights receive gradients. | DINOv2 paper sections 1 to 3; VideoMAE paper sections 1 to 3 |
+| 14 | Why motion needs a video model: appearance bias, Something-Something v2, tube masking | DINOv2 heads 0.33 against VideoMAE 0.65 mean-class accuracy on the same clips | Predict, then check in `runs/*/metrics.json`: which verb pairs does a per-frame model confuse most, and why? | Something-Something paper; TSM paper introduction |
+| 15 | Train/serve mismatch: trimmed clips against sliding windows, and the missing "nothing is happening" class | `scripts/eval_sliding.py`, `reports/sliding_eval.md` | Explain why accuracy on trimmed clips overstates live accuracy. Propose two fixes. | EPIC-KITCHENS-100 paper, action detection section |
+| 16 | Thresholds, precision and recall, ROC AUC, average precision, base rates | `scripts/holoassist_predict.py`, `min_conf` in `configs/app.yaml` | Base rate 2.25%, average precision 0.087: is that good? Compute the precision of a random guesser. | scikit-learn user guide, "Precision-Recall" |
+| 17 | Permutation tests and null models; confidence intervals; many comparisons | `scripts/holoassist_timing.py` (circular shift) | Explain what the circular shift keeps and what it destroys. Why is the smallest possible p with 2,000 shifts 0.0005? | Any statistics text, chapter on resampling; Good, "Permutation Tests" |
+| 18 | Leakage and grouped splits; selecting a model on the validation set | `GroupKFold` in the pilot scripts; "best" against "last" epoch in `scripts/train_head.py` | Why split by participant or session, not by clip? Why is the "best epoch" number optimistic? | scikit-learn user guide, "Cross-validation: group k-fold" |
+| 19 | Correlation is not cause: confounders in observational data | `reports/research_gap_map.md` section 4, "What the pilot does not show" | Name the confounder between "hands idle" and "instructor speaks". Design an experiment that removes it. | Pearl, "The Book of Why", chapters 1 to 4 |

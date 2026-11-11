@@ -16,7 +16,8 @@ Outputs in --out:
     info.json       T, model, counts, wall time
 
 Usage (Windows, from the repo root):
-    python -m scripts.extract_features --device cuda --workers 10
+    python -m scripts.extract_features --device cuda
+    python -m scripts.extract_features --encoder videomae --device cuda
 """
 
 from __future__ import annotations
@@ -84,7 +85,8 @@ def main() -> None:
     ap.add_argument("--out", default=None, help="default: features/<encoder>_T16 on the data disk")
     ap.add_argument("--T", type=int, default=16)
     ap.add_argument("--device", default="cuda")
-    ap.add_argument("--workers", type=int, default=10)
+    ap.add_argument("--workers", type=int, default=4,
+                    help="decode processes; each one costs about 1.5 GB of commit memory on Windows")
     ap.add_argument("--batch", type=int, default=8, help="segments per batch")
     ap.add_argument("--limit", type=int, default=None, help="first N segments (smoke test)")
     args = ap.parse_args()
@@ -153,6 +155,11 @@ def main() -> None:
     meta = df[META_COLUMNS].copy()
     meta["ok"] = ok_flags
     meta.to_csv(out / "meta.csv", index=False)
+    bad = int(N - ok_flags.sum())
+    if bad > 0.01 * N:   # a few broken clips are normal; many means the run itself failed
+        raise SystemExit(f"{bad} of {N} segments failed to decode. Features NOT usable. "
+                         "Common cause on Windows: too many workers for the free memory "
+                         "(each worker loads the CUDA libraries). Retry with fewer --workers.")
     info = {"model": "videomae_base_ssv2" if video else "dinov2_vits14",
             "feature": "mean_token per crop (left, centre, right)" if video else "cls|patch_mean",
             "dim": enc.dim,

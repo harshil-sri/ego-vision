@@ -102,3 +102,32 @@ def test_prior_flips_prediction_to_legal_verb():
     without, with_prior = fired
     assert without == (False, "close")
     assert with_prior == (True, "take")   # prior rescued the first step
+
+
+def test_none_class_never_fires_and_lets_a_verb_repeat():
+    """Heads trained on sliding windows have a 9th class "none"."""
+    from types import SimpleNamespace
+    window = [SimpleNamespace(image=np.zeros((8, 8, 3), np.uint8))] * 8
+    # alphabetical ids: close cut mix none open pour put take wash
+    take = [0.02, 0.02, 0.02, 0.04, 0.02, 0.02, 0.02, 0.82, 0.02]
+    none = [0.02, 0.02, 0.02, 0.82, 0.02, 0.02, 0.02, 0.04, 0.02]
+    for prior_on in (False, True):
+        src = _FakeVerbSource(take)
+        src.verbs = sorted(_FakeVerbSource.verbs + ["none"])
+        cfg = EngineConfig(mode="clip", embedder="toy", recipe_prior=prior_on, min_conf=0.5,
+                           smoother="majority", smoother_args={"k": 1})
+        eng = CookingEngine(SyntheticFrameSource(fps=20), cfg, RECIPE, verb_source=src, bus=EventBus())
+        eng._ingredient = ("tomato", 0.9)
+        eng.phase = COOKING
+        fired = []
+        orig = eng._consume_verb
+        eng._consume_verb = lambda verb, conf: (fired.append(verb), orig(verb, conf))
+        eng._recognize_verb(window)                 # take fires
+        eng._recognize_verb(window)                 # same verb, no new fire
+        assert fired == ["take"]
+        src.probs = np.asarray(none)
+        eng._recognize_verb(window)                 # "none": nothing fires, last verb cleared
+        assert fired == ["take"] and eng._last_verb[0] is None
+        src.probs = np.asarray(take)
+        eng._recognize_verb(window)                 # take may fire again
+        assert fired == ["take", "take"]

@@ -97,6 +97,11 @@ class TrainConfig:
     def __post_init__(self) -> None:
         """Validate types/choices (field names are validated by load_config;
         direct construction gets the same checks here so nothing slips in)."""
+        from src.paths import resolve_data_path
+        for name in ("data_root", "annotations_dir", "videos_root"):
+            value = getattr(self, name)
+            if isinstance(value, str):   # /mnt/ssd/... -> C:/ssd-data/... on Windows
+                setattr(self, name, resolve_data_path(value))
         _validate(self)
 
 

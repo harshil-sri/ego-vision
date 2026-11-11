@@ -14,3 +14,7 @@ runs/local_gate_tsn/
 runs/local_gate_attn/
 runs/kaggle-baseline-partial/
 runs/baseline/
+# frozen-feature head runs (weights and prediction caches stay local)
+runs/dino_*/
+runs/videomae_*/
+runs/fused_*/

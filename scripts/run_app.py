@@ -28,6 +28,8 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--clip", default=None, help="video file for --mode clip")
     p.add_argument("--run-dir", default=None, help="runs/<id> with a checkpoint")
     p.add_argument("--port", type=int, default=8000)
+    p.add_argument("--device", default=None,
+                   help="cpu | cuda (overrides the config; the VideoMAE model needs cuda)")
     p.add_argument("--synthetic", action="store_true",
                    help="procedural frames instead of a camera (smoke tests)")
     return p.parse_args()
@@ -41,6 +43,8 @@ def build_engine(args):
     cfg_raw = yaml.safe_load(Path(args.config).read_text())
     cam = cfg_raw.pop("camera", {})
     cfg_raw.pop("mode", None)  # CLI --mode wins over the config file
+    if args.device:
+        cfg_raw["device"] = args.device
     cfg = EngineConfig(mode=args.mode, **cfg_raw)
 
     if args.synthetic:
@@ -62,6 +66,13 @@ def build_engine(args):
         verb_source = make_verb_source(args.mode, args.run_dir, cfg.device)
     except FileNotFoundError as exc:
         raise SystemExit(f"cannot start: {exc}")
+
+    # A frozen-feature model fixes how many frames it needs per window
+    # (8 for DINOv2 heads, 16 for VideoMAE); that wins over the config file.
+    if getattr(verb_source, "T", None):
+        cfg.T = int(verb_source.T)
+    if getattr(verb_source, "window_s", None):
+        cfg.window_seconds = float(verb_source.window_s)
 
     return CookingEngine(source, cfg, args.recipe, verb_source=verb_source)
 

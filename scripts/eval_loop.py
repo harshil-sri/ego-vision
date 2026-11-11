@@ -49,7 +49,9 @@ def _aligned_segments() -> pd.DataFrame:
     import yaml
     from scripts.eval_smoothers import _load_val_segments
     seg = _load_val_segments(Path("runs/baseline"))
-    ann = yaml.safe_load(Path("configs/data.yaml").read_text())["annotations_dir"]
+    from src.paths import resolve_data_path
+    ann = resolve_data_path(
+        yaml.safe_load(Path("configs/data.yaml").read_text())["annotations_dir"])
     raw = pd.concat([pd.read_csv(f"{ann}/EPIC_100_train.csv"),
                      pd.read_csv(f"{ann}/EPIC_100_validation.csv")],
                     ignore_index=True)
@@ -130,9 +132,12 @@ def main() -> None:
     probs = z["probs"]
     verbs = [str(v) for v in z["verbs"]]
 
-    seg = _aligned_segments()               # nouns aligned by position
-    assert len(seg) == len(video), "cache/segments misaligned — rebuild cache"
-    nouns = seg.noun.tolist()
+    if "noun" in z.files:                   # caches written by scripts.train_head
+        nouns = [str(n) for n in z["noun"]]
+    else:                                   # the original runs/baseline cache
+        seg = _aligned_segments()           # nouns aligned by position
+        assert len(seg) == len(video), "cache/segments misaligned — rebuild cache"
+        nouns = seg.noun.tolist()
 
     by_video: dict[str, list] = {}
     for v, lb, p, nn in zip(video, verb, probs, nouns):
@@ -182,7 +187,7 @@ def main() -> None:
         "# Reasoning-chain evaluation (real val videos, perfect-matcher assumption)",
         "",
         f"Cache: {len(video)} segments / {len(by_video)} videos from "
-        "`runs/baseline`. Pseudo-recipes = each video's annotated (verb, noun) "
+        f"`{args.cache}`. Pseudo-recipes = each video's annotated (verb, noun) "
         f"sequence; leak={args.leak}, min_conf={args.min_conf}, policy={args.policy}.",
         "",
         "| smoother | recipe prior | advance rate | wrong_order | repeat | completed | median first-wrong step |",

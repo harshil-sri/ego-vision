@@ -1,4 +1,4 @@
-"""Train a temporal head on cached DINOv2 features (seconds per run).
+"""Train a small head on cached frozen features (seconds per run).
 
 Reads the output of scripts.extract_features, keeps the 8 demo verbs BY
 OFFICIAL VERB CLASS (so "pick-up" counts as take, "put-down" as put, ...),
@@ -18,12 +18,26 @@ Evaluation uses frames 0,2,4,...,14 of the un-mirrored features, the metrics
 module from the registry, and prints the majority baseline beside every
 number.
 
+Clip features (VideoMAE, --feats .../videomae_ssv2_T16) hold ONE vector per
+crop instead of one per frame: (N, 3, 768) = left, centre, right crop.
+    training    one random crop, mirrored with probability 0.5 -> (B, 768)
+    evaluation  mean of the three un-mirrored crops            -> (N, 768)
+    head        'mlp' (no time axis is left to pool over)
+
+Two numbers are reported per run:
+    best  the epoch with the highest validation mean-class accuracy. It is
+          chosen ON the validation set, so it is optimistic.
+    last  the final epoch. No selection, so it is the honest number.
+
 Outputs in --out (a run directory the app can load):
-    best.pt, verb_map.json, config.yaml, log.csv, metrics.json
+    last.pt, best.pt, verb_map.json, config.yaml, log.csv, metrics.json,
+    eval_cache.npz (final-epoch validation probabilities for
+    scripts.eval_smoothers and scripts.eval_loop)
 
 Usage:
     python -m scripts.train_head --kind tfm --out runs/dino_tfm
     python -m scripts.train_head --sweep        # compare head kinds
+    python -m scripts.train_head --feats /mnt/ssd/epic-kitchens/features/videomae_ssv2_T16
 """
 
 from __future__ import annotations
@@ -57,6 +71,7 @@ def load_data(feat_dir: Path, ann_dir: Path, heldout: list[str],
         verb_map: dict verb -> label id (alphabetical, same rule as
             src.data.annotations.verb_label_map)
         meta: pd.DataFrame, one row per cached segment
+        info: dict from info.json (which encoder made the features)
     """
     feats = np.load(feat_dir / "feats.npy", mmap_mode="r")
     flips = np.load(feat_dir / "feats_flip.npy", mmap_mode="r")
@@ -73,7 +88,8 @@ def load_data(feat_dir: Path, ann_dir: Path, heldout: list[str],
     is_val = meta["participant_id"].isin(heldout).to_numpy()
     tr = np.flatnonzero(usable & ~is_val)
     va = np.flatnonzero(usable & is_val)
-    return feats, flips, labels, tr, va, verb_map, meta
+    info = json.loads((feat_dir / "info.json").read_text())
+    return feats, flips, labels, tr, va, verb_map, meta, info
 
 
 def evaluate(model, X: torch.Tensor, y: np.ndarray, num_classes: int) -> dict:
@@ -96,7 +112,10 @@ def train_one(args, kind: str, motion: bool, seed: int, data, out: Path | None):
     """One training run. Returns the best-epoch metrics dict."""
     from src.models.frozen import FeatureHead
 
-    feats, flips, labels, tr, va, verb_map, _ = data
+    feats, flips, labels, tr, va, verb_map, meta, info = data
+    clip = info["model"].startswith("videomae")   # one vector per crop, no time axis
+    if clip:
+        kind, motion = "mlp", False
     C = len(verb_map)
     torch.manual_seed(seed)
     rng = np.random.default_rng(seed)
@@ -105,7 +124,8 @@ def train_one(args, kind: str, motion: bool, seed: int, data, out: Path | None):
     Xtr = torch.from_numpy(np.asarray(feats[tr], dtype=np.float32)).to(dev)   # (Ntr,16,F)
     Xfl = torch.from_numpy(np.asarray(flips[tr], dtype=np.float32)).to(dev)
     ytr = torch.from_numpy(labels[tr]).to(dev)
-    Xva = torch.from_numpy(np.asarray(feats[va], dtype=np.float32))[:, 0::2].to(dev)  # (Nva,8,F)
+    Xva = torch.from_numpy(np.asarray(feats[va], dtype=np.float32))
+    Xva = (Xva.mean(dim=1) if clip else Xva[:, 0::2]).to(dev)   # (Nva,F) or (Nva,8,F)
     yva = labels[va]
 
     counts = np.bincount(labels[tr], minlength=C).astype(np.float64)
@@ -121,6 +141,8 @@ def train_one(args, kind: str, motion: bool, seed: int, data, out: Path | None):
     steps = args.epochs * int(np.ceil(len(tr) / args.batch))
     sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=args.lr, total_steps=steps)
 
+    tag = "frozen_videomae" if clip else "frozen_dino"
+    T_live = 16 if clip else 8     # frames the live window must supply
     majority = float(registry.get("metrics").majority_baseline(yva))
     best, rows = None, []
     pair = torch.arange(0, 16, 2, device=dev)                 # (8,) start of each pair
@@ -131,9 +153,13 @@ def train_one(args, kind: str, motion: bool, seed: int, data, out: Path | None):
         for s in range(0, len(perm), args.batch):
             b = perm[s:s + args.batch]
             use_flip = torch.rand(len(b), device=dev) < 0.5
-            x16 = torch.where(use_flip[:, None, None], Xfl[b], Xtr[b])   # (B,16,F)
-            pick = pair[None, :] + torch.randint(0, 2, (len(b), 8), device=dev)  # (B,8)
-            x = torch.gather(x16, 1, pick[:, :, None].expand(-1, -1, x16.shape[-1]))  # (B,8,F)
+            x16 = torch.where(use_flip[:, None, None], Xfl[b], Xtr[b])   # (B,16,F) or (B,3,F)
+            if clip:   # one random crop per sample
+                crop = torch.randint(0, x16.shape[1], (len(b),), device=dev)
+                x = x16[torch.arange(len(b), device=dev), crop]          # (B,F)
+            else:
+                pick = pair[None, :] + torch.randint(0, 2, (len(b), 8), device=dev)  # (B,8)
+                x = torch.gather(x16, 1, pick[:, :, None].expand(-1, -1, x16.shape[-1]))  # (B,8,F)
             loss = loss_fn(model(x), ytr[b])
             opt.zero_grad(); loss.backward(); opt.step(); sched.step()
             total += float(loss) * len(b)
@@ -145,8 +171,23 @@ def train_one(args, kind: str, motion: bool, seed: int, data, out: Path | None):
             if out is not None:
                 torch.save({"model_state_dict": model.state_dict(),
                             "head": model.config(), "epoch": epoch,
-                            "verb_map": verb_map, "kind": "frozen_dino",
-                            "encoder": "dinov2_vits14", "T": 8}, out / "best.pt")
+                            "verb_map": verb_map, "kind": tag,
+                            "encoder": info["model"], "T": T_live}, out / "best.pt")
+    best.update(last_acc=ev["acc"], last_mca=ev["mca"], last_top3=ev["top3"])
+    if out is not None:   # the final epoch: no selection on the validation set
+        torch.save({"model_state_dict": model.state_dict(), "head": model.config(),
+                    "epoch": args.epochs - 1, "verb_map": verb_map, "kind": tag,
+                    "encoder": info["model"], "T": T_live}, out / "last.pt")
+        np.savez(out / "val_preds_last.npz", probs=ev["probs"], labels=yva, rows=va)
+        # Same layout as runs/eval_cache/val_preds.npz, so eval_smoothers and
+        # eval_loop can replay this model. Rows are in (video, start_frame)
+        # order because meta.csv is. Final-epoch probabilities.
+        names = np.array(sorted(verb_map, key=verb_map.get))
+        m = meta.iloc[va]
+        np.savez_compressed(out / "eval_cache.npz",
+                            video=m["video_id"].to_numpy(str), verb=names[yva],
+                            probs=ev["probs"].astype(np.float32), verbs=names,
+                            noun=m["noun"].to_numpy(str))
     best.update(majority=majority, n_train=int(len(tr)), n_val=int(len(va)),
                 kind=kind, motion=motion, seed=seed)
     if out is not None:
@@ -154,7 +195,7 @@ def train_one(args, kind: str, motion: bool, seed: int, data, out: Path | None):
             wr = csv.DictWriter(f, fieldnames=list(rows[0])); wr.writeheader(); wr.writerows(rows)
         (out / "verb_map.json").write_text(json.dumps(verb_map, indent=2))
         (out / "config.yaml").write_text(yaml.safe_dump(
-            {"model": "frozen_dino", "encoder": "dinov2_vits14", "T": 8,
+            {"model": tag, "encoder": info["model"], "T": T_live,
              "head": model.config(), "seed": seed, "epochs": args.epochs,
              "lr": args.lr, "heldout_participants": args.heldout,
              "label_match": "raw" if args.raw_match else "verb_class"}))
@@ -170,7 +211,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--feats", default=DEFAULT_FEATS)
     ap.add_argument("--out", default=None)
-    ap.add_argument("--kind", default="tfm", choices=["mean", "attn", "tfm"])
+    ap.add_argument("--kind", default="tfm", choices=["mean", "attn", "tfm", "mlp"])
     ap.add_argument("--no-motion", action="store_true")
     ap.add_argument("--epochs", type=int, default=40)
     ap.add_argument("--batch", type=int, default=128)
@@ -192,31 +233,37 @@ def main() -> None:
     data_cfg = yaml.safe_load(Path("configs/data.yaml").read_text())
     ann = Path(resolve_data_path(data_cfg["annotations_dir"]))
     data = load_data(Path(resolve_data_path(args.feats)), ann, args.heldout, args.raw_match)
-    _, _, labels, tr, va, verb_map, _ = data
+    _, _, labels, tr, va, verb_map, _, info = data
+    clip = info["model"].startswith("videomae")
     verbs = sorted(verb_map, key=verb_map.get)
     print(f"train {len(tr)}  val {len(va)}  verbs {verbs}")
     print("train counts", np.bincount(labels[tr], minlength=len(verbs)).tolist())
     print("val counts  ", np.bincount(labels[va], minlength=len(verbs)).tolist())
 
     if args.sweep:
-        print(f"\n{'head':<6}{'motion':<8}{'val_acc':>16}{'val_mca':>16}{'top3':>8}  (mean +- std over {args.seeds} seeds)")
-        for kind in ("mean", "attn", "tfm"):
-            for motion in (False, True):
-                rs = [train_one(args, kind, motion, args.seed + s, data, None)
-                      for s in range(args.seeds)]
-                a = np.array([r["acc"] for r in rs]); m = np.array([r["mca"] for r in rs])
-                t = np.mean([r["top3"] for r in rs])
-                print(f"{kind:<6}{str(motion):<8}{a.mean():>9.4f} +-{a.std():.3f}"
-                      f"{m.mean():>9.4f} +-{m.std():.3f}{t:>8.4f}")
+        print(f"\n{'head':<6}{'motion':<8}{'best_acc':>16}{'best_mca':>16}{'top3':>8}"
+              f"{'last_acc':>16}{'last_mca':>16}  (mean +- std over {args.seeds} seeds)")
+        grid = [("mlp", False)] if clip else [(k, m) for k in ("mean", "attn", "tfm") for m in (False, True)]
+        for kind, motion in grid:
+            rs = [train_one(args, kind, motion, args.seed + s, data, None)
+                  for s in range(args.seeds)]
+            a = np.array([r["acc"] for r in rs]); m = np.array([r["mca"] for r in rs])
+            la = np.array([r["last_acc"] for r in rs]); lm = np.array([r["last_mca"] for r in rs])
+            t = np.mean([r["top3"] for r in rs])
+            print(f"{kind:<6}{str(motion):<8}{a.mean():>9.4f} +-{a.std():.3f}"
+                  f"{m.mean():>9.4f} +-{m.std():.3f}{t:>8.4f}"
+                  f"{la.mean():>9.4f} +-{la.std():.3f}{lm.mean():>9.4f} +-{lm.std():.3f}")
         print(f"majority baseline (val): {rs[0]['majority']:.4f}")
         return
 
-    out = Path(args.out or f"runs/dino_{args.kind}")
+    out = Path(args.out or ("runs/videomae_mlp" if clip else f"runs/dino_{args.kind}"))
     out.mkdir(parents=True, exist_ok=True)
     best = train_one(args, args.kind, not args.no_motion, args.seed, data, out)
     print(f"\nbest epoch {best['epoch']}: val_acc {best['acc']:.4f}  "
           f"val_mca {best['mca']:.4f}  top3 {best['top3']:.4f}  "
           f"(majority baseline {best['majority']:.4f})")
+    print(f"last epoch: val_acc {best['last_acc']:.4f}  val_mca {best['last_mca']:.4f}  "
+          f"top3 {best['last_top3']:.4f}   <- no selection on the validation set")
     for v, a in zip(verbs, best["per_class"]):
         print(f"  {v:<6} recall {a:.3f}")
     print(f"saved to {out}")

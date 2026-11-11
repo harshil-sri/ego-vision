@@ -1,0 +1,287 @@
+{
+  "wrong_actions": 7113,
+  "silent_share": 0.4303,
+  "sessions": 305,
+  "models": {
+    "verb": {
+      "auc": 0.7902,
+      "auc_folds": [
+        0.768,
+        0.797,
+        0.794,
+        0.803,
+        0.789
+      ],
+      "ap_silent": 0.7851
+    },
+    "verb + noun": {
+      "auc": 0.8499,
+      "auc_folds": [
+        0.841,
+        0.861,
+        0.851,
+        0.845,
+        0.851
+      ],
+      "ap_silent": 0.8413
+    },
+    "verb + noun + task": {
+      "auc": 0.8606,
+      "auc_folds": [
+        0.86,
+        0.868,
+        0.854,
+        0.855,
+        0.866
+      ],
+      "ap_silent": 0.8512
+    },
+    "history only": {
+      "auc": 0.7888,
+      "auc_folds": [
+        0.807,
+        0.788,
+        0.774,
+        0.79,
+        0.784
+      ],
+      "ap_silent": 0.7541
+    },
+    "all": {
+      "auc": 0.8958,
+      "auc_folds": [
+        0.902,
+        0.893,
+        0.895,
+        0.889,
+        0.899
+      ],
+      "ap_silent": 0.8891
+    }
+  },
+  "without_drop": {
+    "wrong_actions": 5952,
+    "silent_share": 0.3212,
+    "models": {
+      "verb": {
+        "auc": 0.6656,
+        "auc_folds": [
+          0.671,
+          0.691,
+          0.635,
+          0.67,
+          0.662
+        ],
+        "ap_silent": 0.4681
+      },
+      "verb + noun": {
+        "auc": 0.7571,
+        "auc_folds": [
+          0.751,
+          0.774,
+          0.723,
+          0.764,
+          0.774
+        ],
+        "ap_silent": 0.5806
+      },
+      "verb + noun + task": {
+        "auc": 0.7794,
+        "auc_folds": [
+          0.767,
+          0.801,
+          0.762,
+          0.768,
+          0.799
+        ],
+        "ap_silent": 0.6167
+      },
+      "history only": {
+        "auc": 0.7826,
+        "auc_folds": [
+          0.78,
+          0.804,
+          0.745,
+          0.814,
+          0.77
+        ],
+        "ap_silent": 0.6419
+      },
+      "all": {
+        "auc": 0.8321,
+        "auc_folds": [
+          0.817,
+          0.856,
+          0.819,
+          0.835,
+          0.833
+        ],
+        "ap_silent": 0.7154
+      }
+    }
+  },
+  "by_task": {
+    "assemble utility cart": {
+      "n": 846,
+      "silent_share": 0.151
+    },
+    "assemble stool": {
+      "n": 752,
+      "silent_share": 0.227
+    },
+    "assemble nightstand": {
+      "n": 731,
+      "silent_share": 0.454
+    },
+    "setup gopro": {
+      "n": 649,
+      "silent_share": 0.703
+    },
+    "setup camera": {
+      "n": 615,
+      "silent_share": 0.457
+    },
+    "assemble tray table": {
+      "n": 593,
+      "silent_share": 0.285
+    },
+    "disassemble nightstand": {
+      "n": 485,
+      "silent_share": 0.887
+    },
+    "setup switch": {
+      "n": 391,
+      "silent_share": 0.358
+    },
+    "setup big printer": {
+      "n": 352,
+      "silent_share": 0.253
+    },
+    "setup small printer": {
+      "n": 289,
+      "silent_share": 0.498
+    },
+    "disassemble utility cart": {
+      "n": 265,
+      "silent_share": 0.645
+    },
+    "make coffee with nespresso machine": {
+      "n": 262,
+      "silent_share": 0.485
+    },
+    "disassemble stool": {
+      "n": 231,
+      "silent_share": 0.502
+    },
+    "disassemble tray table": {
+      "n": 181,
+      "silent_share": 0.619
+    },
+    "make coffee with espresso machine": {
+      "n": 131,
+      "silent_share": 0.26
+    },
+    "fix motorcycle": {
+      "n": 127,
+      "silent_share": 0.346
+    },
+    "assemble computer": {
+      "n": 116,
+      "silent_share": 0.569
+    },
+    "change circuit breaker": {
+      "n": 52,
+      "silent_share": 0.269
+    },
+    "assemble laser scanner": {
+      "n": 40,
+      "silent_share": 0.875
+    }
+  },
+  "by_verb": {
+    "drop": {
+      "n": 1161,
+      "silent_share": 0.99
+    },
+    "insert": {
+      "n": 775,
+      "silent_share": 0.388
+    },
+    "grab": {
+      "n": 774,
+      "silent_share": 0.171
+    },
+    "rotate": {
+      "n": 496,
+      "silent_share": 0.222
+    },
+    "align": {
+      "n": 430,
+      "silent_share": 0.186
+    },
+    "press": {
+      "n": 372,
+      "silent_share": 0.422
+    },
+    "place": {
+      "n": 367,
+      "silent_share": 0.213
+    },
+    "screw": {
+      "n": 275,
+      "silent_share": 0.367
+    },
+    "pull": {
+      "n": 258,
+      "silent_share": 0.574
+    },
+    "withdraw": {
+      "n": 237,
+      "silent_share": 0.557
+    },
+    "assemble": {
+      "n": 209,
+      "silent_share": 0.287
+    },
+    "lift": {
+      "n": 199,
+      "silent_share": 0.261
+    },
+    "approach": {
+      "n": 199,
+      "silent_share": 0.211
+    },
+    "open": {
+      "n": 195,
+      "silent_share": 0.472
+    },
+    "inspect": {
+      "n": 180,
+      "silent_share": 0.272
+    },
+    "unscrew": {
+      "n": 175,
+      "silent_share": 0.394
+    },
+    "touch": {
+      "n": 159,
+      "silent_share": 0.283
+    },
+    "push": {
+      "n": 154,
+      "silent_share": 0.636
+    },
+    "hold": {
+      "n": 147,
+      "silent_share": 0.136
+    },
+    "slide": {
+      "n": 83,
+      "silent_share": 0.265
+    },
+    "disassemble": {
+      "n": 61,
+      "silent_share": 0.475
+    }
+  }
+}

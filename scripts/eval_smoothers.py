@@ -30,10 +30,19 @@ import pandas as pd
 import yaml
 
 
+def _data_cfg() -> dict:
+    """configs/data.yaml with the data paths translated to this machine."""
+    from src.paths import resolve_data_path
+    cfg = yaml.safe_load(Path("configs/data.yaml").read_text())
+    for key in ("annotations_dir", "videos_root", "downscaled_root"):
+        cfg[key] = resolve_data_path(cfg[key])
+    return cfg
+
+
 def _load_val_segments(run_dir: Path) -> pd.DataFrame:
     """Val split for the run's videos, ordered as a per-video time series."""
     from src.data.splits import make_splits
-    data_cfg = yaml.safe_load(Path("configs/data.yaml").read_text())
+    data_cfg = _data_cfg()
     verb_map = json.loads((run_dir / "verb_map.json").read_text())
     _, val_df, _, _ = make_splits(
         data_cfg["annotations_dir"], data_cfg["downscaled_root"],
@@ -51,7 +60,7 @@ def _build_cache(run_dir: Path, val_df: pd.DataFrame, out: Path):
 
     cfg = yaml.safe_load((run_dir / "config.yaml").read_text())
     src = ModelVerbSource(str(run_dir), device=cfg.get("device", "cpu"))
-    data_cfg = yaml.safe_load(Path("configs/data.yaml").read_text())
+    data_cfg = _data_cfg()
     fps = {v: float(f) for v, f in
            load_video_info(data_cfg["annotations_dir"])["fps"].items()}
     sampler = __import__("src.registry", fromlist=["get"]).get("frame_sampler")

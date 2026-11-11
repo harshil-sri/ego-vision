@@ -17,3 +17,5 @@ tqdm==4.68.1
 scikit-learn==1.8.0
 kaggle==2.2.5
 httpx==0.28.1
+# VideoMAE encoder for the frozen-feature verb model (src/models/frozen.py)
+transformers==5.22.2

@@ -1,3 +1,4 @@
+import os
 from dataclasses import dataclass
 from typing import Union
 
@@ -42,7 +43,16 @@ class CameraCapture:
         if isinstance(source, str) and source.isdigit():
             source = int(source)
 
-        self.cap = cv2.VideoCapture(source, cv2.CAP_V4L2)
+        backend = cv2.CAP_V4L2
+        if os.name == "nt":
+            # Windows has no /dev/videoN and no V4L2. "/dev/video0" (the
+            # spelling kept in the configs) means camera index 0 here, opened
+            # through DirectShow, which honours the MJPG + size requests.
+            if isinstance(source, str) and source.startswith("/dev/video"):
+                source = int(source[len("/dev/video"):] or 0)
+            backend = cv2.CAP_DSHOW
+
+        self.cap = cv2.VideoCapture(source, backend)
 
         if not self.cap.isOpened():
             raise RuntimeError(f"Could not open camera: {self.config.source}")

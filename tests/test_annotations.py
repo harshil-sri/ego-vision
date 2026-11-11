@@ -16,7 +16,9 @@ from src.data.annotations import (load_segments, load_video_info,
                                   verb_label_map, save_verb_map, load_verb_map)
 from src.data.splits import make_splits, write_selected_inventory
 
-ANNOTATIONS = Path("/mnt/ssd/epic-tools/epic-kitchens-100-annotations")
+from src.paths import resolve_data_path
+
+ANNOTATIONS = Path(resolve_data_path("/mnt/ssd/epic-tools/epic-kitchens-100-annotations"))
 TRAIN_CSV = ANNOTATIONS / "EPIC_100_train.csv"
 
 pytestmark = pytest.mark.skipif(
