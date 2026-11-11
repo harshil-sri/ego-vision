@@ -394,3 +394,16 @@ benchmarks lack.
    limit (a): TRAINEE speech does relate to both signals (fewer turn
    starts when the hands are still, 0.86 to 0.88 times chance, outside
    the range of the shifts), so the alignment is not grossly wrong.
+   Gaze (`reports/egoextra_hands_gaze.md`, 90 videos; same test with the
+   trainee's eye tracking): the first measured signal with a relation.
+   Unasked expert turns start less often while the eyes jump around
+   (highest third of gaze speed): long turns 0.91 times chance (95% of
+   shifts: 0.94 to 1.07), short turns ("ok", "perfect") 0.82 (0.90 to
+   1.09). Gaze speed is 9% below the video average 4 s before an unasked
+   long turn and 11% above it 4 s after. Expert turns that follow trainee
+   speech show the opposite (eyes jumping: 1.14; eyes resting: 0.80).
+   One reading: the expert speaks up when the trainee's eyes have settled,
+   and the trainee then looks around; when the trainee is searching, the
+   trainee asks first. The effect is small, it is one of four signals
+   tested, and gaze distance (`_gaze_depth.md`) shows nothing for long
+   turns. Treat it as a lead, not a result.

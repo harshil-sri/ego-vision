@@ -36,6 +36,14 @@ of these distances per second (metres per second). It is high when the
 fingers work (grasping, turning a screw) even if the wrist is still. Only
 videos with the landmark file can be used.
 
+--signal gaze and --signal gaze_depth use the trainee's EYES instead
+(<root>/gz/gaze/<video>_general_eye_gaze_trimmed.csv, 10 samples per
+second: yaw and pitch of the gaze in radians, depth of the gaze point in
+metres). gaze: angular speed of the gaze (radians per second); "moving" =
+the eyes jump around, "still" = they rest on one place. gaze_depth: the
+states are then near / mid / far thirds of the gaze distance (named still
+/ mid / moving in the tables for the same layout). "none" = no gaze sample.
+
 Test (same as HoloAssist part 1): share of speech onsets that fall in each
 state, against the share expected by chance. Chance = shift all onsets of
 a video by one random offset (circular), --shifts times. Ratio 1.0 = no
@@ -98,7 +106,36 @@ def hand_states(path: Path, signal: str = "wrist") -> tuple[np.ndarray, np.ndarr
             grid = grid / np.maximum(cnt, 1)[:, None]                   # (n, 3) mean position per bin
             sp[1:][both] = np.linalg.norm(grid[1:] - grid[:-1], axis=1)[both] / DT
         speeds.append(sp)
-    speed = np.fmax(speeds[0], speeds[1])                               # faster hand; NaN only if both missing
+    return to_states(np.fmax(speeds[0], speeds[1]))                     # faster hand; NaN only if both missing
+
+
+def gaze_signal(path: Path, kind: str) -> np.ndarray | None:
+    """-> per 0.1 s bin: gaze angular speed (rad/s) or gaze depth (m); NaN where no sample."""
+    df = pd.read_csv(path, usecols=["tracking_timestamp_us", "left_yaw_rads_cpf", "right_yaw_rads_cpf",
+                                    "pitch_rads_cpf", "depth_m"])
+    if len(df) < 100:
+        return None
+    t = (df.iloc[:, 0].to_numpy() - df.iloc[0, 0]) / 1e6
+    n = int(t[-1] / DT) + 1
+    b = np.minimum((t / DT).astype(int), n - 1)
+    yaw = (df["left_yaw_rads_cpf"].to_numpy() + df["right_yaw_rads_cpf"].to_numpy()) / 2
+    cols = [yaw, df["pitch_rads_cpf"].to_numpy(), df["depth_m"].to_numpy()]
+    ok = ~np.isnan(yaw)
+    cnt = np.bincount(b[ok], minlength=n)
+    g = np.stack([np.bincount(b[ok], weights=c[ok], minlength=n) for c in cols], 1) / np.maximum(cnt, 1)[:, None]
+    have = cnt > 0
+    out = np.full(n, np.nan)
+    if kind == "gaze_depth":
+        out[have] = g[have, 2]
+    else:
+        both = have[1:] & have[:-1]
+        out[1:][both] = np.linalg.norm(g[1:, :2] - g[:-1, :2], axis=1)[both] / DT
+    return out
+
+
+def to_states(speed: np.ndarray) -> tuple[np.ndarray, np.ndarray] | None:
+    """Per-bin signal (NaN = missing) -> (state id per bin, mean of the last 1 s)."""
+    n = len(speed)
     s = pd.Series(speed)
     recent = s.rolling(10, min_periods=1).mean().to_numpy().copy()      # last 1 s
     seen = s.notna().rolling(10, min_periods=1).mean().to_numpy()
@@ -119,7 +156,7 @@ def main() -> None:
     ap.add_argument("--turn-gap", type=float, default=2.0)
     ap.add_argument("--ask-window", type=float, default=5.0)
     ap.add_argument("--long", type=float, default=1.5)
-    ap.add_argument("--signal", choices=["wrist", "fingers"], default="wrist")
+    ap.add_argument("--signal", choices=["wrist", "fingers", "gaze", "gaze_depth"], default="wrist")
     args = ap.parse_args()
     rng = np.random.default_rng(0)
 
@@ -132,8 +169,11 @@ def main() -> None:
         if vid not in proto or len(u) < 5:
             continue
         best = None
-        for hp in sorted((root / "ht" / "hand_tracking").glob(
-                f"{vid}_*.csv" if args.signal == "wrist" else f"{vid}_hand_tracking_results_*.csv")):
+        gaze = args.signal.startswith("gaze")
+        folder = root / "gz" / "gaze" if gaze else root / "ht" / "hand_tracking"
+        pattern = (f"{vid}_general_eye_gaze_*.csv" if gaze else f"{vid}_*.csv" if args.signal == "wrist"
+                   else f"{vid}_hand_tracking_results_*.csv")
+        for hp in sorted(folder.glob(pattern)):
             ts = pd.read_csv(hp, usecols=[0]).iloc[:, 0].to_numpy()
             if len(ts) > 100:
                 d = abs((ts[-1] - ts[0]) / 1e6 - u[:, 1].max())
@@ -145,7 +185,11 @@ def main() -> None:
         if best[0] > args.max_mismatch:
             skipped["duration mismatch"] += 1
             continue
-        hs = hand_states(best[1], args.signal)
+        if gaze:
+            sig = gaze_signal(best[1], args.signal)
+            hs = to_states(sig) if sig is not None else None
+        else:
+            hs = hand_states(best[1], args.signal)
         if hs is None:
             skipped["too little tracking"] += 1
             continue
@@ -208,13 +252,15 @@ def main() -> None:
                                    "ratio": {s: round(float(r[i]), 3) for i, s in enumerate(STATES)},
                                    "null95": {s: [round(float(lo[i]), 3), round(float(hi[i]), 3)] for i, s in enumerate(STATES)},
                                    "speed_profile": speed_profile(vs, k)}
-    stem = "reports/egoextra_hands" + ("_fingers" if args.signal == "fingers" else "")
+    stem = "reports/egoextra_hands" + ("" if args.signal == "wrist" else "_" + args.signal)
     Path(stem + ".json").write_text(json.dumps(res, indent=2))
 
     L = ["# Ego-EXTRA: speech onsets against measured hand motion", "",
          f"Generated by `python -m scripts.egoextra_hands --signal {args.signal}`. "
          f"{res['videos']} videos, {res['hours']} h (left out: {skipped}). Hand state from the glasses' hand tracking "
-         + ("(wrist speed), " if args.signal == "wrist" else "(finger motion: change of hand shape), ")
+         + {"wrist": "(wrist speed), ", "fingers": "(finger motion: change of hand shape), ",
+            "gaze": "(NOT hands: gaze angular speed; still = eyes rest, moving = eyes jump), ",
+            "gaze_depth": "(NOT hands: gaze distance; still = near third, moving = far third), "}[args.signal]
          +
          "see the script docstring. Share of time per state: "
          + ", ".join(f"{s} {v:.0%}" for s, v in res["state_share_of_time"].items()) + ".", "",
@@ -227,8 +273,8 @@ def main() -> None:
             L.append(f"| {k} | {c['n']} | " + " | ".join(
                 f"{c['ratio'][s]:.2f} [{c['null95'][s][0]:.2f}, {c['null95'][s][1]:.2f}]" for s in STATES) + " |")
         L.append("")
-    L += ["## Hand speed around the onset (all videos)", "",
-          "Mean speed over the last 1 s, as a multiple of the video's average, at seconds relative to the onset.", "",
+    L += ["## Signal around the onset (all videos)", "",
+          "Mean of the signal over the last 1 s, as a multiple of the video's average, at seconds relative to the onset.", "",
           "| onsets | " + " | ".join(f"{o} s" for o in res["groups"]["all videos"][keys[0]]["speed_profile"]) + " |",
           "|---|" + "---|" * 7]
     for k in keys:

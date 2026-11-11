@@ -31,9 +31,9 @@ Each cell: onsets in this state, observed / expected by chance. In brackets: the
 | expert, after trainee speech, long | 2195 | 1.40 [0.83, 1.19] | 0.98 [0.94, 1.06] | 1.01 [0.94, 1.06] | 0.96 [0.94, 1.06] |
 | trainee turn | 5594 | 1.26 [0.88, 1.13] | 0.86 [0.96, 1.03] | 1.04 [0.96, 1.04] | 1.07 [0.97, 1.03] |
 
-## Hand speed around the onset (all videos)
+## Signal around the onset (all videos)
 
-Mean speed over the last 1 s, as a multiple of the video's average, at seconds relative to the onset.
+Mean of the signal over the last 1 s, as a multiple of the video's average, at seconds relative to the onset.
 
 | onsets | -4 s | -2 s | -1 s | 0 s | 1 s | 2 s | 4 s |
 |---|---|---|---|---|---|---|---|
