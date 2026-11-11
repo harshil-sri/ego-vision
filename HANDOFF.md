@@ -36,7 +36,7 @@ translates it. The camera opens through DirectShow.
   Trained on HoloAssist assembly video; on kitchen video only an indirect check
   exists (`runs/hand_state_holoassist/metrics.json`). Nothing acts on it yet.
 - `scripts/egoextra_*.py`: second dataset (Ego-EXTRA, data in `C:\ssd-data\ego-extra`), reports in `reports/egoextra_*.md`.
-- `reports/research_gap_map.md`: the research gap, what was read, what was measured, what is a guess.
+- `reports/RESEARCH_SUMMARY.md`: one page, read first. `reports/research_gap_map.md`: the research gap, what was read, what was measured, what is a guess.
 - `docs/STUDY_QUEUE.md` items 12 to 19: foundations behind the new code.
 
 **Decisions that are yours.**
