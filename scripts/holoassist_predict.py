@@ -42,13 +42,15 @@ TICK = 0.5
 ROUTINE = ("follow_up", "high_level", "confirm")
 
 
-def tick_features(V: dict, v_raw: dict):
+def tick_features(V: dict, v_raw: dict, t: np.ndarray | None = None, horizon: float = TICK):
     """Per-tick features and target for one video.
 
     Returns (X_task (n,4), X_hand (n,4), y (n,)), all aligned on ticks
-    t = lo, lo+0.5, ... < hi - 0.5.
+    t = lo, lo+0.5, ... < hi - 0.5, or on the given times t (seconds,
+    inside the task window). y = a routine onset starts in (t, t + horizon].
     """
-    t = np.arange(V["lo"], V["hi"] - TICK, TICK)                        # (n,)
+    if t is None:
+        t = np.arange(V["lo"], V["hi"] - TICK, TICK)                    # (n,)
     if len(t) < 4:
         return None
     k = np.clip(np.searchsorted(V["edges"], t, side="right") - 1, 0, len(V["state"]) - 1)
@@ -75,7 +77,7 @@ def tick_features(V: dict, v_raw: dict):
         since_coarse = np.full_like(t, 120.0)
 
     on = np.sort(np.concatenate([V["onsets"][g] for g in ROUTINE]))
-    y = (np.searchsorted(on, t + TICK, side="right") - np.searchsorted(on, t, side="right")) > 0
+    y = (np.searchsorted(on, t + horizon, side="right") - np.searchsorted(on, t, side="right")) > 0
 
     X_task = np.stack([np.clip(since_utt, 0, 120), np.clip(since_coarse, 0, 120),
                        t - V["lo"], (t - V["lo"]) / (V["hi"] - V["lo"])], axis=1)

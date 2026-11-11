@@ -1,0 +1,283 @@
+{
+  "turn_gap_s": 2.0,
+  "ask_window_s": 5.0,
+  "by_protocol": {
+    "1": {
+      "videos": 32,
+      "hours": 15.1,
+      "expert_talk_share": [
+        0.332,
+        0.471,
+        0.649
+      ],
+      "expert_turns_per_min": [
+        2.528,
+        2.859,
+        3.459
+      ],
+      "unasked_per_min": [
+        0.777,
+        1.155,
+        1.482
+      ],
+      "unasked_share": [
+        0.285,
+        0.363,
+        0.506
+      ],
+      "unasked_long_per_min": [
+        0.57,
+        0.895,
+        1.167
+      ],
+      "unasked_short_per_min": [
+        0.08,
+        0.209,
+        0.322
+      ],
+      "trainee_utts_per_min": [
+        4.411,
+        6.513,
+        7.876
+      ],
+      "median_gap_between_unasked_s": [
+        27.813,
+        35.724,
+        45.632
+      ]
+    },
+    "2": {
+      "videos": 104,
+      "hours": 37.1,
+      "expert_talk_share": [
+        0.173,
+        0.259,
+        0.351
+      ],
+      "expert_turns_per_min": [
+        3.0,
+        3.678,
+        4.038
+      ],
+      "unasked_per_min": [
+        0.932,
+        1.293,
+        1.712
+      ],
+      "unasked_share": [
+        0.264,
+        0.376,
+        0.518
+      ],
+      "unasked_long_per_min": [
+        0.537,
+        0.78,
+        1.118
+      ],
+      "unasked_short_per_min": [
+        0.202,
+        0.405,
+        0.595
+      ],
+      "trainee_utts_per_min": [
+        3.531,
+        5.07,
+        6.698
+      ],
+      "median_gap_between_unasked_s": [
+        24.44,
+        30.64,
+        43.264
+      ]
+    }
+  },
+  "by_scenario_protocol2": {
+    "01": {
+      "videos": 27,
+      "hours": 7.4,
+      "expert_talk_share": [
+        0.32,
+        0.413,
+        0.449
+      ],
+      "expert_turns_per_min": [
+        3.432,
+        3.866,
+        4.388
+      ],
+      "unasked_per_min": [
+        0.649,
+        1.079,
+        1.508
+      ],
+      "unasked_share": [
+        0.178,
+        0.273,
+        0.387
+      ],
+      "unasked_long_per_min": [
+        0.469,
+        0.899,
+        1.146
+      ],
+      "unasked_short_per_min": [
+        0.141,
+        0.187,
+        0.356
+      ],
+      "trainee_utts_per_min": [
+        3.661,
+        6.288,
+        7.686
+      ],
+      "median_gap_between_unasked_s": [
+        26.766,
+        36.009,
+        47.36
+      ]
+    },
+    "02": {
+      "videos": 7,
+      "hours": 2.7,
+      "expert_talk_share": [
+        0.198,
+        0.221,
+        0.305
+      ],
+      "expert_turns_per_min": [
+        3.165,
+        3.876,
+        4.228
+      ],
+      "unasked_per_min": [
+        0.903,
+        1.126,
+        1.494
+      ],
+      "unasked_share": [
+        0.236,
+        0.301,
+        0.386
+      ],
+      "unasked_long_per_min": [
+        0.639,
+        0.828,
+        1.123
+      ],
+      "unasked_short_per_min": [
+        0.262,
+        0.303,
+        0.371
+      ],
+      "trainee_utts_per_min": [
+        5.369,
+        5.624,
+        6.704
+      ],
+      "median_gap_between_unasked_s": [
+        26.919,
+        39.021,
+        55.915
+      ]
+    },
+    "03": {
+      "videos": 45,
+      "hours": 12.7,
+      "expert_talk_share": [
+        0.172,
+        0.264,
+        0.347
+      ],
+      "expert_turns_per_min": [
+        2.814,
+        3.68,
+        4.045
+      ],
+      "unasked_per_min": [
+        1.076,
+        1.6,
+        2.021
+      ],
+      "unasked_share": [
+        0.293,
+        0.448,
+        0.618
+      ],
+      "unasked_long_per_min": [
+        0.547,
+        0.916,
+        1.218
+      ],
+      "unasked_short_per_min": [
+        0.276,
+        0.495,
+        0.713
+      ],
+      "trainee_utts_per_min": [
+        3.2,
+        4.836,
+        6.806
+      ],
+      "median_gap_between_unasked_s": [
+        20.906,
+        28.35,
+        33.039
+      ]
+    },
+    "04": {
+      "videos": 25,
+      "hours": 14.3,
+      "expert_talk_share": [
+        0.137,
+        0.169,
+        0.197
+      ],
+      "expert_turns_per_min": [
+        2.645,
+        3.38,
+        3.85
+      ],
+      "unasked_per_min": [
+        0.937,
+        1.239,
+        1.476
+      ],
+      "unasked_share": [
+        0.301,
+        0.375,
+        0.438
+      ],
+      "unasked_long_per_min": [
+        0.53,
+        0.699,
+        0.864
+      ],
+      "unasked_short_per_min": [
+        0.236,
+        0.48,
+        0.781
+      ],
+      "trainee_utts_per_min": [
+        3.969,
+        4.765,
+        5.275
+      ],
+      "median_gap_between_unasked_s": [
+        29.741,
+        34.24,
+        45.24
+      ]
+    }
+  },
+  "sensitivity_unasked_long_per_min_protocol2": {
+    "turn_gap 1.0, ask_window 2.0": 1.2,
+    "turn_gap 1.0, ask_window 5.0": 0.93,
+    "turn_gap 1.0, ask_window 10.0": 0.56,
+    "turn_gap 2.0, ask_window 2.0": 1.06,
+    "turn_gap 2.0, ask_window 5.0": 0.78,
+    "turn_gap 2.0, ask_window 10.0": 0.54,
+    "turn_gap 4.0, ask_window 2.0": 0.85,
+    "turn_gap 4.0, ask_window 5.0": 0.68,
+    "turn_gap 4.0, ask_window 10.0": 0.47
+  }
+}

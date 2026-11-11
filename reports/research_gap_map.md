@@ -289,6 +289,15 @@ benchmarks lack.
 3. Build the stay-silent metric from the self-corrected wrong actions.
 4. Ego-EXTRA as a second dataset: it has gaze, hand keypoints and real
    expert speech, and it includes kitchen and bakery scenes (closer to this
-   project than HoloAssist). Its project page
-   (fpv-iplab.github.io/Ego-EXTRA) lists download links; the licence terms
-   and sizes have not been checked yet.
+   project than HoloAssist). Access checked 2026-11-11: direct downloads
+   from the project page (fpv-iplab.github.io/Ego-EXTRA), no form;
+   non-commercial use only. Sizes: transcripts 1 MB, gaze 0.8 GB, hand
+   keypoints 2.2 GB, full trainee videos 23.7 GB, question clips 64 GB.
+   First result, transcripts only (`reports/egoextra_speech.md`, 136
+   videos, 52 h): experts who were told to speak only when asked or when
+   necessary still start a median of 0.8 unasked turns per minute with at
+   least 1.5 s of speech (0.5 to 1.2 across threshold choices). The
+   proactive protocol gives 0.9. The protocol halves the expert's talking
+   time (47% to 26%) and does not change how often the expert speaks up
+   unasked. The transcripts are machine-translated from Italian; only the
+   time stamps and speaker tags are used.
