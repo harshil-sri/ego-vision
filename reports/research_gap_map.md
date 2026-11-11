@@ -37,7 +37,12 @@ and read (not the whole paper). **A** = abstract only.
 | PROVIA (2609.20638) | False-alarm budgets | Video | - | A |
 | PRISM (2602.01532) | Cost-sensitive gating, text agents | Text | - | A |
 | MistExit, PREGO, TI-PREGO | Mistake detection, exit/trigger time | Video, step models | - | A |
-| EgoPro-Bench, P³IBench, YETI, Streaming Interventions | Benchmarks for proactive timing | Video | Mixed | A |
+| EgoPro-Bench, P³IBench, Streaming Interventions | Benchmarks for proactive timing | Video | Mixed | A |
+| HoloAssist benchmark (2309.17024, ICCV 2023) | "Intervention type prediction": which kind of instructor intervention follows a window | RGB, hand pose, eye gaze. As reported in the YETI paper's table: F-measure 19.7 with RGB, 28.6 with RGB + hands, 42.3 with RGB + hands + eyes | Yes (HoloAssist) | A (numbers via YETI, P) |
+| YETI (2501.09355) | Scene change (frame similarity) and change of the object count from a vision-language model; a minimum gap between interventions | Video at 1 frame per second; no hand signal | Yes (HoloAssist); F-measure 52.8 to 56.2 | P |
+| Sensible Agent (2509.09255, UIST 2025, Google) | Does not decide when. Adapts WHAT to suggest and HOW (icon, audio, gesture) to context | Gaze, "hand availability" from joint tracking with a geometric rule, noise | Design from a workshop (12 people) and a data collection (40 people); no instructor timing data | P |
+| Satori (CHI 2025), PrISM-Observer (UIST 2024, 2407.16785) | Satori: belief-desire-intention model of the user. PrISM-Observer: step tracking from a smartwatch, reminder before a likely error | Video / smartwatch audio and motion | User studies | A |
+| Classic HCI: Hudson, Fogarty et al. (CHI 2003, TOCHI 2005); Adamczyk and Bailey (CHI 2004); Iqbal and Bailey (CHI 2007, 2008); Turner et al. survey (UbiComp 2015) | Sensor-based interruptibility models for office work; interruptions at task breakpoints cost less | Desk sensors, keyboard and mouse, later phones | Self-reports and experiments, desk and phone settings | A |
 | EgoProactive track, ECCV 2026 Wearable AI Challenge | Challenge on proactive timing | Video | - | A |
 
 Human-factors evidence that interruptibility matters: interruptions cost less
@@ -84,8 +89,17 @@ No work found here does all three of these:
 Limits of this claim:
 
 - The search covered 2025 to 2026 arXiv work found by keyword search. It is
-  not a systematic review. HCI venues (CHI, UIST, IMWUT) were barely
-  searched, and interruptibility research is old there.
+  not a systematic review. A first pass over HCI venues (CHI, UIST,
+  UbiComp) was done on 2026-11-11 by keyword search, abstracts mostly.
+  Interruptibility sensing is 20 years old there, for desk and phone
+  work.
+- Two neighbours found in that pass narrow item 1. Sensible Agent senses
+  whether the hands are available and adapts the form of a suggestion to
+  it; it does not time the suggestion and has no human timing data. The
+  HoloAssist benchmark already shows that hand pose helps to predict the
+  TYPE of the next intervention. So "hands as an input" is not new.
+  What is not found: hand state as a COST term that delays or cancels
+  speech, tested against when instructors actually speak and stay silent.
 - "Whether to speak" and "the cost of interrupting" are not new ideas.
   Vinci2, ProMemAssist, Jarvis and the 2026 survey all state them. What
   is claimed here is narrower: nobody found so far grounds them in the
