@@ -364,6 +364,33 @@ started:
   waiting instructor and a noticing instructor need about a second to
   react. The labels cannot separate these two.
 
+### Part 7: when does the performer start to talk? (`reports/holoassist_student_speech.md`)
+
+Labels only, 1,568 videos. Onsets by hand state, observed / chance:
+
+| Onsets | n | Idle | Fine-motor | Hold, place, inspect | Other action |
+|---|---|---|---|---|---|
+| Performer asks a question | 851 | 1.19 | 0.40 | 1.36 | 0.94 |
+| Performer, other speech | 1,876 | 0.98 | 0.60 | 1.19 | 1.10 |
+| Instructor replies to the performer | 1,031 | 1.04 | 0.41 | 1.39 | 1.05 |
+| Instructor starts, routine | 18,649 | 1.48 | 0.34 | 1.31 | 0.81 |
+| Instructor starts, correction | 2,999 | 0.65 | 0.59 | 1.16 | 1.43 |
+
+(All fine-motor cells are far outside the range of 1,000 random shifts.)
+
+- Fine-motor work is quiet for EVERYBODY. The performer asks questions
+  there at 0.40 times chance, almost the same as the instructor's
+  routine speech (0.34). This matches Ego-EXTRA, where trainee speech
+  avoids predicted fine-motor moments.
+- What is specific to the instructor is the idle column: routine
+  instructor speech is 1.48 times chance when the hands are idle,
+  performer speech is not (0.98 to 1.19), and corrections are rare there
+  (0.65) because a mistake is an action.
+- Consequence for the idea: "fine-motor moments are bad moments to talk"
+  is supported from both sides of the conversation and on two datasets,
+  in the sense that people do not talk then. Whether talking then would
+  HURT is still not shown by any of this.
+
 ### What the pilot does not show
 
 - **Cause.** Instructors may speak in idle moments because the step just
@@ -433,7 +460,9 @@ hands are busy". The order is therefore changed.
    for this. If hand state still matters at equal need, the cost reading
    is back; if not, it is closed with evidence.
 3. **Worker-side signal: when does the person want to talk?** Supported
-   on both datasets: people start speaking less during fine-motor work,
+   on both datasets (part 7: performer questions at 0.40 times chance
+   during fine-motor work on HoloAssist; Ego-EXTRA trainee speech 0.77 in
+   assembly): people start speaking less during fine-motor work,
    and gaze behaves differently before unasked and asked expert turns. An
    assistant could use this to predict questions and to time its turn in
    a dialogue. Smaller claim, better supported.

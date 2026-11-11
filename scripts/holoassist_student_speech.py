@@ -1,0 +1,126 @@
+"""Pilot part 7: when does the PERFORMER start to talk? (HoloAssist, labels only)
+
+On Ego-EXTRA the person doing the task starts to speak less during
+fine-motor work, and unasked expert speech shows no such pattern
+(reports/egoextra_from_video.md). This script asks the same question on
+HoloAssist, where the hand state is a human label: in which hand states
+do performer-initiated utterances start, compared with chance?
+
+Events (HoloAssist "Conversation Purpose")
+    performer asks a question       student-start-conversation_ask questions
+    performer, other                student-start-conversation_other
+    instructor replies              instructor-reply-to-student_*
+    instructor starts, routine      follow-up, high-level, confirming (for comparison)
+    instructor starts, correction   correct the wrong action
+
+Hand state at the onset: idle / fine (screw, unscrew, insert) /
+hold, place, inspect / other action.
+Chance: all onsets of a video are shifted by one random offset (circular)
+inside the task window, 1,000 times. Ratio 1.0 = no relation.
+
+Usage:
+    python -m scripts.holoassist_student_speech
+Outputs: reports/holoassist_student_speech.json, reports/holoassist_student_speech.md
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+from collections import Counter
+from pathlib import Path
+
+import numpy as np
+
+from scripts.holoassist_need_controlled import GROUPS, group_ids
+from scripts.holoassist_timing import LABELS, build_video
+from src.paths import resolve_data_path
+
+ROUTINE = ("follow-up instruction", "describing high-level instruction", "confirming the previous action")
+
+
+def event_type(purpose: str) -> str | None:
+    if purpose == "student-start-conversation_ask questions":
+        return "performer asks a question"
+    if purpose == "student-start-conversation_other":
+        return "performer, other"
+    if purpose.startswith("instructor-reply-to-student"):
+        return "instructor replies"
+    if purpose.startswith("instructor-start-conversation_"):
+        rest = purpose.split("_", 1)[1]
+        if rest in ROUTINE:
+            return "instructor starts, routine"
+        if rest == "correct the wrong action":
+            return "instructor starts, correction"
+    return None
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--shifts", type=int, default=1000)
+    args = ap.parse_args()
+    rng = np.random.default_rng(0)
+
+    data = json.loads(Path(resolve_data_path(LABELS)).read_text(encoding="utf-8"))
+    counts = Counter(e["attributes"].get("Verb") for v in data for e in v["events"]
+                     if e["label"] == "Fine grained action")
+    top = [v for v, _ in counts.most_common(20)]
+    gid = group_ids(top)
+    names = ["performer asks a question", "performer, other", "instructor replies",
+             "instructor starts, routine", "instructor starts, correction"]
+    obs = {n: np.zeros(4) for n in names}
+    null = {n: np.zeros((args.shifts, 4)) for n in names}
+    time_share = np.zeros(4)
+    n_videos = 0
+    for v in data:
+        V = build_video(v, top)
+        if V is None:
+            continue
+        n_videos += 1
+        lo, hi = V["lo"], V["hi"]
+        np.add.at(time_share, gid[V["state"]], np.diff(V["edges"]))
+        on = {n: [] for n in names}
+        for e in v["events"]:
+            if e["label"] == "Conversation" and lo <= e["start"] < hi:
+                t = event_type(e["attributes"].get("Conversation Purpose", ""))
+                if t:
+                    on[t].append(e["start"])
+        off = rng.uniform(0, hi - lo, size=args.shifts)
+        for n in names:
+            if not on[n]:
+                continue
+            t = np.array(on[n])
+            k = np.clip(np.searchsorted(V["edges"], t, side="right") - 1, 0, len(V["state"]) - 1)
+            obs[n] += np.bincount(gid[V["state"][k]], minlength=4)
+            ts = lo + (t[None, :] - lo + off[:, None]) % (hi - lo)                    # (shifts, events)
+            ks = np.clip(np.searchsorted(V["edges"], ts, side="right") - 1, 0, len(V["state"]) - 1)
+            g = gid[V["state"][ks]]
+            for j in range(4):
+                null[n][:, j] += (g == j).sum(1)
+
+    res = {"videos": n_videos, "shifts": args.shifts,
+           "share_of_time": {g: round(float(x), 3) for g, x in zip(GROUPS, time_share / time_share.sum())},
+           "events": {}}
+    for n in names:
+        exp = null[n].mean(0)
+        res["events"][n] = {"n": int(obs[n].sum()),
+                            **{g: [round(float(obs[n][j] / exp[j]), 3),
+                                   round(float(np.percentile(null[n][:, j], 2.5) / exp[j]), 3),
+                                   round(float(np.percentile(null[n][:, j], 97.5) / exp[j]), 3)]
+                               for j, g in enumerate(GROUPS)}}
+    Path("reports/holoassist_student_speech.json").write_text(json.dumps(res, indent=2))
+    L = ["# HoloAssist pilot part 7: when does the performer start to talk?", "",
+         "Generated by `python -m scripts.holoassist_student_speech`. Labels only, "
+         f"{res['videos']} videos. Share of task time: "
+         + ", ".join(f"{g} {x:.0%}" for g, x in res["share_of_time"].items()) + ". "
+         f"Each cell: onsets in this hand state, observed / expected by chance [range of 95% of {args.shifts} random shifts].", "",
+         "| onsets | n | " + " | ".join(GROUPS) + " |", "|---|---|" + "---|" * 4]
+    for n in names:
+        c = res["events"][n]
+        L.append(f"| {n} | {c['n']} | " + " | ".join(f"{c[g][0]:.2f} [{c[g][1]:.2f}, {c[g][2]:.2f}]" for g in GROUPS) + " |")
+    Path("reports/holoassist_student_speech.md").write_text("\n".join(L) + "\n", encoding="utf-8")
+    print("\n".join(L))
+
+
+if __name__ == "__main__":
+    main()

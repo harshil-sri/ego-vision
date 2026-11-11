@@ -367,4 +367,11 @@ Part 6, need held fixed, labels of 1,568 videos
 instruction starts during fine-motor work at 0.17 times the odds of idle
 hands (0.13 to 0.23); corrections are not delayed more by fine-motor work
 (interaction 0.99, 0.84 to 1.20). Tests: 124 passed.
+Part 6 from video (305 videos): pending instruction in predicted
+fine-motor ticks 0.22 (0.10 to 0.41). Part 6c: a pending instruction
+follows the end of an action by 1 to 2 s. Part 7: performer questions
+avoid fine-motor work as much as instructor speech does (0.40 against
+0.34). Started the download of all 1,493 usable HoloAssist videos
+(101.5 GB) with a feature loop; part 5 and the control rerun on all
+videos when it ends (305-video results kept as `reports/*_305.*`).
 

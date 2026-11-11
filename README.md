@@ -56,6 +56,7 @@ python -m scripts.holoassist_aftermath
 python -m scripts.holoassist_silence
 python -m scripts.holoassist_need_controlled     # part 6
 python -m scripts.holoassist_idle_spell          # part 6c
+python -m scripts.holoassist_student_speech      # part 7
 # HoloAssist from video: part 5 (downloads 22 GB out of a 155 GB archive)
 python -m scripts.holoassist_download_subset index
 python -m scripts.holoassist_download_subset download --videos 300
