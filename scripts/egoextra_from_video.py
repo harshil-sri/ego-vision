@@ -25,6 +25,11 @@ the models cannot be checked there; other glasses, other tasks.
 Features of each dataset are standardised with that dataset's own mean and
 standard deviation (a crude correction for the different cameras).
 
+Check without labels: the glasses track the hands themselves
+(scripts.egoextra_hands). If the hand-state model means anything on this
+video, it should say "free" more often when no hand is tracked, and "fine"
+more often when the fingers move but the wrist does not.
+
 Test (as in scripts.egoextra_hands): share of speech onsets in each
 group, observed / expected by chance; chance = circular shifts inside each
 video. The tick used for an onset is the last one that ends at or before
@@ -46,6 +51,7 @@ import numpy as np
 import pandas as pd
 import torch
 
+from scripts.egoextra_hands import DT, hand_states
 from scripts.egoextra_speech import expert_turns, load_transcript
 from scripts.holoassist_from_video import fit_head, predict_head
 from scripts.holoassist_predict import tick_features
@@ -140,7 +146,20 @@ def main() -> None:
         # last tick that ends at or before the onset; onsets before the first tick are dropped
         ev = {k: (np.searchsorted(t, x, side="right") - 1) for k, x in ev.items()}
         ev = {k: x[x >= 0] for k, x in ev.items()}
-        videos.append({"vid": vid, "protocol": proto[vid], "group": group, "third": third, "ev": ev})
+        # glasses' own hand tracking at each tick (0 none, 1 still, 2 mid, 3 moving), -1 if unusable
+        track = {}
+        for sig, pat in (("wrist", f"{vid}_*.csv"), ("fingers", f"{vid}_hand_tracking_results_*.csv")):
+            track[sig] = np.full(len(t), -1)
+            for hp in sorted((root / "ht" / "hand_tracking").glob(pat)):
+                n_rows = sum(1 for _ in open(hp)) - 1
+                if n_rows < 100:
+                    continue
+                hs = hand_states(hp, sig)
+                if hs is not None and abs(len(hs[0]) * DT - u[:, 1].max()) <= 30:
+                    track[sig] = hs[0][np.minimum((t / DT).astype(int), len(hs[0]) - 1)]
+                    break
+        videos.append({"vid": vid, "protocol": proto[vid], "group": group, "third": third, "ev": ev,
+                       "track": track})
     print(f"Ego-EXTRA: {len(videos)} videos used of {meta['video_name'].nunique()}", flush=True)
 
     def ratios(vs, key, field, k_states):
@@ -170,6 +189,17 @@ def main() -> None:
            "top_predicted_states": {names[j]: round(float(c / len(P)), 3)
                                     for j, c in Counter(P.argmax(1)).most_common(8)},
            "sets": {}}
+    # label-free check: predicted group against the glasses' hand tracking
+    check = {}
+    for sig in ("wrist", "fingers"):
+        tr_ = np.concatenate([v["track"][sig] for v in videos])
+        ok = tr_ >= 0
+        check[sig] = {"ticks": int(ok.sum()),
+                      "share_predicted": {st: {g: round(float((allg[ok & (tr_ == k)] == i).mean()), 3)
+                                               for i, g in enumerate(GROUPS)}
+                                          for k, st in enumerate(["none", "still", "mid", "moving"])
+                                          if (ok & (tr_ == k)).sum() > 0}}
+    res["tracking_check"] = check
     for sname, vs in sets.items():
         res["sets"][sname] = {"videos": len(vs)}
         for k in keys:
@@ -189,6 +219,13 @@ def main() -> None:
          "Predicted group, share of time: " + ", ".join(f"{g} {v:.0%}" for g, v in res["group_share_of_time"].items())
          + ". Most frequent predicted states: " + ", ".join(f"{k} {v:.0%}" for k, v in res["top_predicted_states"].items()) + ".", "",
          f"Each cell: observed / expected by chance [range of 95% of {args.shifts} random shifts].", ""]
+    L += ["## Check without labels: predicted group against the glasses' hand tracking", "",
+          "Share of ticks with each predicted group, by tracked hand state at the same tick.", "",
+          "| tracking signal | tracked state | predicted fine | predicted free | predicted other |", "|---|---|---|---|---|"]
+    for sig, c in res["tracking_check"].items():
+        for st, sh in c["share_predicted"].items():
+            L.append(f"| {sig} | {st} | " + " | ".join(f"{sh[g]:.2f}" for g in GROUPS) + " |")
+    L.append("")
     for sname, r in res["sets"].items():
         L += [f"## {sname} ({r['videos']} videos)", "",
               "| onsets | n | hands: fine | hands: free | hands: other | onset score: low | mid | high |",
