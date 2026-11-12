@@ -16,7 +16,7 @@ middle of fine work costs you something.
 
 - **HoloAssist**: 166 h, a person does assembly tasks, a human instructor
   watches the camera and talks. Labels for every hand action and every
-  utterance. 1,568 videos used with labels; 305 with video so far.
+  utterance. 1,568 videos used with labels; 1,493 with video.
 - **Ego-EXTRA**: 50 h, same setup with a remote expert, four scenarios
   (bike workshop, bakery, furniture assembly, kitchen). No action labels;
   transcripts, hand tracking, gaze, video.
@@ -28,9 +28,11 @@ middle of fine work costs you something.
    starts at 0.34 times the chance rate. The performer's own questions:
    0.40. (HoloAssist, labels.)
 2. **A video model can see this.** A small classifier on frozen VideoMAE
-   features names the hand state well enough to keep about 90% of the
-   gain that human labels give for predicting when the instructor
-   speaks. (HoloAssist, 305 videos.)
+   features names the hand state. For predicting when the instructor speaks, the
+   predicted hand state helps MORE than the human labels (+0.043 against
+   +0.029 average precision). Routine speech starts in predicted
+   fine-motor moments at 0.36 times chance. (HoloAssist, all 1,493
+   videos.)
 3. **At fixed need the pattern has the predicted shape.** When the next
    instruction is pending, it starts during fine-motor work at 0.17
    times the odds of idle hands. When a mistake is in progress, the
@@ -56,7 +58,9 @@ middle of fine work costs you something.
    the kind of mistake and the history of the session does much better:
    at 20% failed corrections it speaks without need on 29% of
    self-corrected mistakes, waiting on 87%. (HoloAssist labels, "drop"
-   mistakes removed.)
+   mistakes removed.) From video this does not work yet: the video model
+   sees the mistake 1 s late, and by then the instructor has corrected
+   24% of the mistakes.
 
 ## What it means
 
@@ -75,8 +79,8 @@ middle of fine work costs you something.
 
 1. A "should stay silent" evaluation: mistakes that performers fix alone
    are moments where a good assistant says nothing. Benchmarks do not
-   score this. A first score exists (finding 7, from labels). Open: the
-   same from video, on all HoloAssist videos (download running).
+   score this. A first score exists (finding 7). Open: a video gate that
+   decides earlier than 1 s after the mistake starts.
 2. Tighten the fixed-need test (finding 3), and repeat it from video on
    all videos.
 3. The worker-side signal (when does the person want to talk): present

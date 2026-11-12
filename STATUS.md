@@ -376,7 +376,12 @@ score for corrections. Waiting before correcting does not separate the
 mistakes performers fix alone from the ones instructors correct (both
 take about 2 s); a model that knows the kind of mistake and the session
 history does (without "drop": 29% unneeded speech at 20% failed
-corrections, against 87% for waiting). Started the download of all 1,493 usable HoloAssist videos
-(101.5 GB) with a feature loop; part 5 and the control rerun on all
-videos when it ends (305-video results kept as `reports/*_305.*`).
+corrections, against 87% for waiting). 2026-11-12: all 1,493 usable HoloAssist videos are on disk
+(102 GB) with features (408,801 ticks). Full-scale reruns done (old
+results kept as `reports/*_305.*`): part 5 predicted hand state +0.043
+average precision over task only (labels +0.029); shift test from video
+0.36; part 6 from video test A 0.23 (0.17 to 0.31), test B 0.92 (0.73 to
+1.19); part 8 from video: the video gate is 1 s late and loses to the
+history gate (0.44 against 0.31 unneeded at 30% failed). Tests: 125
+passed.
 

@@ -418,8 +418,45 @@ correction time.
   later. "Failed" therefore means "later than a human", not "harm".
   (2) 742 instructor-corrected mistakes have no correction utterance
   within 10 s and are left out. (3) The gate uses the labelled verb,
-  object and task; from video this will be worse (part 5: AUC 0.73 on a
-  small subset).
+  object and task; from video it is worse (see "Full scale" below).
+
+### Full scale, 2026-11-12: parts 5, 6 and 8 from video on all 1,493 videos
+
+All usable HoloAssist videos (321 sessions, 384,929 ticks of 1 s). The
+numbers above for parts 5 and 6 from video are from the 305-video subset
+(kept as `reports/*_305.*`); these replace them.
+
+- **Part 5, timing of routine instructor speech** (base rate 4.3%).
+  Gain in average precision over the task-only model: labelled hand
+  state +0.029 (0.025 to 0.032); hand state predicted from video +0.043
+  (0.038 to 0.047); raw video +0.032 (0.028 to 0.036). The predicted hand
+  state is now BETTER than the labels (+0.014, 0.010 to 0.018), not 90%
+  of them. Probable reason: the model gives a probability for each of 22
+  states, and the label is one hard state per tick.
+- **Hand state from video**: 22-way accuracy 0.39 (most common state
+  0.21); three groups 0.65. Fine-motor ticks are found well (recall
+  0.79); "free" ticks are mostly called "other" (recall 0.31).
+- **Shift test from video** (`reports/holoassist_shift_control.md`):
+  routine instructor onsets in predicted fine-motor ticks 0.36 times
+  chance (labels 0.40). Per type: high-level instruction 0.29, follow-up
+  0.35, confirmation 0.45, correction 0.42.
+- **Part 6 from video** (`reports/holoassist_need_controlled_video.md`):
+  test A, a pending instruction in predicted fine-motor ticks: odds 0.23
+  (0.17 to 0.31) against free; labels on the same ticks 0.21 (0.16 to
+  0.31). Test B, a correction: 0.92 (0.73 to 1.19); labels 0.94 (0.79 to
+  1.12). The interval of test A is now narrow, and test B is still at 1.
+- **Stay-silent from video** (part 5, experiment B, without "drop",
+  5,618 mistakes): ROC AUC history 0.768, video 0.682, history + video
+  0.788, labels + history 0.833.
+- **Part 8 from video** (`reports/holoassist_wait_policy_video.md`,
+  4,905 mistakes in 1,101 videos). A gate with video decides 1 s after
+  the mistake starts. By then the instructor has corrected 24% of the
+  mistakes, so this gate cannot reach 10% or 20% failed. At 30% failed:
+  history gate 0.31 unneeded, history + video 0.44, labels + history
+  0.20, waiting alone 0.77. So video raises the AUC a little but loses
+  on the score, because it is late. A video gate needs either an
+  earlier window or a rule that allows it to be a little later than the
+  human.
 
 ### What the pilot does not show
 
@@ -548,8 +585,8 @@ careful negative or positive answer on hand-state cost.
 ## 8. Next steps
 
 1. Full read of the seven P papers, plus EgoVoice, and an HCI search.
-2. Done on a 305-video subset (part 5), with intervals. Open: the
-   full 1,493 usable videos (about 80 GB more).
+2. Done on all 1,493 usable videos (part 5, part 6 from video, part 8
+   from video; section 4, "Full scale").
 3. Build the stay-silent metric from the self-corrected wrong actions.
 4. Ego-EXTRA as a second dataset: it has gaze, hand keypoints and real
    expert speech, and it includes kitchen and bakery scenes (closer to this

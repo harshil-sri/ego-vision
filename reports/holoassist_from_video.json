@@ -1,165 +1,165 @@
 {
-  "ticks": 79280,
-  "onsets": 3453,
-  "base_rate": 0.0436,
-  "videos": 305,
-  "sessions": 64,
+  "ticks": 384929,
+  "onsets": 16508,
+  "base_rate": 0.0429,
+  "videos": 1493,
+  "sessions": 321,
   "tick_s": 1.0,
   "hand_state_from_video": {
-    "accuracy": 0.3565,
-    "majority_baseline": 0.1805,
-    "mean_class_recall": 0.2552,
-    "idle_vs_busy_auc": 0.7866,
+    "accuracy": 0.3858,
+    "majority_baseline": 0.2065,
+    "mean_class_recall": 0.303,
+    "idle_vs_busy_auc": 0.7842,
     "recall": {
-      "grab": 0.394,
-      "place": 0.352,
-      "insert": 0.421,
-      "withdraw": 0.168,
-      "unscrew": 0.489,
-      "screw": 0.568,
-      "rotate": 0.313,
-      "lift": 0.218,
-      "disassemble": 0.04,
-      "align": 0.271,
-      "approach": 0.069,
-      "inspect": 0.186,
-      "hold": 0.1,
-      "press": 0.281,
-      "open": 0.302,
-      "slide": 0.062,
-      "drop": 0.082,
-      "close": 0.371,
-      "assemble": 0.229,
-      "pull": 0.161,
-      "other_verb": 0.169,
-      "idle": 0.368
+      "grab": 0.406,
+      "place": 0.349,
+      "insert": 0.462,
+      "withdraw": 0.17,
+      "unscrew": 0.519,
+      "screw": 0.607,
+      "rotate": 0.359,
+      "lift": 0.241,
+      "disassemble": 0.082,
+      "align": 0.346,
+      "approach": 0.123,
+      "inspect": 0.255,
+      "hold": 0.121,
+      "press": 0.386,
+      "open": 0.415,
+      "slide": 0.095,
+      "drop": 0.1,
+      "close": 0.467,
+      "assemble": 0.359,
+      "pull": 0.213,
+      "other_verb": 0.231,
+      "idle": 0.359
     }
   },
   "timing": {
     "task": {
-      "auc": 0.7557,
-      "ap": 0.1094,
+      "auc": 0.7704,
+      "ap": 0.1186,
       "ap_folds": [
-        0.1174,
-        0.1069,
-        0.105,
-        0.1096,
-        0.1082
+        0.1107,
+        0.1177,
+        0.1203,
+        0.1254,
+        0.1192
       ]
     },
     "task + oracle hand": {
-      "auc": 0.7921,
-      "ap": 0.1342,
+      "auc": 0.8058,
+      "ap": 0.1471,
       "ap_folds": [
-        0.151,
-        0.1311,
-        0.127,
-        0.1242,
-        0.1379
+        0.1385,
+        0.1489,
+        0.1451,
+        0.1531,
+        0.1498
       ]
     },
     "task + predicted hand": {
-      "auc": 0.7886,
-      "ap": 0.1316,
+      "auc": 0.8151,
+      "ap": 0.1611,
       "ap_folds": [
-        0.1318,
-        0.1426,
-        0.1241,
-        0.1341,
-        0.1253
+        0.1512,
+        0.1606,
+        0.1652,
+        0.1614,
+        0.1672
       ]
     },
     "task + video": {
-      "auc": 0.778,
-      "ap": 0.1239,
+      "auc": 0.8018,
+      "ap": 0.1501,
       "ap_folds": [
-        0.1274,
-        0.1158,
-        0.1205,
-        0.1255,
-        0.1304
+        0.1416,
+        0.1552,
+        0.1532,
+        0.1529,
+        0.1477
       ]
     },
     "oracle hand only": {
-      "auc": 0.7292,
-      "ap": 0.0945,
+      "auc": 0.7344,
+      "ap": 0.0976,
       "ap_folds": [
-        0.0995,
-        0.09,
-        0.0886,
-        0.105,
-        0.0894
+        0.0956,
+        0.0952,
+        0.0978,
+        0.0983,
+        0.1012
       ]
     },
     "predicted hand only": {
-      "auc": 0.7592,
-      "ap": 0.1061,
+      "auc": 0.7839,
+      "ap": 0.1307,
       "ap_folds": [
-        0.106,
-        0.1047,
-        0.099,
-        0.1143,
-        0.1065
+        0.1216,
+        0.1334,
+        0.1325,
+        0.1293,
+        0.1368
       ]
     },
     "video only": {
-      "auc": 0.732,
-      "ap": 0.1041,
+      "auc": 0.7496,
+      "ap": 0.1153,
       "ap_folds": [
-        0.1005,
-        0.1034,
-        0.0949,
-        0.1168,
-        0.1046
+        0.109,
+        0.1157,
+        0.1165,
+        0.1164,
+        0.1188
       ]
     }
   },
   "ap_difference_95": {
     "task + oracle hand minus task": [
-      0.0235,
-      0.0176,
-      0.0305
+      0.0285,
+      0.0249,
+      0.0323
     ],
     "task + predicted hand minus task": [
-      0.0223,
-      0.016,
-      0.0289
+      0.0427,
+      0.0383,
+      0.0473
     ],
     "task + video minus task": [
-      0.0144,
-      0.0082,
-      0.021
+      0.0319,
+      0.0281,
+      0.036
     ],
     "task + predicted hand minus task + oracle hand": [
-      -0.0012,
-      -0.0094,
-      0.0069
+      0.0142,
+      0.0104,
+      0.0178
     ],
     "task + predicted hand minus task + video": [
-      0.0079,
-      0.0002,
-      0.0149
+      0.0108,
+      0.0071,
+      0.0144
     ]
   },
   "silence": {
     "all mistakes": {
-      "n": 1316,
-      "silent_share": 0.42,
+      "n": 6498,
+      "silent_share": 0.407,
       "auc": {
-        "history": 0.7116,
-        "video": 0.6667,
-        "history + video": 0.741,
-        "labels + history (oracle)": 0.8485
+        "history": 0.7739,
+        "video": 0.7186,
+        "history + video": 0.8146,
+        "labels + history (oracle)": 0.8881
       }
     },
     "without drop": {
-      "n": 1115,
-      "silent_share": 0.317,
+      "n": 5618,
+      "silent_share": 0.316,
       "auc": {
-        "history": 0.7096,
-        "video": 0.6055,
-        "history + video": 0.7296,
-        "labels + history (oracle)": 0.7378
+        "history": 0.7682,
+        "video": 0.6821,
+        "history + video": 0.7877,
+        "labels + history (oracle)": 0.8331
       }
     }
   }
