@@ -18,8 +18,8 @@ trained on HoloAssist) reads that vector. No extra video pass.
 
 Limits: the head was trained on assembly tasks filmed with a HoloLens. On
 kitchen video it has only an indirect check (higher "fine" for cut, wash,
-mix than for take, put). Nothing in the app acts on this signal yet; it is
-reported in the engine state under "hands".
+mix than for take, put). It is reported in the engine state under "hands";
+src/pipeline/delivery.py uses it to hold routine messages.
 """
 
 from __future__ import annotations

@@ -16,14 +16,20 @@ Rules
     A newer routine message replaces a held one (the old one is stale).
 
 The class has no clock and no threads: the caller passes `now` in seconds.
-`fine_threshold` and `max_hold_s` are first guesses, not tuned values.
+`fine_threshold` 0.5 and `max_hold_s` 8 s come from a replay of this class on
+HoloAssist (reports/holoassist_delivery_sim.md). There, for messages at random
+moments, 32% arrive during labelled fine-motor work without the rule and 21%
+with it, for a mean delay of 1.4 s. The time limit matters more than the
+threshold: fine-motor work continues for a median of 6 s, so a 4 s limit
+releases half of the held messages while the work still goes on. How long a
+user accepts to wait is not measured; 8 s is a judgement.
 """
 
 from __future__ import annotations
 
 
 class HandAwareDelivery:
-    def __init__(self, fine_threshold: float = 0.5, max_hold_s: float = 4.0) -> None:
+    def __init__(self, fine_threshold: float = 0.5, max_hold_s: float = 8.0) -> None:
         self.fine_threshold = fine_threshold
         self.max_hold_s = max_hold_s
         self._fine: float | None = None          # newest fine-motor probability

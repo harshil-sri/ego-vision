@@ -63,6 +63,22 @@ def test_tar_octal_field():
     assert _octal(b"\0" * 12) == 0
 
 
+def test_delivery_replay():
+    """The simulation drives the app's delivery class: at once, hands free, held too long, replaced."""
+    from scripts.holoassist_delivery_sim import replay, score
+
+    t = np.arange(0.0, 12.0)                                  # one reading per second
+    fine = np.array([0.1, 0.9, 0.9, 0.1, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 0.1])
+    r = replay(t, fine, np.array([0.5, 1.5, 4.5, 5.5]), 0.5, 4.0)
+    assert r[0].tolist() == [0.5, 0.0, 0.0]                   # reading 0.1: delivered at once
+    assert r[1].tolist() == [3.0, 1.5, 1.0]                   # held until the reading at 3 s is low
+    assert np.isnan(r[2, 0]) and r[2, 2] == 3                 # replaced by the message at 5.5 s
+    assert r[3].tolist() == [10.0, 4.5, 2.0]                  # first reading 4 s or more after 5.5 s
+    s = score([(r, None, lambda x: np.nan_to_num(x) >= 10.0)])
+    assert s["held"] == 0.75 and s["in_fine_work"] == 1 / 3 and abs(s["mean_delay"] - 2.0) < 1e-9
+    assert abs(s["timeout"] - 1 / 3) < 1e-9 and abs(s["replaced"] - 1 / 3) < 1e-9
+
+
 def test_wait_policy_rates():
     """Part 8: unneeded / failed rates of the wait and gate policies on four hand-made mistakes."""
     from scripts.holoassist_wait_policy import DELAYS, THRESH, best, rates

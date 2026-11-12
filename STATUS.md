@@ -386,8 +386,13 @@ history + video with the window ending at the mistake start 0.37; with
 2 s of tolerance and the window ending 1 s after the start 0.30, equal to
 the label ceiling. Pushed to GitHub and main fast-forwarded at 8e38c5a.
 Work continues on `main`. App: `src/pipeline/delivery.py` holds routine
-step messages while the hands do fine-motor work (at most 4 s) and
+step messages while the hands do fine-motor work (at most 8 s) and
 publishes them as "say" events; warnings do not wait. Active only with
-`--hand-state-dir`. The UI does not use "say" yet. Tests: 127 passed. Tests: 125
+`--hand-state-dir`. The UI does not use "say" yet. Limit set to 8 s from a
+replay on HoloAssist (`reports/holoassist_delivery_sim.md`): random-moment
+messages in fine-motor work 32% -> 21%, mean delay 1.4 s; step-boundary
+messages are almost never in fine-motor work (1.5%), so the rule does little
+for them. App hand-state head retrained on all 1,493 videos (old one kept
+locally as `last_305.pt`). Tests: 128 passed. Tests: 125
 passed.
 

@@ -99,8 +99,32 @@ checked on kitchen video.
 
 One rule now acts on it (`src/pipeline/delivery.py`, only when the app is
 started with `--hand-state-dir`): a routine step message waits while the
-fine-motor probability is 0.5 or more, for at most 4 s; a wrong-order
+fine-motor probability is 0.5 or more, for at most 8 s; a wrong-order
 warning never waits. The released message is a `"say"` event, and the
 waiting message is `"held_message"` in the engine state. The screen
 still shows every message at once: the rule is for a future voice output.
-The two numbers are first guesses. Not tested on a real kitchen recording.
+Not tested on a real kitchen recording.
+
+The two numbers come from a replay of the rule on all 1,493 HoloAssist
+videos (`reports/holoassist_delivery_sim.md`), with the hand state read
+from video:
+
+- Messages at random moments (a timer, a tip): 32% arrive during
+  labelled fine-motor work without the rule, 21% with it (ratio 0.62 to
+  0.67). 29% of the messages wait, 5 s on average; the mean delay over
+  all messages is 1.4 s. With the labelled hand state instead of the
+  video head the same rule reaches 10%.
+- The time limit matters more than the threshold. Fine-motor work
+  continues for a median of 6 s (10 s at the 75th percentile). With the
+  first guess of 4 s, half of the held messages were released while the
+  work still went on. 8 s is a judgement: how long a user accepts to
+  wait is not measured.
+- Messages at step boundaries (the app's "next step" message): only 1.5%
+  fall in fine-motor work, because a step boundary is a moment between
+  actions. The rule has almost nothing to prevent there. It holds 7% of
+  these messages for about 1 s, mostly because the video head still
+  reports the fine-motor work that has just ended (it looks at the last
+  2 s). So the rule matters for messages that do not depend on the task
+  timing, not for step messages.
+- The app's hand-state head is now trained on all 1,493 videos (before:
+  305). The indirect kitchen check improved from 0.60 to 0.63.

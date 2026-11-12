@@ -474,6 +474,30 @@ numbers above for parts 5 and 6 from video are from the 305-video subset
   - Video alone is always worse than history alone (AUC 0.70 against
     0.77).
 
+### The app's message-hold rule, replayed on HoloAssist (`reports/holoassist_delivery_sim.md`)
+
+The app holds a routine message while the fine-motor probability from
+video is 0.5 or more, for at most a time limit
+(`src/pipeline/delivery.py`). The same class was replayed on all 1,493
+videos; the hand-state head was cross-fitted by session.
+
+| Message moments | In fine work, no rule | Rule, limit 4 s | Rule, limit 8 s | Rule, no limit | Labels, limit 8 s |
+|---|---|---|---|---|---|
+| Random (1 per 30 s) | 32.2% | 24.8%, delay 1.0 s | 20.7%, delay 1.4 s | 15.4%, delay 1.8 s | 10.2%, delay 1.5 s |
+| Step boundary | 1.5% | 2.1% | 2.0% | 1.8% | 0.9% |
+
+- "Delay" is the mean over all messages. With the 8 s limit, 29% of the
+  random-moment messages wait (5.1 s on average) and 29% of those are
+  released by the limit.
+- The time limit matters more than the threshold: fine-motor work
+  continues for a median of 6 s after a moment inside it. A threshold
+  of 0.3 with the same limit holds more messages and gains nothing.
+- At step boundaries the hands are almost never in fine-motor work, so
+  the rule cannot help, and the 2 s look-back of the video head makes
+  it hold a few messages after the work has ended.
+- Default changed from 4 s to 8 s. This is a count of what the rule
+  does, not evidence that a user prefers it.
+
 ### What the pilot does not show
 
 - **Cause.** Instructors may speak in idle moments because the step just
