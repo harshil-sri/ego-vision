@@ -267,6 +267,19 @@ precise work is mostly other verbs (pour, spread, measure), so its
 null result limits the claim to screw, unscrew and insert; it has too
 few of those (33 labelled moments) to test them.
 
+Ego-EXTRA label check, 2026-11-12 (`reports/egoextra_label_check.md`,
+`reports/egoextra_hand_labels.csv`): 240 moments from scenarios 01
+(bike workshop) and 03 (furniture assembly), labelled by eye, blind, no
+model. Furniture assembly: screw or insert at 40% of random seconds,
+12% of unasked expert onsets (ratio 0.29, 95% interval 0.09 to 0.61),
+22% of trainee onsets (0.55, 0.24 to 1.02); pooled 0.41 (0.22 to 0.72).
+Bike workshop: screw or insert too rare to test (1 of 30 random
+seconds); any precise work 0.70 (0.53 to 0.93). So the effect is seen
+outside HoloAssist where the three actions are common. The earlier
+null result on Ego-EXTRA (1.11 for unasked expert speech) used the
+predicted hand state and is explained by the weak head. One labeller
+(the AI assistant), one pass; not yet checked by a person.
+
 Framing decided by Harshil on 2026-11-12, after the WTaG label check:
 the HoloAssist finding with honest limits. The claim below holds for
 HoloAssist's assembly tasks only; the paper reports that it was not

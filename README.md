@@ -76,6 +76,7 @@ python -m scripts.egoextra_hands --signal wrist        # also: fingers, gaze, ga
 python -m scripts.holoassist_video_features --root /mnt/ssd/ego-extra --center 320
 python -m scripts.egoextra_from_video
 python -m scripts.egoextra_predict
+python -m scripts.egoextra_label_check    # 240 moments labelled by eye (reports/egoextra_hand_labels.csv)
 
 # WTaG, third dataset (6.5 GB; videos/<recording>.mp4 are hard links to extract/<recording>/Video/Video.mpeg)
 python -m scripts.holoassist_video_features --root /mnt/ssd/wtag

@@ -139,6 +139,25 @@ middle of fine work costs you something.
     the effect does not extend to precise work in general; it does not
     test the screw-and-insert effect well.
 
+12. **The effect is seen again in furniture assembly on Ego-EXTRA, with
+    labels by eye** (2026-11-12, `reports/egoextra_label_check.md`). 240
+    moments from the bike workshop and furniture assembly scenarios: 80
+    unasked expert turns, 80 trainee turns, 80 random seconds, labelled
+    blind, no model.
+    - Furniture assembly: screw or insert is in progress at 40% of
+      random seconds, at 12% of unasked expert onsets (ratio 0.29,
+      interval 0.09 to 0.61) and at 22% of trainee onsets (0.55, 0.24
+      to 1.02). Both pooled: 0.41 (0.22 to 0.72).
+    - Bike workshop: screw or insert is rare (1 of 30 random seconds),
+      so it cannot be tested. Other precise work (fitting a tyre,
+      bleeding a brake) fills 80% of random seconds and 56% of speech
+      onsets (ratio 0.70, 0.53 to 0.93).
+    - Both scenarios pooled, screw or insert: 0.50 (0.29 to 0.87).
+    This is the first sign of the HoloAssist effect outside HoloAssist:
+    another camera, other people, a remote expert. It is one labeller
+    (the AI assistant), one pass, 92 onsets in furniture assembly. It
+    needs a human check before it carries weight in the paper.
+
 ## What it means
 
 - Supported, on HoloAssist (assembly, 166 h, human hand labels):
@@ -152,7 +171,11 @@ middle of fine work costs you something.
   prediction of a model trained on assembly video. On WTaG a labelled
   sample gives the same answer without the model (finding 10), so the
   effect looks specific to HoloAssist's assembly tasks, not hidden by a
-  weak model. Ego-EXTRA is not checked this way.
+  weak model. On Ego-EXTRA's furniture assembly a labelled sample does
+  show it (finding 12). The pattern so far: the effect appears where
+  screw and insert actions are common (HoloAssist, furniture assembly)
+  and not where they are rare (cooking). The earlier Ego-EXTRA null
+  result came from the model, which does not find these actions there.
 - Not supported outside HoloAssist, after the label check: the worker's
   side. With the predicted hand state the worker speaks less during
   "fine-motor" seconds on all three datasets, but on WTaG the labels do
@@ -190,10 +213,10 @@ middle of fine work costs you something.
    why these three. A data set with many such actions outside
    HoloAssist would be the real replication (Ego-EXTRA's bike workshop
    and furniture assembly are candidates, with labels by eye).
-4. **A label check on Ego-EXTRA's furniture-assembly scenario**, the
-   only setting outside HoloAssist that is assembly. The trainee's
-   speech avoided predicted fine-motor seconds most there (0.77), but
-   the prediction is now in doubt.
+4. **Make the Ego-EXTRA furniture result solid** (finding 12; done as a
+   first sample, 0.41 with interval 0.22 to 0.72). It needs: a person
+   who labels 60 of the 240 rows blind (`reports/egoextra_hand_labels.csv`),
+   and a larger sample from the 57 furniture videos only.
 5. The "should stay silent" evaluation (finding 7) stays in the paper as
    a second section. It does not depend on the hand-state effect.
    Open: how much later than a human an assistant may be.

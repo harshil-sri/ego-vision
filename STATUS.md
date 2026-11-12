@@ -439,6 +439,13 @@ locally as `last_305.pt`). Tests: 128 passed.
   replications. HoloAssist by action length
   (`scripts/holoassist_action_length.py`): the avoidance is tied to
   screw, unscrew and insert at any length (0.46 under 2 s, 0.28 at
-  10 s and more); other verbs 0.76 to 1.02. Next steps in order are in
+  10 s and more); other verbs 0.76 to 1.02.
+- Ego-EXTRA label check (`scripts/egoextra_label_check.py`, 240 moments
+  labelled by eye, blind): in furniture assembly, speech onsets fall on
+  screw or insert 0.41 times as often as random seconds (0.22 to 0.72);
+  expert alone 0.29. First replication outside HoloAssist. Labels by
+  the assistant, not checked by a person.
+- Rater invitation text: `study/INVITE.md`. GitHub Pages is not enabled
+  yet (Harshil's step). Next steps in order are in
   `reports/RESEARCH_SUMMARY.md` ("What the paper needs next").
 Tests: 132 passed.
