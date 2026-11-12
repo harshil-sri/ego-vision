@@ -415,5 +415,8 @@ locally as `last_305.pt`). Tests: 128 passed.
   that already shows the cost of messages inside an action sequence.
   The novelty claim in `reports/research_gap_map.md` is narrowed.
 - Rating study page checked by eye on desktop and phone size.
-- WTaG download approved by Harshil, not started (he asked to wait).
+- WTaG downloaded and unpacked to `C:\ssd-data\wtag\extract`
+  (9.9 h, 56 recordings, timed utterances with intents and instruction
+  types, step intervals, no hand labels, no audio). Not analysed yet.
+  Details in `reports/research_gap_map.md`.
 Tests: 132 passed.

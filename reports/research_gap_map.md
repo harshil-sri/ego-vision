@@ -155,6 +155,22 @@ Audit of 2026-11-12 (keyword search, three new works, read-depth Q):
   17 users, 3 instructors, 3 recipes, 4,233 utterances, a "when to talk"
   task (yes/no at time t), and all three zero-shot methods of the paper
   predict when to talk "with around chance performance".
+  Downloaded and inspected on 2026-11-12 (`C:\ssd-data\wtag\extract`,
+  6.2 GB, no code run from the archive). Contents: 56 recording folders
+  (one, T31, is stored a second time inside T50), 9.9 h of video (H.264,
+  896x504, 25.5 frames per second, no audio track), about 10.6 min each;
+  19 coffee, 19 mug cake and 18 pinwheel recordings by the first steps.
+  Per recording: step intervals (`StepDetection.txt`), 1,879 instructor
+  and 2,354 user utterances with start and end time and a dialogue
+  intent, and the video start and end time. Times are 100 ns ticks on
+  one clock, so speech, steps and video align. Instructor instructions
+  carry a type: current step 231, detailed 181, next step 113, wrong
+  action 98, wrong state 60, wrong object 48. So the split of finding 3
+  (routine instruction against correction) exists here as a human label.
+  There are no hand-action labels: the hand state must come from the
+  video head trained on HoloAssist, as on Ego-EXTRA. The archive has no
+  licence file; the code repository is MIT, the data terms are not
+  stated, and the version with audio needs a signed form (not requested).
 
 Hand check of 2026-11-12: the numbers and task definitions of
 EgoIntrospect and WTaG, and the abstract and introduction of the survey,
