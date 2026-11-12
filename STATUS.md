@@ -393,6 +393,19 @@ replay on HoloAssist (`reports/holoassist_delivery_sim.md`): random-moment
 messages in fine-motor work 32% -> 21%, mean delay 1.4 s; step-boundary
 messages are almost never in fine-motor work (1.5%), so the rule does little
 for them. App hand-state head retrained on all 1,493 videos (old one kept
-locally as `last_305.pt`). Tests: 128 passed. Tests: 125
-passed.
+locally as `last_305.pt`). Tests: 128 passed.
 
+2026-11-12, work towards a paper:
+- Robustness (`reports/holoassist_robustness.md`): the avoidance of
+  fine-motor seconds holds in 95% of sessions, 18 of 19 task types, with
+  a head that never saw the object (0.49), and with a second model type.
+- Official split (`reports/holoassist_official_split.md`): task +
+  predicted hand state AP 0.160 against 0.115 for task features.
+- Rating study built in `study/` (20 clips, pre-registered). Waits for
+  raters; Harshil hosts it and collects the codes.
+- Related work: EgoIntrospect (self-reported interruptibility from
+  egocentric video) must be cited; WTaG is a candidate second dataset,
+  not downloaded.
+- Second encoder (DINOv2): see `reports/holoassist_robustness_dino.md`
+  when present.
+Tests: 132 passed.

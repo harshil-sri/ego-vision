@@ -60,6 +60,10 @@ python -m scripts.holoassist_student_speech      # part 7
 python -m scripts.holoassist_wait_policy         # part 8
 python -m scripts.holoassist_wait_policy --video # part 8 from video (needs the features of part 5)
 python -m scripts.holoassist_delivery_sim       # replay of the app's message-hold rule (needs the features)
+python -m scripts.holoassist_robustness         # the main result by model, task, session, hand state (--tag _dino: second encoder)
+python -m scripts.holoassist_official_split     # the timing experiment on the dataset's own train/val split
+python -m scripts.rating_study_build            # clips for the rating study in study/ (see study/README.md)
+python -m scripts.rating_study_analyze          # after raters answered: reports/rating_study.md
 # HoloAssist from video: part 5 (downloads 22 GB out of a 155 GB archive)
 python -m scripts.holoassist_download_subset index
 python -m scripts.holoassist_download_subset download --videos 300

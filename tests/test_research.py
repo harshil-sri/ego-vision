@@ -177,3 +177,15 @@ def test_rating_study_instruction_filter():
     assert clean("put it on, on the table over there") is None         # repeated word
     assert clean("um take the screw and turn it") is None and clean("can you take the screw out now?") is None
     assert clean("too short") is None
+
+
+def test_official_split_onset_f1():
+    """A prediction counts if a true onset lies from 1 tick before to 2 ticks after it; each onset once."""
+    from scripts.holoassist_official_split import onset_f1
+
+    y = np.zeros(20); y[[5, 12]] = 1
+    s = np.zeros(20); s[[4, 5, 14, 18]] = 1.0          # 4 -> onset 5; 5 is inside the 3 s gap; 14 -> too late for 12; 18 -> none
+    f1, p, r = onset_f1(s, y, [(0, 20)], 0.5)
+    assert (p, r) == (1 / 3, 1 / 2) and abs(f1 - 0.4) < 1e-9
+    s2 = np.zeros(20); s2[[6, 10]] = 1.0               # 6 -> onset 5 (1 tick before); 10 -> onset 12 (2 ticks after)
+    assert onset_f1(s2, y, [(0, 20)], 0.5) == (1.0, 1.0, 1.0)

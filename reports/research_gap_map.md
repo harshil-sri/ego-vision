@@ -508,6 +508,56 @@ numbers above for parts 5 and 6 from video are from the 305-video subset
   - Video alone is always worse than history alone (AUC 0.70 against
     0.77).
 
+### Robustness, 2026-11-12 (`reports/holoassist_robustness.md`)
+
+Statistic: routine onsets in fine-motor seconds / onsets expected by
+chance (1,000 shifts). The reference here is 0.42, not the 0.36 of the
+positive control, because this script calls a second "fine" when the
+single most likely state is screw, unscrew or insert; the control sums
+the three probabilities.
+
+| Check | Result |
+|---|---|
+| Labels, no model | 0.40 |
+| MLP head, split by session | 0.42 |
+| Logistic regression on 64 components | 0.55 |
+| MLP head that never saw the object of the test video (14 object families) | 0.49 |
+| Each recording session (240 with enough data) | median 0.35 (labels), 0.38 (predicted); 95% of sessions below 1; 87 to 88% below 0.7 |
+| Each task type | 18 of 19 with fine-motor work below 1 with labels. Exception: nespresso coffee (5% fine-motor time), 1.04 |
+| Each of the 22 hand states | unscrew 0.27, screw 0.33, insert 0.49; next: disassemble 0.70. Most frequent after: place 1.37, hold 1.38, idle 1.28 |
+| Hand state read earlier | at onset 0.40; 1 s before 0.56; 2 s before 0.72; 4 s before 0.86 |
+
+- Corrections, same statistic: 0.57 with labels, 0.51 predicted. This is
+  the known caveat of part 5: without a control for need, corrections
+  also fall outside fine-motor seconds. Part 6 (fixed need) is where the
+  two types separate.
+- By hand state, corrections differ from routine speech: they are above
+  chance in most active states (grab 1.49, align 1.75, rotate 1.74) and
+  low in idle (0.54) and screw (0.25); insert is at chance (1.06).
+- The annotation-practice objection of section 7 is narrowed, not
+  removed: the predicted state gives the same result as the labels in
+  every row, and the model never sees speech. But the model was trained
+  on the same labels.
+
+### Official split, 2026-11-12 (`reports/holoassist_official_split.md`)
+
+Train 1,306 videos, val 186 videos (2,021 routine onsets). 124 sessions
+have videos on both sides, so this split is easier than the session folds.
+
+| Model | Average precision on val | Change against task | Onset F1 |
+|---|---|---|---|
+| Task features | 0.115 | - | 0.449 |
+| Video (32 components) | 0.117 | +0.001 (-0.011 to +0.013) | 0.389 |
+| Predicted hand state | 0.128 | +0.013 (+0.001 to +0.026) | 0.420 |
+| Task + video | 0.153 | +0.037 (+0.026 to +0.049) | 0.463 |
+| Task + predicted hand state | 0.160 | +0.045 (+0.034 to +0.057) | 0.481 |
+| Task + labelled hand state | 0.147 | +0.032 (+0.023 to +0.041) | 0.466 |
+
+Same order as on the session folds (+0.043 predicted, +0.029 labelled).
+The onset F1 uses our own implementation of a tolerance window; it is
+not comparable with the numbers of EgoVoice or YETI, which use other
+inputs and other sets of utterances.
+
 ### The app's message-hold rule, replayed on HoloAssist (`reports/holoassist_delivery_sim.md`)
 
 The app holds a routine message while the fine-motor probability from

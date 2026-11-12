@@ -65,6 +65,28 @@ middle of fine work costs you something.
    2 s BEFORE the mistake helps a little and is not late (37% against
    41% for history alone).
 
+8. **Finding 1 does not depend on our choices** (2026-11-12,
+   `reports/holoassist_robustness.md`). Routine speech in fine-motor
+   seconds, relative to chance:
+   - 95% of 240 recording sessions are below 1 (median 0.35 to 0.38).
+   - 18 of the 19 task types with fine-motor work are below 1. The
+     exception is one coffee task where such work is 5% of the time.
+   - A hand-state model that never saw the object of the test video
+     still gives 0.49 (0.42 when it has seen the object, 0.40 with labels).
+     A plain logistic regression gives 0.55.
+   - Screw, unscrew and insert are the three most avoided of the 22 hand
+     states (0.27 to 0.49; the next is 0.70). The grouping is a fair
+     summary of the data, not a selection.
+   - The effect is tied to the moment: 0.40 at the onset, 0.56 one second
+     before, 0.72 two seconds before, 0.86 four seconds before.
+
+9. **The same result on the dataset's official split**
+   (`reports/holoassist_official_split.md`; train 1,306 videos, val 186).
+   Average precision for "routine speech starts in the next second":
+   task features 0.115; plus hand state from video 0.160 (+0.045,
+   interval +0.034 to +0.057); plus the labelled hand state 0.147. Onset
+   F1 with a tolerance of 1 s early to 2 s late: 0.449 to 0.481.
+
 ## What it means
 
 - Supported: fine-motor moments are quiet moments, from both sides of the
@@ -89,6 +111,10 @@ middle of fine work costs you something.
 3. The worker-side signal (when does the person want to talk): present
    on both datasets, but small on Ego-EXTRA.
 4. A small controlled study with participants. Only this can show cost.
+   A first step is built and waits for raters (`study/`): observers rate
+   the timing of a routine message or a warning, spoken during fine-motor
+   work or when the rule releases it. The hypotheses are fixed in
+   `study/PREREGISTRATION.md`.
 
 ## In the app
 
