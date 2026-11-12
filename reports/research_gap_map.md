@@ -449,14 +449,30 @@ numbers above for parts 5 and 6 from video are from the 305-video subset
   5,618 mistakes): ROC AUC history 0.768, video 0.682, history + video
   0.788, labels + history 0.833.
 - **Part 8 from video** (`reports/holoassist_wait_policy_video.md`,
-  4,905 mistakes in 1,101 videos). A gate with video decides 1 s after
-  the mistake starts. By then the instructor has corrected 24% of the
-  mistakes, so this gate cannot reach 10% or 20% failed. At 30% failed:
-  history gate 0.31 unneeded, history + video 0.44, labels + history
-  0.20, waiting alone 0.77. So video raises the AUC a little but loses
-  on the score, because it is late. A video gate needs either an
-  earlier window or a rule that allows it to be a little later than the
-  human.
+  4,900 mistakes in 1,101 videos, "drop" removed). The gate is scored
+  with the 2 s video window ending 0, 0.5 or 1 s after the mistake
+  starts. Unneeded rate at 20% failed:
+
+  | Gate input | Strict | Up to 2 s later than the instructor allowed |
+  |---|---|---|
+  | Waiting alone | 0.88 | 0.35 |
+  | History | 0.41 | 0.41 |
+  | History + video, window ends at the start | 0.37 | 0.37 |
+  | History + video, window ends 1 s after the start | cannot reach | 0.30 |
+  | Labels + history (ceiling) | 0.30 | 0.30 |
+
+  - Strict scoring: a window that ends 1 s after the start is too late,
+    because the instructor has then corrected 24% of the mistakes. A
+    window that ends AT the start (it sees only the 2 s before the
+    mistake) is not late and improves the history gate by 0.04 (0.01 to
+    0.07). So the scene before a mistake already says a little about
+    whether the instructor will step in.
+  - Tolerant scoring: history + video with the 1 s window reaches the
+    label ceiling (0.30). Part of this gain is the 1 s wait itself:
+    self-corrected mistakes shorter than 1 s are over before the gate
+    decides.
+  - Video alone is always worse than history alone (AUC 0.70 against
+    0.77).
 
 ### What the pilot does not show
 

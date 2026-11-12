@@ -98,9 +98,12 @@ def best(unneeded: np.ndarray, failed: np.ndarray, family: str, target: float) -
 def main_video(args) -> None:
     """The gate without labels: history, video, history + video; labels + history as the ceiling.
 
-    Video feature: the first 2 s window that ends at least --gate-delay after the
-    mistake starts. So a video gate can speak at --gate-delay at the earliest;
-    the two gates without video decide at 0 s. "drop" mistakes are removed.
+    Video feature: the first 2 s window that ends at least `delay` seconds after
+    the mistake starts, for each delay in --gate-delays. A video gate can speak
+    at `delay` at the earliest; with delay 0 it has seen only the 2 s BEFORE the
+    mistake. The two gates without video decide at 0 s. "drop" mistakes are removed.
+    Every delay is scored twice: strict (later than the instructor = failed) and
+    with --slack seconds of tolerance.
     """
     import pandas as pd
     from sklearn.decomposition import PCA
@@ -113,72 +116,102 @@ def main_video(args) -> None:
     first = {n: (g.index[0], g["t_end"].to_numpy()) for n, g in meta.groupby("video_name", sort=False)}
     rows_all = mistake_rows(json.loads(Path(resolve_data_path(LABELS)).read_text(encoding="utf-8")))
     sets_all = feature_sets(rows_all)[0]
+    delays = [float(x) for x in args.gate_delays.split(",")]
     keep, frow = [], []
-    for i, r in enumerate(rows_all):
+    for i, r in enumerate(rows_all):                         # only mistakes with a window for EVERY delay
         if r["video"] not in first or (r["silent"] == 0 and not np.isfinite(r["corr"])) or r["verb"] == "drop":
             continue
         i0, t = first[r["video"]]
-        k = np.searchsorted(t, r["start"] + args.gate_delay, side="left")
-        if k < len(t) and t[k] <= r["start"] + args.gate_delay + 1.0:
-            keep.append(i); frow.append(i0 + k)
-    keep = np.array(keep)
+        ks = [np.searchsorted(t, r["start"] + d, side="left") for d in delays]
+        if all(k < len(t) and t[k] <= r["start"] + d + 1.0 for k, d in zip(ks, delays)):
+            keep.append(i); frow.append([i0 + k for k in ks])
+    keep, frow = np.array(keep), np.array(frow)
     rows = [rows_all[i] for i in keep]
-    Fv = np.asarray(F[np.array(frow)], dtype=np.float32)
-    Fv = (Fv - Fv.mean(0)) / (Fv.std(0) + 1e-6)
     H = sets_all["history only"][0][keep]
     Xlab, cat = sets_all["all"][0][keep], sets_all["all"][1]
     silent = np.array([r["silent"] for r in rows]); groups = np.array([r["session"] for r in rows])
     D = np.array([r["end"] - r["start"] for r in rows]); L = np.array([r["corr"] - r["start"] for r in rows])
-    gates = {"history": 0.0, "video": args.gate_delay, "history + video": args.gate_delay, "labels + history (ceiling)": 0.0}
-    P = {g: np.zeros(len(rows)) for g in gates}
-    for tr, te in GroupKFold(n_splits=min(5, len(set(groups)))).split(H, silent, groups):
-        Z = PCA(min(32, len(tr) - 1), random_state=0).fit(Fv[tr]).transform(Fv)
-        for g, (X, c) in {"history": (H, None), "video": (Z, None), "history + video": (np.c_[H, Z], None),
-                          "labels + history (ceiling)": (Xlab, cat)}.items():
+    folds = list(GroupKFold(n_splits=min(5, len(set(groups)))).split(H, silent, groups))
+
+    def oof(X_of_fold, c=None):
+        p = np.zeros(len(rows))
+        for tr, te in folds:
+            X = X_of_fold(tr)
             m = HistGradientBoostingClassifier(max_iter=150, learning_rate=0.08, categorical_features=c,
                                                max_depth=4, random_state=0).fit(X[tr], silent[tr])
-            P[g][te] = m.predict_proba(X[te])[:, 0]
+            p[te] = m.predict_proba(X[te])[:, 0]
+        return p
+
+    gates = {"history": (oof(lambda tr: H), 0.0), "labels + history (ceiling)": (oof(lambda tr: Xlab, cat), 0.0)}
+    for j, d in enumerate(delays):
+        Fv = np.asarray(F[frow[:, j]], dtype=np.float32)
+        Fv = (Fv - Fv.mean(0)) / (Fv.std(0) + 1e-6)
+        pcs = {}
+
+        def Z(tr, Fv=Fv, pcs=pcs):
+            key = int(tr[0]) * 1_000_003 + len(tr)
+            if key not in pcs:
+                pcs[key] = PCA(min(32, len(tr) - 1), random_state=0).fit(Fv[tr]).transform(Fv)
+            return pcs[key]
+
+        gates[f"video, window ends {d:g} s after the start"] = (oof(Z), d)
+        gates[f"history + video, window ends {d:g} s after the start"] = (oof(lambda tr: np.c_[H, Z(tr)]), d)
+
     rng = np.random.default_rng(0)
     by = {x: np.flatnonzero(groups == x) for x in np.unique(groups)}
     keys = list(by)
     boots = [np.concatenate([by[keys[j]] for j in rng.integers(0, len(keys), len(keys))]) for _ in range(args.boot)]
     res = {"videos": int(len({r["video"] for r in rows})), "sessions": len(keys), "boot": args.boot,
-           "gate_delay_s": args.gate_delay, "self_corrected": int((silent == 1).sum()),
-           "instructor_corrected": int((silent == 0).sum()), "gates": {}}
-    U0, F0 = rates(P["history"], silent, D, L)
-    res["wait d"] = {f"{t:.0%}": round(best(U0, F0, "wait d", t)[0], 3) for t in TARGETS}
-    base = {t: [best(*rates(P["history"][i], silent[i], D[i], L[i]), "gate", t)[0] for i in boots] for t in TARGETS}
-    for g, delay in gates.items():
-        U, Fm = rates(P[g], silent, D, L, delay)
-        r = {"auc_instructor_corrects": round(float(roc_auc_score(1 - silent, P[g])), 4), "gate_decides_at_s": delay}
-        for t in TARGETS:
-            v = np.array([best(*rates(P[g][i], silent[i], D[i], L[i], delay), "gate", t)[0] for i in boots])
-            d = v - np.array(base[t])
-            d = d[np.isfinite(d)]
-            r[f"{t:.0%}"] = {"unneeded": best(U, Fm, "gate", t)[0],
-                             "interval": [float(np.percentile(v, 2.5)), float(np.percentile(v, 97.5))],
-                             "minus_history_gate": [float(d.mean()), float(np.percentile(d, 2.5)),
-                                                    float(np.percentile(d, 97.5))] if len(d) else None}
-        res["gates"][g] = r
+           "self_corrected": int((silent == 1).sum()), "instructor_corrected": int((silent == 0).sum()),
+           "instructor_faster_than": {f"{d:g}": round(float((L[silent == 0] < d).mean()), 3) for d in delays},
+           "scores": {}}
+    for slack in (0.0, args.slack):
+        Ls = L + slack
+        U0, F0 = rates(gates["history"][0], silent, D, Ls)
+        sc = {"wait d": {f"{t:.0%}": round(best(U0, F0, "wait d", t)[0], 3) for t in TARGETS}, "gates": {}}
+        base = {t: np.array([best(*rates(gates["history"][0][i], silent[i], D[i], Ls[i]), "gate", t)[0] for i in boots])
+                for t in TARGETS}
+        for g, (p, delay) in gates.items():
+            U, Fm = rates(p, silent, D, Ls, delay)
+            r = {"auc_instructor_corrects": round(float(roc_auc_score(1 - silent, p)), 4)}
+            for t in TARGETS:
+                v = np.array([best(*rates(p[i], silent[i], D[i], Ls[i], delay), "gate", t)[0] for i in boots])
+                d_ = (v - base[t])[np.isfinite(v - base[t])]
+                r[f"{t:.0%}"] = {"unneeded": best(U, Fm, "gate", t)[0],
+                                 "interval": [float(np.percentile(v, 2.5)), float(np.percentile(v, 97.5))],
+                                 "minus_history_gate": [float(d_.mean()), float(np.percentile(d_, 2.5)),
+                                                        float(np.percentile(d_, 97.5))] if len(d_) else None}
+            sc["gates"][g] = r
+        res["scores"][f"slack {slack:g} s"] = sc
     Path("reports/holoassist_wait_policy_video.json").write_text(
-        json.dumps(res, indent=2, default=float).replace("Infinity", "null"))
+        json.dumps(res, indent=2, default=float).replace("Infinity", "null").replace("NaN", "null"))
+
+    def cell(c):
+        if not np.isfinite(c["unneeded"]):
+            return "cannot reach"
+        return f"{c['unneeded']:.2f} [{c['interval'][0]:.2f}, {c['interval'][1]:.2f}]"
+
     L_ = ["# HoloAssist pilot part 8 from video: the stay-silent gate without labels", "",
           "Generated by `python -m scripts.holoassist_wait_policy --video`. "
           f"{res['videos']} videos, {res['sessions']} sessions, \"drop\" removed: {res['self_corrected']} self-corrected and "
           f"{res['instructor_corrected']} instructor-corrected wrong actions. Gate only (speak if the model expects a "
-          f"correction, otherwise never). A gate with video decides {args.gate_delay:g} s after the mistake starts; "
-          "it fails when the instructor was faster, and a target it cannot reach shows as inf. "
-          "Lowest unneeded rate at a failed rate of at most 10% / 20% / 30% "
-          f"[95% interval, {args.boot} resamples of sessions]. "
-          "Waiting alone on the same mistakes: " + " / ".join(f"{v:.2f}" for v in res["wait d"].values()) + ".", "",
-          "| gate input | ROC AUC | 10% | 20% | 30% | change against the history gate at 30% |", "|---|---|---|---|---|---|"]
-    for g, r in res["gates"].items():
-        c = r["30%"]["minus_history_gate"]
-        L_.append(f"| {g} | {r['auc_instructor_corrects']:.3f} | "
-                  + " | ".join(f"{r[k]['unneeded']:.2f} [{r[k]['interval'][0]:.2f}, {r[k]['interval'][1]:.2f}]"
-                               for k in ("10%", "20%", "30%"))
-                  + (f" | {c[0]:+.2f} [{c[1]:+.2f}, {c[2]:+.2f}] |" if c else " | n/a |"))
-    Path("reports/holoassist_wait_policy_video.md").write_text("\n".join(L_) + "\n", encoding="utf-8")
+          "correction, otherwise never). A gate with video decides when its 2 s window ends; a window that ends 0 s "
+          "after the start has seen only the 2 s before the mistake. Share of corrected mistakes where the instructor "
+          "is faster than the gate: " + ", ".join(f"{v:.0%} for {k} s" for k, v in res["instructor_faster_than"].items())
+          + ". Cells: lowest unneeded rate at a failed rate of at most 10% / 20% / 30% "
+          f"[95% interval, {args.boot} resamples of sessions]; the last column is the change against the history gate at 20%.", ""]
+    for name, sc in res["scores"].items():
+        strict = name == "slack 0 s"
+        L_ += ["## " + ("Strict: later than the instructor counts as failed" if strict
+                        else f"Tolerant: up to {args.slack:g} s later than the instructor counts as in time"), "",
+               "Waiting alone: " + " / ".join(f"{v:.2f}" for v in sc["wait d"].values()) + ".", "",
+               "| gate input | ROC AUC | 10% | 20% | 30% | against history at 20% |", "|---|---|---|---|---|---|"]
+        for g, r in sc["gates"].items():
+            c = r["20%"]["minus_history_gate"]
+            L_.append(f"| {g} | {r['auc_instructor_corrects']:.3f} | " + " | ".join(cell(r[k]) for k in ("10%", "20%", "30%"))
+                      + (f" | {c[0]:+.2f} [{c[1]:+.2f}, {c[2]:+.2f}] |" if c and np.isfinite(r["20%"]["unneeded"]) else " | n/a |"))
+        L_.append("")
+    Path("reports/holoassist_wait_policy_video.md").write_text("\n".join(L_), encoding="utf-8")
     print("\n".join(L_))
 
 
@@ -187,7 +220,8 @@ def main() -> None:
     ap.add_argument("--boot", type=int, default=300)
     ap.add_argument("--video", action="store_true",
                     help="gate from VideoMAE features instead of labels (only mistakes in videos with features)")
-    ap.add_argument("--gate-delay", type=float, default=1.0, help="--video: the gate decides this long after the start")
+    ap.add_argument("--gate-delays", default="0,0.5,1", help="--video: ends of the video window, seconds after the start")
+    ap.add_argument("--slack", type=float, default=2.0, help="--video: tolerance of the second scoring")
     args = ap.parse_args()
     if args.video:
         return main_video(args)

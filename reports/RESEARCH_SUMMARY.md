@@ -58,9 +58,12 @@ middle of fine work costs you something.
    the kind of mistake and the history of the session does much better:
    at 20% failed corrections it speaks without need on 29% of
    self-corrected mistakes, waiting on 87%. (HoloAssist labels, "drop"
-   mistakes removed.) From video this does not work yet: the video model
-   sees the mistake 1 s late, and by then the instructor has corrected
-   24% of the mistakes.
+   mistakes removed.) From video: a model that sees 1 s of the mistake is too
+   late if it must be as fast as the instructor (who has then corrected
+   24% of the mistakes). If it may be up to 2 s later, history + video
+   is as good as the labels (30% unneeded at 20% failed). Video of the
+   2 s BEFORE the mistake helps a little and is not late (37% against
+   41% for history alone).
 
 ## What it means
 
@@ -79,8 +82,8 @@ middle of fine work costs you something.
 
 1. A "should stay silent" evaluation: mistakes that performers fix alone
    are moments where a good assistant says nothing. Benchmarks do not
-   score this. A first score exists (finding 7). Open: a video gate that
-   decides earlier than 1 s after the mistake starts.
+   score this. A first score exists (finding 7). Open: decide how much later than a human an
+   assistant may be; the answer changes which gate wins.
 2. Tighten the fixed-need test (finding 3), and repeat it from video on
    all videos.
 3. The worker-side signal (when does the person want to talk): present

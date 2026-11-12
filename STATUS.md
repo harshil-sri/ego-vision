@@ -381,7 +381,9 @@ corrections, against 87% for waiting). 2026-11-12: all 1,493 usable HoloAssist v
 results kept as `reports/*_305.*`): part 5 predicted hand state +0.043
 average precision over task only (labels +0.029); shift test from video
 0.36; part 6 from video test A 0.23 (0.17 to 0.31), test B 0.92 (0.73 to
-1.19); part 8 from video: the video gate is 1 s late and loses to the
-history gate (0.44 against 0.31 unneeded at 30% failed). Tests: 125
+1.19); part 8 from video (unneeded at 20% failed): history gate 0.41;
+history + video with the window ending at the mistake start 0.37; with
+2 s of tolerance and the window ending 1 s after the start 0.30, equal to
+the label ceiling. Pushed to GitHub and main fast-forwarded at 8e38c5a. Tests: 125
 passed.
 
