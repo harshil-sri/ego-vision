@@ -48,3 +48,17 @@ wait for the hands only if it is not urgent.
   fine-motor work.
 - H3 fails with H1 true: observers prefer waiting for every message, so
   urgency does not matter to them.
+
+## Amendment, 2026-11-13 (written before any rating was read)
+
+- Collection is closed by Harshil on 2026-11-13 with 14 raters, one day
+  after the invitation. This departs from the stopping rule above ("no
+  new rater for 7 days or 25 raters"). The number is inside the planned
+  10 to 20. A code that arrives after this date is not used.
+- Nothing was analysed before this amendment. The codes were only
+  checked for format: 13 decode as result codes with 20 answers each;
+  one rater pasted the result as plain JSON instead of the code, and it
+  was moved unchanged to `study/responses/xz294u3b.json`, a format the
+  analysis script already reads.
+- The git commit that adds this amendment and the responses comes
+  before the commit that adds the results.
