@@ -1,0 +1,294 @@
+{
+  "raters": 14,
+  "used": 14,
+  "left_out_same_rating_everywhere": 0,
+  "heard_voice": 14,
+  "all": {
+    "cells": {
+      "routine, now": {
+        "mean": 3.738095238095238,
+        "low": 3.4285714285714293,
+        "high": 4.047619047619048,
+        "raters_above_0": 14,
+        "raters_below_0": 0,
+        "n": 14
+      },
+      "routine, held": {
+        "mean": 3.5,
+        "low": 3.166666666666667,
+        "high": 3.833333333333333,
+        "raters_above_0": 14,
+        "raters_below_0": 0,
+        "n": 14
+      },
+      "warning, now": {
+        "mean": 3.6964285714285716,
+        "low": 3.2857142857142856,
+        "high": 4.125,
+        "raters_above_0": 14,
+        "raters_below_0": 0,
+        "n": 14
+      },
+      "warning, held": {
+        "mean": 2.875,
+        "low": 2.482142857142857,
+        "high": 3.25,
+        "raters_above_0": 14,
+        "raters_below_0": 0,
+        "n": 14
+      }
+    },
+    "routine: held - now": {
+      "mean": -0.23809523809523805,
+      "low": -0.5952380952380951,
+      "high": 0.14285714285714282,
+      "raters_above_0": 4,
+      "raters_below_0": 10,
+      "n": 14
+    },
+    "warning: held - now": {
+      "mean": -0.8214285714285714,
+      "low": -1.1428571428571428,
+      "high": -0.4642857142857143,
+      "raters_above_0": 2,
+      "raters_below_0": 11,
+      "n": 14
+    },
+    "interaction: (routine held - now) - (warning held - now)": {
+      "mean": 0.5833333333333334,
+      "low": 0.01785714285714273,
+      "high": 1.1250000000000002,
+      "raters_above_0": 11,
+      "raters_below_0": 3,
+      "n": 14
+    }
+  },
+  "clips": {
+    "c01": {
+      "type": "routine",
+      "now": [
+        2.3333333333333335,
+        6
+      ],
+      "held": [
+        2.125,
+        8
+      ]
+    },
+    "c02": {
+      "type": "routine",
+      "now": [
+        3.125,
+        8
+      ],
+      "held": [
+        3.8333333333333335,
+        6
+      ]
+    },
+    "c03": {
+      "type": "routine",
+      "now": [
+        3.5,
+        8
+      ],
+      "held": [
+        3.6666666666666665,
+        6
+      ]
+    },
+    "c04": {
+      "type": "routine",
+      "now": [
+        3.8333333333333335,
+        6
+      ],
+      "held": [
+        3.375,
+        8
+      ]
+    },
+    "c05": {
+      "type": "routine",
+      "now": [
+        4.4,
+        5
+      ],
+      "held": [
+        3.3333333333333335,
+        9
+      ]
+    },
+    "c06": {
+      "type": "routine",
+      "now": [
+        4.833333333333333,
+        6
+      ],
+      "held": [
+        3.125,
+        8
+      ]
+    },
+    "c07": {
+      "type": "routine",
+      "now": [
+        4.0,
+        8
+      ],
+      "held": [
+        4.166666666666667,
+        6
+      ]
+    },
+    "c08": {
+      "type": "routine",
+      "now": [
+        4.3,
+        10
+      ],
+      "held": [
+        3.0,
+        4
+      ]
+    },
+    "c09": {
+      "type": "routine",
+      "now": [
+        3.7142857142857144,
+        7
+      ],
+      "held": [
+        3.857142857142857,
+        7
+      ]
+    },
+    "c10": {
+      "type": "routine",
+      "now": [
+        4.25,
+        4
+      ],
+      "held": [
+        4.2,
+        10
+      ]
+    },
+    "c11": {
+      "type": "routine",
+      "now": [
+        3.75,
+        8
+      ],
+      "held": [
+        3.0,
+        6
+      ]
+    },
+    "c12": {
+      "type": "routine",
+      "now": [
+        3.125,
+        8
+      ],
+      "held": [
+        4.333333333333333,
+        6
+      ]
+    },
+    "c13": {
+      "type": "warning",
+      "now": [
+        4.142857142857143,
+        7
+      ],
+      "held": [
+        2.857142857142857,
+        7
+      ]
+    },
+    "c14": {
+      "type": "warning",
+      "now": [
+        4.6,
+        5
+      ],
+      "held": [
+        2.2222222222222223,
+        9
+      ]
+    },
+    "c15": {
+      "type": "warning",
+      "now": [
+        3.2857142857142856,
+        7
+      ],
+      "held": [
+        3.857142857142857,
+        7
+      ]
+    },
+    "c16": {
+      "type": "warning",
+      "now": [
+        4.0,
+        7
+      ],
+      "held": [
+        3.0,
+        7
+      ]
+    },
+    "c17": {
+      "type": "warning",
+      "now": [
+        3.8333333333333335,
+        6
+      ],
+      "held": [
+        3.375,
+        8
+      ]
+    },
+    "c18": {
+      "type": "warning",
+      "now": [
+        3.5555555555555554,
+        9
+      ],
+      "held": [
+        3.2,
+        5
+      ]
+    },
+    "c19": {
+      "type": "warning",
+      "now": [
+        2.9,
+        10
+      ],
+      "held": [
+        3.25,
+        4
+      ]
+    },
+    "c20": {
+      "type": "warning",
+      "now": [
+        4.0,
+        5
+      ],
+      "held": [
+        1.8888888888888888,
+        9
+      ]
+    }
+  },
+  "median_minutes": 1.03945,
+  "comments": [
+    "The narration and the video isnt matching",
+    "Most of the clips were quite accurate, but 2 or 3 clips were far distorted",
+    "In some of the clips, the assistant's timing was a bit off, either slightly too early or a little too late."
+  ]
+}

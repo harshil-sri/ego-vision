@@ -984,3 +984,12 @@ careful negative or positive answer on hand-state cost.
    alone reached 0.104 against a base rate of 0.044 (part 5). So the
    shift-test effects on Ego-EXTRA are real but too small to matter for
    prediction, with these frozen features.
+
+Rating study, 2026-11-13 (`reports/rating_study.md`, pre-registered, 14
+raters): a held routine message is not rated better than the same
+message during fine-motor work (-0.24, 95% interval -0.60 to +0.14); a
+held warning is rated worse (-0.82, -1.14 to -0.46); interaction +0.58
+(+0.02 to +1.13). The claim "an assistant should hold routine speech
+for the hands" has no support from observers. The claim that remains is
+descriptive (when instructors speak) plus "urgent messages must not
+wait".

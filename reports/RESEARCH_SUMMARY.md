@@ -158,6 +158,31 @@ middle of fine work costs you something.
     (the AI assistant), one pass, 92 onsets in furniture assembly. It
     needs a human check before it carries weight in the paper.
 
+13. **The rating study does not support holding routine messages**
+    (2026-11-13, `reports/rating_study.md`, pre-registered in
+    `study/PREREGISTRATION.md`). 14 raters, none left out, all heard the
+    voice. Rating 1 (very bad moment) to 5 (very good moment); "now" =
+    the message during the fine-motor work, "held" = the message when
+    the rule releases it.
+    - H1, routine, held minus now: -0.24 (95% interval -0.60 to +0.14).
+      Not supported. The direction is against the prediction: 10 of 14
+      raters rated the held routine message lower.
+    - H2, warning, held minus now: -0.82 (-1.14 to -0.46). Supported: a
+      warning must not wait.
+    - H3, the main test, the difference between the two: +0.58 (+0.02
+      to +1.13). Supported by the fixed criterion, but the interval
+      nearly touches 0, and the difference comes from the warnings.
+    By the pre-registration this counts against the project: observers
+    do not prefer a routine message after the fine-motor work. What
+    stands is the other half: holding costs more when the message is
+    urgent. One departure from the plan: collection was closed after
+    one day at 14 raters, not after 7 quiet days (amendment in the
+    pre-registration, written before any rating was read).
+    A possible reason, not tested: a held message comes some seconds
+    late, and then it can describe a step that the video has passed.
+    One rater wrote that the narration and the video did not match.
+    The study cannot separate "late" from "after the hands are free".
+
 ## What it means
 
 - Supported, on HoloAssist (assembly, 166 h, human hand labels):
@@ -183,6 +208,13 @@ middle of fine work costs you something.
   is therefore not evidence about hand work. The sentence that follows
   is true only for the predicted state: the
   person doing the task speaks less during (predicted) fine-motor work.
+- Not supported by observers (finding 13): that a routine message is
+  better after the fine-motor work. 14 raters rated the held routine
+  message a little lower (-0.24, interval includes 0). They did rate a
+  held warning clearly lower (-0.82). So the study supports "urgent
+  messages must not wait" and not "routine messages should wait".
+  Instructors on HoloAssist stay quiet during screw and insert actions,
+  but people who watch do not find a message at that moment worse.
 - Not shown: that speaking during fine work HURTS the performer. All of
   this is observation. Mistakes are also rare during fine work, and a
   performer who stops may be asking for the next step, so "nothing needs
@@ -198,10 +230,15 @@ middle of fine work costs you something.
 
 ## What the paper needs next (order follows the chosen framing)
 
-1. **The rating study** (`study/`, hypotheses fixed in
-   `study/PREREGISTRATION.md`). It is now the main evidence that the
-   hold rule is worth something to a person, because the observational
-   effect did not replicate. It waits for 10 to 20 raters.
+1. **Decide what the paper claims after the rating study** (finding
+   13; done, 14 raters). The hold rule for routine messages has no
+   support from observers. The paper can report: the observation on
+   HoloAssist and furniture assembly (instructors are quiet during
+   screw and insert), and the negative rating result next to it. It
+   cannot say that an assistant should wait. A new study would need
+   the performer, not an observer, and a held message that is still
+   correct when it is spoken. That is a new pre-registration, not a
+   second look at these data.
 2. **A person checks a part of the WTaG labels**
    (`reports/wtag_hand_labels.csv`, 417 rows; 60 rows are enough for an
    agreement number). Until then the failed replication rests on one

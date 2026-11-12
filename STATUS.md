@@ -445,7 +445,13 @@ locally as `last_305.pt`). Tests: 128 passed.
   screw or insert 0.41 times as often as random seconds (0.22 to 0.72);
   expert alone 0.29. First replication outside HoloAssist. Labels by
   the assistant, not checked by a person.
-- Rater invitation text: `study/INVITE.md`. GitHub Pages is not enabled
-  yet (Harshil's step). Next steps in order are in
+- Rater invitation text: `study/INVITE.md`. Study live on GitHub Pages
+  (`.nojekyll` added, the Jekyll build failed on two reports).
+- Rating study done, 2026-11-13 (`reports/rating_study.md`, 14 raters):
+  routine held - now -0.24 (-0.60 to +0.14), H1 not supported; warning
+  held - now -0.82 (-1.14 to -0.46), H2 supported; interaction +0.58
+  (+0.02 to +1.13), H3 supported, barely. Observers do not prefer a
+  held routine message. Collection closed after 1 day (amendment in
+  `study/PREREGISTRATION.md`). Next steps in order are in
   `reports/RESEARCH_SUMMARY.md` ("What the paper needs next").
 Tests: 132 passed.
