@@ -98,13 +98,18 @@ middle of fine work costs you something.
     predicted fine-motor seconds at 0.91 times chance (inside the chance
     range), corrections at 0.96. The USER's speech avoids these seconds
     (0.79; questions 0.68), and the instructor's answers follow
-    (0.67). A labelled sample confirms it without the model
-    (`reports/wtag_label_check.md`): of 120 routine-instruction onsets
-    and 120 random seconds labelled by eye, precise hand work is seen
-    at 38% and 40% (ratio 0.94, interval 0.67 to 1.31). The same sample
-    shows that the hand-state model is weak on kitchen video (17% of
-    its "fine" moments are screw or insert; AUC 0.64). The labels are
-    by the AI assistant, one pass; a person should check a part.
+    (0.67). A labelled sample (`reports/wtag_label_check.md`, 417
+    moments labelled by eye, blind) changes the reading:
+    - Precise hand work is seen at 38% of routine-instruction onsets
+      and 40% of random seconds (ratio 0.94, interval 0.69 to 1.26).
+      The instructor does not avoid it. This agrees with the model.
+    - It is seen at 37% of the user's question onsets (ratio 0.93,
+      0.67 to 1.23). With labels the USER does not avoid it either.
+      The model's 0.68 is not confirmed.
+    - The hand-state model is weak on kitchen video (12% of its "fine"
+      moments are screw or insert; AUC 0.68).
+    The labels are by the AI assistant, one pass; a person should check
+    a part. A small effect (down to about 0.7) cannot be excluded.
 
 ## What it means
 
@@ -117,8 +122,13 @@ middle of fine work costs you something.
   prediction of a model trained on assembly video. On WTaG a labelled
   sample gives the same answer without the model (finding 10), so the
   effect looks specific to HoloAssist's assembly tasks, not hidden by a
-  weak model. Ego-EXTRA is not checked this way. What holds on all
-  three datasets, with predicted hand state, is the worker's side: the
+  weak model. Ego-EXTRA is not checked this way.
+- Not supported outside HoloAssist, after the label check: the worker's
+  side. With the predicted hand state the worker speaks less during
+  "fine-motor" seconds on all three datasets, but on WTaG the labels do
+  not show it (finding 10). On Ego-EXTRA and WTaG the predicted state
+  is therefore not evidence about hand work. The sentence that follows
+  is true only for the predicted state: the
   person doing the task speaks less during (predicted) fine-motor work.
 - Not shown: that speaking during fine work HURTS the performer. All of
   this is observation. Mistakes are also rare during fine work, and a

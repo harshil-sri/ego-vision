@@ -429,4 +429,9 @@ locally as `last_305.pt`). Tests: 128 passed.
   0.67 to 1.31). The hand-state head is weak on kitchen video (AUC
   0.64). Labels in `reports/wtag_hand_labels.csv`; not checked by a
   person.
+- Second batch (417 moments in all): precise hand work at 37% of user
+  question onsets against 40% of random seconds (ratio 0.93, 0.67 to
+  1.23). With labels the worker-side effect is not seen on WTaG
+  either; the model's 0.68 is not confirmed. Both effects stand on
+  HoloAssist only. The paper framing is open again.
 Tests: 132 passed.

@@ -194,16 +194,28 @@ Audit of 2026-11-12 (keyword search, three new works, read-depth Q):
   frames each, blind to which is which. Labeller: the AI assistant, one
   pass, no second rater. S = screw, unscrew or insert; B = other
   precise work (pour, spread, cut, measure, stir, fold); F = the rest.
-  Result 1: precise work (S or B) at 38% of the onsets and 40% of the
-  random seconds, ratio 0.94 (95% interval 0.67 to 1.31); S alone 9%
-  and 9%, ratio 1.00 (0.40 to 2.43). The HoloAssist value (0.34) is
-  outside the first interval and at the edge of the second. So with
+  A second batch added 119 user-question onsets and 58 more random
+  seconds (417 moments in all; numbers below use all 178 random
+  seconds). Result 1: precise work (S or B) at 38% of the
+  routine-instruction onsets and 40% of the random seconds, ratio 0.94
+  (95% interval 0.69 to 1.26); S alone 9% and 7%, ratio 1.26 (0.52 to
+  2.80). The HoloAssist value (0.34) is outside both intervals. So with
   labels too, WTaG instructors do not hold routine instructions during
-  precise work. Result 2: the head is weak on kitchen video. Of the
-  moments it calls fine, 17% are S and 66% are S or B; it finds 27% of
-  the S moments; AUC of p(fine) 0.64 for S, 0.66 for S or B. Both
-  explanations are therefore true in part: the head transfers badly,
-  and the effect is absent on WTaG when measured without the head.
+  precise work. Result 2: the same holds for the user. Precise work at
+  37% of the user-question onsets, ratio 0.93 (0.67 to 1.23); S alone
+  8%, ratio 1.04 (0.40 to 2.43). The head had given 0.68 for user
+  questions; the labels do not show it. So the "worker speaks less
+  during fine-motor work" result on WTaG comes from whatever the head
+  responds to, not from hand work as a person sees it. The same doubt
+  now applies to the worker-side result on Ego-EXTRA, which rests on
+  the same head. Result 3: the head is weak on kitchen video. Of the
+  moments it calls fine, 12% are S and 60% are S or B; it finds 21% of
+  the S moments; AUC of p(fine) 0.68 for S, 0.65 for S or B.
+  Conclusion: with labels, neither the instructor-side nor the
+  worker-side effect is seen on WTaG. Both are HoloAssist results
+  (there with human hand labels on 166 h). A sample of this size cannot
+  exclude a small effect (ratios down to about 0.7 are inside the
+  intervals), and the labels are from one pass by the assistant.
 
 Hand check of 2026-11-12: the numbers and task definitions of
 EgoIntrospect and WTaG, and the abstract and introduction of the survey,

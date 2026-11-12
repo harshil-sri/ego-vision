@@ -1,71 +1,93 @@
 {
-  "items": 240,
-  "pairs": 120,
+  "items": 417,
   "label_counts": {
     "onset": {
       "S": 11,
       "B": 34,
       "F": 75
     },
+    "user_question": {
+      "S": 9,
+      "B": 35,
+      "F": 75
+    },
     "random": {
-      "S": 11,
-      "B": 37,
-      "F": 72
+      "S": 13,
+      "B": 58,
+      "F": 107
     }
   },
   "ratio": {
-    "S (screw, unscrew, insert)": {
+    "instructor: routine instruction | S (screw, unscrew, insert)": {
       "onset": 0.092,
-      "random": 0.092,
-      "ratio": 1.0,
+      "random": 0.073,
+      "ratio": 1.26,
+      "ci95": [
+        0.52,
+        2.8
+      ]
+    },
+    "instructor: routine instruction | S or B (any precise work)": {
+      "onset": 0.375,
+      "random": 0.399,
+      "ratio": 0.94,
+      "ci95": [
+        0.69,
+        1.26
+      ]
+    },
+    "user: question | S (screw, unscrew, insert)": {
+      "onset": 0.076,
+      "random": 0.073,
+      "ratio": 1.04,
       "ci95": [
         0.4,
         2.43
       ]
     },
-    "S or B (any precise work)": {
-      "onset": 0.375,
-      "random": 0.4,
-      "ratio": 0.94,
+    "user: question | S or B (any precise work)": {
+      "onset": 0.37,
+      "random": 0.399,
+      "ratio": 0.93,
       "ci95": [
         0.67,
-        1.31
+        1.23
       ]
     }
   },
   "head": {
     "predicted_share": {
-      "fine": 0.146,
-      "free": 0.096,
-      "other": 0.758
+      "fine": 0.137,
+      "free": 0.12,
+      "other": 0.743
     },
     "predicted_by_label": {
       "S": {
-        "fine": 6,
+        "fine": 7,
         "free": 0,
-        "other": 16
+        "other": 26
       },
       "B": {
-        "fine": 17,
-        "free": 5,
-        "other": 49
+        "fine": 27,
+        "free": 9,
+        "other": 91
       },
       "F": {
-        "fine": 12,
-        "free": 18,
-        "other": 117
+        "fine": 23,
+        "free": 41,
+        "other": 193
       }
     },
-    "precision_fine_for_S": 0.171,
-    "precision_fine_for_S_or_B": 0.657,
-    "recall_of_S": 0.273,
-    "auc_p_fine_S_vs_rest": 0.639,
-    "auc_p_fine_SB_vs_F": 0.663,
-    "auc_p_free_F_vs_SB": 0.713,
+    "precision_fine_for_S": 0.123,
+    "precision_fine_for_S_or_B": 0.596,
+    "recall_of_S": 0.212,
+    "auc_p_fine_S_vs_rest": 0.682,
+    "auc_p_fine_SB_vs_F": 0.65,
+    "auc_p_free_F_vs_SB": 0.699,
     "mean_p_fine_by_label": {
-      "S": 0.31,
-      "B": 0.268,
-      "F": 0.163
+      "S": 0.312,
+      "B": 0.249,
+      "F": 0.158
     }
   }
 }
