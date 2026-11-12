@@ -74,6 +74,9 @@ middle of fine work costs you something.
    - A hand-state model that never saw the object of the test video
      still gives 0.49 (0.42 when it has seen the object, 0.40 with labels).
      A plain logistic regression gives 0.55.
+   - A second encoder with no motion input (DINOv2 on single frames)
+     gives 0.52, and 0.68 for objects it never saw; 91% of sessions are
+     below 1 (`reports/holoassist_robustness_dino.md`).
    - Screw, unscrew and insert are the three most avoided of the 22 hand
      states (0.27 to 0.49; the next is 0.70). The grouping is a fair
      summary of the data, not a selection.

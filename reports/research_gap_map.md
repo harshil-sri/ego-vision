@@ -539,6 +539,22 @@ the three probabilities.
   every row, and the model never sees speech. But the model was trained
   on the same labels.
 
+Second encoder (`reports/holoassist_robustness_dino.md`): the same
+checks with DINOv2 ViT-S/14 on four single frames of each 2 s window, an
+image model with no motion input.
+
+| Hand state from | VideoMAE (motion) | DINOv2 (single frames) |
+|---|---|---|
+| MLP head, split by session | 0.42 | 0.52 |
+| Logistic regression | 0.55 | 0.58 |
+| MLP head, object never seen | 0.49 | 0.68 |
+| Sessions below 1 | 95% | 91% |
+| Accuracy on 22 states / with unseen objects | 0.38 / 0.32 | 0.31 / 0.20 |
+
+The result does not depend on the encoder: an image model also finds the
+avoided seconds. The motion model sees the hand state better and
+transfers better to unseen objects, so it stays the default.
+
 ### Official split, 2026-11-12 (`reports/holoassist_official_split.md`)
 
 Train 1,306 videos, val 186 videos (2,021 routine onsets). 124 sessions

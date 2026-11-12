@@ -406,6 +406,7 @@ locally as `last_305.pt`). Tests: 128 passed.
 - Related work: EgoIntrospect (self-reported interruptibility from
   egocentric video) must be cited; WTaG is a candidate second dataset,
   not downloaded.
-- Second encoder (DINOv2): see `reports/holoassist_robustness_dino.md`
-  when present.
+- Second encoder (DINOv2 single frames,
+  `reports/holoassist_robustness_dino.md`): 0.52 (VideoMAE 0.42), unseen
+  objects 0.68, 91% of sessions below 1.
 Tests: 132 passed.
