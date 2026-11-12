@@ -90,11 +90,29 @@ middle of fine work costs you something.
    interval +0.034 to +0.057); plus the labelled hand state 0.147. Onset
    F1 with a tolerance of 1 s early to 2 s late: 0.449 to 0.481.
 
+10. **A third dataset repeats the Ego-EXTRA pattern, not the HoloAssist
+    one** (2026-11-12, `reports/wtag_from_video.md`). WTaG: 9.7 h, three
+    kitchen recipes, human labels for routine instruction and
+    correction, no hand labels. With the HoloAssist hand-state model
+    applied unchanged, the instructor's routine instructions start in
+    predicted fine-motor seconds at 0.91 times chance (inside the chance
+    range), corrections at 0.96. The USER's speech avoids these seconds
+    (0.79; questions 0.68), and the instructor's answers follow
+    (0.67). The hand-state model is not checked on kitchen video.
+
 ## What it means
 
 - Supported: fine-motor moments are quiet moments, from both sides of the
   conversation; hand state from video carries timing information; the
   urgency of a message changes whether it waits.
+- Supported on one dataset only: that the INSTRUCTOR holds routine
+  speech during fine-motor work. It holds on HoloAssist (assembly, hand
+  labels) and not on Ego-EXTRA or WTaG, where the hand state is a
+  prediction of a model trained on assembly video. Either the effect is
+  specific to assembly work, or the model does not see fine-motor work
+  in other settings. Hand labels on a few hours of kitchen video would
+  decide it. What holds on all three datasets is the worker's side: the
+  person doing the task speaks less during (predicted) fine-motor work.
 - Not shown: that speaking during fine work HURTS the performer. All of
   this is observation. Mistakes are also rare during fine work, and a
   performer who stops may be asking for the next step, so "nothing needs

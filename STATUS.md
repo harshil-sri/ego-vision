@@ -417,6 +417,10 @@ locally as `last_305.pt`). Tests: 128 passed.
 - Rating study page checked by eye on desktop and phone size.
 - WTaG downloaded and unpacked to `C:\ssd-data\wtag\extract`
   (9.9 h, 56 recordings, timed utterances with intents and instruction
-  types, step intervals, no hand labels, no audio). Not analysed yet.
+  types, step intervals, no hand labels, no audio).
   Details in `reports/research_gap_map.md`.
+- WTaG test (`scripts/wtag_from_video.py`, `reports/wtag_from_video.md`):
+  instructor routine speech in predicted fine-motor seconds 0.91 times
+  chance (not different from chance), corrections 0.96; user speech
+  0.79, user questions 0.68. Same pattern as Ego-EXTRA.
 Tests: 132 passed.

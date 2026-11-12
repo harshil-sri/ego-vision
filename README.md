@@ -76,6 +76,10 @@ python -m scripts.egoextra_hands --signal wrist        # also: fingers, gaze, ga
 python -m scripts.holoassist_video_features --root /mnt/ssd/ego-extra --center 320
 python -m scripts.egoextra_from_video
 python -m scripts.egoextra_predict
+
+# WTaG, third dataset (6.5 GB; videos/<recording>.mp4 are hard links to extract/<recording>/Video/Video.mpeg)
+python -m scripts.holoassist_video_features --root /mnt/ssd/wtag
+python -m scripts.wtag_from_video
 # the hand-state signal inside the app (experimental)
 python -m scripts.train_hand_state_head
 python -m scripts.run_app --config configs/app_demo_videomae.yaml --mode clip --clip <video.mp4> --run-dir runs/videomae_mlp --hand-state-dir runs/hand_state_holoassist

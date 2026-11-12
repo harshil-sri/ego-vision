@@ -171,6 +171,23 @@ Audit of 2026-11-12 (keyword search, three new works, read-depth Q):
   video head trained on HoloAssist, as on Ego-EXTRA. The archive has no
   licence file; the code repository is MIT, the data terms are not
   stated, and the version with audio needs a signed form (not requested).
+  Test of 2026-11-12 (`reports/wtag_from_video.md`, 55 recordings,
+  9.7 h; T55b dropped because its timing file does not match its video).
+  The HoloAssist hand-state head, applied unchanged, calls 16% of the
+  time fine-motor. Onsets in predicted fine-motor seconds, observed /
+  chance [95% range of chance]: routine instruction 0.91 [0.83, 1.19]
+  (n 509); routine instruction with no user speech in the 5 s before
+  1.09 [0.69, 1.32] (n 200); correction 0.96 [0.68, 1.29] (n 206); user
+  utterances 0.79 [0.91, 1.09] (n 2,305); user questions 0.68
+  [0.85, 1.14] (n 813); instructor answers 0.67 [0.81, 1.19] (n 529).
+  So the instructor's routine speech does not avoid the predicted
+  fine-motor seconds; the user's own speech does, and the instructor's
+  answers follow it. This is the Ego-EXTRA pattern again. Limits: the
+  head is not checked on kitchen video (it names screw, insert and
+  unscrew for 27% of the seconds of recipes that have little of them);
+  frame rates differ between recordings (7 to 29 per second) and video
+  time is frame / average rate, so a drift of about a second inside a
+  recording is possible; the dataset is small.
 
 Hand check of 2026-11-12: the numbers and task definitions of
 EgoIntrospect and WTaG, and the abstract and introduction of the survey,
