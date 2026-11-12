@@ -19,3 +19,8 @@ runs/dino_*/
 runs/videomae_*/
 runs/fused_*/
 runs/hand_state_*/
+
+# Agent workspace (kept locally, not published)
+.claude/
+.plans/
+glm-build-brief.md
