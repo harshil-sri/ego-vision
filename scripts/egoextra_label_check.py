@@ -4,8 +4,10 @@ The avoidance of screw, unscrew and insert actions by speech was found on
 HoloAssist with human labels and not on WTaG (cooking), where such
 actions are rare. Ego-EXTRA's bike workshop (01) and furniture assembly
 (03) have many of them, but no labels, and the head trained on HoloAssist
-is weak outside it (scripts.wtag_label_check). So 240 moments were
-labelled by eye:
+is weak outside it (scripts.wtag_label_check). So 420 moments were
+labelled by eye, in two batches.
+
+First batch (ids 1 to 240, 2026-11-12):
 
     80 onsets of a trainee turn
     80 onsets of an unasked, long expert turn (scripts.egoextra_speech)
@@ -13,6 +15,9 @@ labelled by eye:
     drawn at random from scenarios 01 and 03, shuffled, labelled blind.
     Each moment: 4 frames of the 2 s that end at the moment, central
     500 x 500 of the 704 x 704 view.
+
+Second batch (ids 241 to 420, 2026-11-13): furniture assembly only, 60 of
+each kind, same protocol, no moment within 3 s of a first-batch onset.
 
     S  screw, unscrew or insert in progress (screwdriver or hex key
        turning, a screw or dowel going into its hole, a cap being turned)
@@ -70,6 +75,9 @@ def main() -> None:
     res["sets"]["both scenarios"] = table(lab)
     for s, n in SCEN.items():
         res["sets"][n] = table(lab[lab.scenario == s])
+    f = lab[lab.scenario == "03"]
+    res["sets"]["furniture assembly, first batch (ids 1 to 240)"] = table(f[f.id <= 240])
+    res["sets"]["furniture assembly, second batch (ids 241 to 420)"] = table(f[f.id > 240])
     Path("reports/egoextra_label_check.json").write_text(json.dumps(res, indent=2))
 
     L = [f"# Ego-EXTRA: {len(lab)} moments labelled by eye (bike workshop, furniture assembly)", "",

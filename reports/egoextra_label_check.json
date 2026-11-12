@@ -1,82 +1,82 @@
 {
-  "items": 240,
+  "items": 420,
   "sets": {
     "both scenarios": {
       "counts": {
         "expert_unasked": {
-          "S": 11,
-          "B": 23,
-          "F": 46
+          "S": 28,
+          "B": 36,
+          "F": 76
         },
         "trainee_turn": {
-          "S": 10,
-          "B": 25,
-          "F": 45
+          "S": 21,
+          "B": 36,
+          "F": 83
         },
         "random": {
-          "S": 21,
-          "B": 26,
-          "F": 33
+          "S": 39,
+          "B": 39,
+          "F": 62
         }
       },
       "ratio": {
         "expert: unasked long turn | S (screw, unscrew, insert)": {
-          "n": 80,
-          "onset": 0.138,
-          "random": 0.263,
-          "ratio": 0.52,
+          "n": 140,
+          "onset": 0.2,
+          "random": 0.279,
+          "ratio": 0.72,
           "ci95": [
-            0.24,
-            1.0
+            0.46,
+            1.08
           ]
         },
         "expert: unasked long turn | S or B (any precise work)": {
-          "n": 80,
-          "onset": 0.425,
-          "random": 0.588,
-          "ratio": 0.72,
+          "n": 140,
+          "onset": 0.457,
+          "random": 0.557,
+          "ratio": 0.82,
           "ci95": [
-            0.52,
-            0.98
+            0.65,
+            1.03
           ]
         },
         "trainee: turn | S (screw, unscrew, insert)": {
-          "n": 80,
-          "onset": 0.125,
-          "random": 0.263,
-          "ratio": 0.48,
+          "n": 140,
+          "onset": 0.15,
+          "random": 0.279,
+          "ratio": 0.54,
           "ci95": [
-            0.21,
-            0.93
+            0.32,
+            0.86
           ]
         },
         "trainee: turn | S or B (any precise work)": {
-          "n": 80,
-          "onset": 0.438,
-          "random": 0.588,
-          "ratio": 0.74,
-          "ci95": [
-            0.54,
-            1.0
-          ]
-        },
-        "either (both pooled) | S (screw, unscrew, insert)": {
-          "n": 160,
-          "onset": 0.131,
-          "random": 0.263,
-          "ratio": 0.5,
-          "ci95": [
-            0.29,
-            0.87
-          ]
-        },
-        "either (both pooled) | S or B (any precise work)": {
-          "n": 160,
-          "onset": 0.431,
-          "random": 0.588,
+          "n": 140,
+          "onset": 0.407,
+          "random": 0.557,
           "ratio": 0.73,
           "ci95": [
             0.57,
+            0.94
+          ]
+        },
+        "either (both pooled) | S (screw, unscrew, insert)": {
+          "n": 280,
+          "onset": 0.175,
+          "random": 0.279,
+          "ratio": 0.63,
+          "ci95": [
+            0.43,
+            0.91
+          ]
+        },
+        "either (both pooled) | S or B (any precise work)": {
+          "n": 280,
+          "onset": 0.432,
+          "random": 0.557,
+          "ratio": 0.78,
+          "ci95": [
+            0.64,
             0.96
           ]
         }
@@ -117,7 +117,7 @@
           "random": 0.8,
           "ratio": 0.69,
           "ci95": [
-            0.45,
+            0.46,
             0.99
           ]
         },
@@ -138,7 +138,7 @@
           "ratio": 0.71,
           "ci95": [
             0.49,
-            0.97
+            0.98
           ]
         },
         "either (both pooled) | S (screw, unscrew, insert)": {
@@ -148,7 +148,7 @@
           "ratio": 2.65,
           "ci95": [
             0.44,
-            147058823.53
+            132352941.18
           ]
         },
         "either (both pooled) | S or B (any precise work)": {
@@ -157,13 +157,94 @@
           "random": 0.8,
           "ratio": 0.7,
           "ci95": [
-            0.53,
-            0.93
+            0.52,
+            0.92
           ]
         }
       }
     },
     "furniture assembly": {
+      "counts": {
+        "expert_unasked": {
+          "S": 23,
+          "B": 25,
+          "F": 63
+        },
+        "trainee_turn": {
+          "S": 20,
+          "B": 15,
+          "F": 66
+        },
+        "random": {
+          "S": 38,
+          "B": 16,
+          "F": 56
+        }
+      },
+      "ratio": {
+        "expert: unasked long turn | S (screw, unscrew, insert)": {
+          "n": 111,
+          "onset": 0.207,
+          "random": 0.345,
+          "ratio": 0.6,
+          "ci95": [
+            0.37,
+            0.93
+          ]
+        },
+        "expert: unasked long turn | S or B (any precise work)": {
+          "n": 111,
+          "onset": 0.432,
+          "random": 0.491,
+          "ratio": 0.88,
+          "ci95": [
+            0.66,
+            1.18
+          ]
+        },
+        "trainee: turn | S (screw, unscrew, insert)": {
+          "n": 101,
+          "onset": 0.198,
+          "random": 0.345,
+          "ratio": 0.57,
+          "ci95": [
+            0.33,
+            0.89
+          ]
+        },
+        "trainee: turn | S or B (any precise work)": {
+          "n": 101,
+          "onset": 0.347,
+          "random": 0.491,
+          "ratio": 0.71,
+          "ci95": [
+            0.5,
+            0.98
+          ]
+        },
+        "either (both pooled) | S (screw, unscrew, insert)": {
+          "n": 212,
+          "onset": 0.203,
+          "random": 0.345,
+          "ratio": 0.59,
+          "ci95": [
+            0.4,
+            0.86
+          ]
+        },
+        "either (both pooled) | S or B (any precise work)": {
+          "n": 212,
+          "onset": 0.392,
+          "random": 0.491,
+          "ratio": 0.8,
+          "ci95": [
+            0.62,
+            1.03
+          ]
+        }
+      }
+    },
+    "furniture assembly, first batch (ids 1 to 240)": {
       "counts": {
         "expert_unasked": {
           "S": 6,
@@ -198,8 +279,8 @@
           "random": 0.46,
           "ratio": 0.77,
           "ci95": [
-            0.45,
-            1.23
+            0.46,
+            1.24
           ]
         },
         "trainee: turn | S (screw, unscrew, insert)": {
@@ -209,7 +290,7 @@
           "ratio": 0.55,
           "ci95": [
             0.24,
-            1.02
+            1.0
           ]
         },
         "trainee: turn | S or B (any precise work)": {
@@ -218,8 +299,8 @@
           "random": 0.46,
           "ratio": 0.69,
           "ci95": [
-            0.37,
-            1.15
+            0.38,
+            1.16
           ]
         },
         "either (both pooled) | S (screw, unscrew, insert)": {
@@ -228,8 +309,8 @@
           "random": 0.4,
           "ratio": 0.41,
           "ci95": [
-            0.22,
-            0.72
+            0.21,
+            0.7
           ]
         },
         "either (both pooled) | S or B (any precise work)": {
@@ -238,8 +319,89 @@
           "random": 0.46,
           "ratio": 0.73,
           "ci95": [
-            0.47,
+            0.48,
+            1.13
+          ]
+        }
+      }
+    },
+    "furniture assembly, second batch (ids 241 to 420)": {
+      "counts": {
+        "expert_unasked": {
+          "S": 17,
+          "B": 13,
+          "F": 30
+        },
+        "trainee_turn": {
+          "S": 11,
+          "B": 11,
+          "F": 38
+        },
+        "random": {
+          "S": 18,
+          "B": 13,
+          "F": 29
+        }
+      },
+      "ratio": {
+        "expert: unasked long turn | S (screw, unscrew, insert)": {
+          "n": 60,
+          "onset": 0.283,
+          "random": 0.3,
+          "ratio": 0.94,
+          "ci95": [
+            0.52,
+            1.67
+          ]
+        },
+        "expert: unasked long turn | S or B (any precise work)": {
+          "n": 60,
+          "onset": 0.5,
+          "random": 0.517,
+          "ratio": 0.97,
+          "ci95": [
+            0.67,
+            1.37
+          ]
+        },
+        "trainee: turn | S (screw, unscrew, insert)": {
+          "n": 60,
+          "onset": 0.183,
+          "random": 0.3,
+          "ratio": 0.61,
+          "ci95": [
+            0.29,
             1.14
+          ]
+        },
+        "trainee: turn | S or B (any precise work)": {
+          "n": 60,
+          "onset": 0.367,
+          "random": 0.517,
+          "ratio": 0.71,
+          "ci95": [
+            0.46,
+            1.07
+          ]
+        },
+        "either (both pooled) | S (screw, unscrew, insert)": {
+          "n": 120,
+          "onset": 0.233,
+          "random": 0.3,
+          "ratio": 0.78,
+          "ci95": [
+            0.48,
+            1.35
+          ]
+        },
+        "either (both pooled) | S or B (any precise work)": {
+          "n": 120,
+          "onset": 0.433,
+          "random": 0.517,
+          "ratio": 0.84,
+          "ci95": [
+            0.62,
+            1.18
           ]
         }
       }

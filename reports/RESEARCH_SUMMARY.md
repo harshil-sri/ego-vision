@@ -8,6 +8,13 @@ in the paper itself: the effect was not found in cooking (WTaG, checked
 with labels) and not with a predicted hand state on Ego-EXTRA. The
 paper reports these as failed replications, not as support.
 
+**Claim after the rating study (decided by Harshil, 2026-11-13):
+descriptive plus negative result.** The paper reports when instructors
+speak (they avoid screw, unscrew and insert actions on HoloAssist and
+in furniture assembly), that urgency changes this, and that 14
+observers did not rate a held routine message better (finding 13). It
+does not say that an assistant should wait.
+
 Read this first. Details, numbers with intervals, and limits are in
 `reports/research_gap_map.md`. Every number comes from a script in
 `scripts/` (commands in `README.md`).
@@ -153,9 +160,18 @@ middle of fine work costs you something.
       bleeding a brake) fills 80% of random seconds and 56% of speech
       onsets (ratio 0.70, 0.53 to 0.93).
     - Both scenarios pooled, screw or insert: 0.50 (0.29 to 0.87).
+    - Second batch, 2026-11-13: 180 more moments, furniture assembly
+      only, same protocol. Alone it is weaker and not clear: pooled
+      0.78 (0.48 to 1.35), expert 0.94, trainee 0.61. Both batches
+      together, furniture assembly, 212 onsets against 110 random
+      seconds: screw or insert at 20% of onsets and 34% of random
+      seconds, ratio 0.59 (0.40 to 0.86); expert 0.60 (0.37 to 0.93),
+      trainee 0.57 (0.33 to 0.89). The number to use is 0.59. The 0.29
+      for the expert in the first batch was too strong.
     This is the first sign of the HoloAssist effect outside HoloAssist:
     another camera, other people, a remote expert. It is one labeller
-    (the AI assistant), one pass, 92 onsets in furniture assembly. It
+    (the AI assistant), one pass, 212 onsets in furniture assembly, and
+    the two batches differ. It
     needs a human check before it carries weight in the paper.
 
 13. **The rating study does not support holding routine messages**
@@ -250,10 +266,11 @@ middle of fine work costs you something.
    why these three. A data set with many such actions outside
    HoloAssist would be the real replication (Ego-EXTRA's bike workshop
    and furniture assembly are candidates, with labels by eye).
-4. **Make the Ego-EXTRA furniture result solid** (finding 12; done as a
-   first sample, 0.41 with interval 0.22 to 0.72). It needs: a person
-   who labels 60 of the 240 rows blind (`reports/egoextra_hand_labels.csv`),
-   and a larger sample from the 57 furniture videos only.
+4. **Make the Ego-EXTRA furniture result solid** (finding 12; two
+   batches done, 0.59 with interval 0.40 to 0.86, weaker than
+   HoloAssist's 0.34). It needs a person who labels 60 of the 420 rows
+   blind (`reports/egoextra_hand_labels.csv`). More labels by the same
+   labeller add little.
 5. The "should stay silent" evaluation (finding 7) stays in the paper as
    a second section. It does not depend on the hand-state effect.
    Open: how much later than a human an assistant may be.

@@ -993,3 +993,13 @@ held warning is rated worse (-0.82, -1.14 to -0.46); interaction +0.58
 for the hands" has no support from observers. The claim that remains is
 descriptive (when instructors speak) plus "urgent messages must not
 wait".
+
+Ego-EXTRA label check, second batch, 2026-11-13: 180 more moments from
+furniture assembly only. Alone: 0.78 (0.48 to 1.35). Both batches,
+furniture assembly: screw or insert at 20% of 212 speech onsets and 34%
+of 110 random seconds, ratio 0.59 (0.40 to 0.86). The replication
+outside HoloAssist holds in the pooled sample but is weaker than on
+HoloAssist (0.34), and the second batch alone does not show it.
+
+Claim decided by Harshil on 2026-11-13: descriptive plus negative
+result. The paper does not say that an assistant should wait.
