@@ -122,6 +122,23 @@ middle of fine work costs you something.
     The labels are by the AI assistant, one pass; a person should check
     a part. A small effect (down to about 0.7) cannot be excluded.
 
+11. **On HoloAssist the avoidance belongs to the kind of action, not to
+    its length** (2026-11-12, `reports/holoassist_action_length.md`,
+    labels only). Routine speech inside screw, unscrew or insert
+    actions: 0.46 times chance when the action is shorter than 2 s,
+    0.38 at 2 to 5 s, 0.35 at 5 to 10 s, 0.28 at 10 s and more. Inside
+    actions of all other verbs: 0.91, 1.02, 0.89, 0.76. So even a short
+    screw or insert is avoided, and a long action of another kind is
+    hardly avoided. Corrections are not held back in short fine-motor
+    actions (1.18, 1.03) and are rare in long ones (0.38, 0.20).
+    What this means for WTaG: its "precise work" is mostly pouring,
+    spreading and measuring, which are "other verbs" in HoloAssist terms
+    and are not avoided on HoloAssist either. The WTaG moments with
+    screw or insert are few (33 of 417), and for them the interval (0.52
+    to 2.80 for instructions) is too wide to decide. So WTaG shows that
+    the effect does not extend to precise work in general; it does not
+    test the screw-and-insert effect well.
+
 ## What it means
 
 - Supported, on HoloAssist (assembly, 166 h, human hand labels):
@@ -166,12 +183,13 @@ middle of fine work costs you something.
    (`reports/wtag_hand_labels.csv`, 417 rows; 60 rows are enough for an
    agreement number). Until then the failed replication rests on one
    labeller, the AI assistant.
-3. **Say why assembly differs from cooking, and test it.** The working
-   idea: screw and insert lock hands and eyes on one small part for
-   several seconds (median 6 s on HoloAssist); pouring and spreading do
-   not. Tests that need no new data: on HoloAssist, the avoidance by
-   length of the fine-motor action, and by task type (the one coffee
-   task was the only exception among 19).
+3. **Say why assembly differs from cooking.** Tested (finding 11): the
+   length of the action is not the reason; the kind of action is. The
+   paper's claim must therefore name the actions (screw, unscrew,
+   insert), not "fine-motor work" or "precise work" in general. Open:
+   why these three. A data set with many such actions outside
+   HoloAssist would be the real replication (Ego-EXTRA's bike workshop
+   and furniture assembly are candidates, with labels by eye).
 4. **A label check on Ego-EXTRA's furniture-assembly scenario**, the
    only setting outside HoloAssist that is assembly. The trainee's
    speech avoided predicted fine-motor seconds most there (0.77), but

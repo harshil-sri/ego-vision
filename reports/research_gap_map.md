@@ -258,6 +258,15 @@ keyword; not a systematic review). What it changes:
   Robot Behavior", 2018) predict interruptibility for a mobile robot
   and find better social perception; abstract only.
 
+Action length, 2026-11-12 (`reports/holoassist_action_length.md`):
+on HoloAssist, routine speech inside screw, unscrew or insert actions
+is 0.46 times chance for actions under 2 s and 0.28 for actions of 10 s
+and more; inside actions of other verbs it is 0.91 and 0.76. The
+avoidance belongs to the kind of action, not to its length. WTaG's
+precise work is mostly other verbs (pour, spread, measure), so its
+null result limits the claim to screw, unscrew and insert; it has too
+few of those (33 labelled moments) to test them.
+
 Framing decided by Harshil on 2026-11-12, after the WTaG label check:
 the HoloAssist finding with honest limits. The claim below holds for
 HoloAssist's assembly tasks only; the paper reports that it was not

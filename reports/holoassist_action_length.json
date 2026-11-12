@@ -1,0 +1,190 @@
+{
+  "videos": 1568,
+  "shifts": 1000,
+  "onsets": {
+    "routine": 19828,
+    "correction": 2999
+  },
+  "classes": {
+    "fine, under 2 s": {
+      "hours": 3.8,
+      "share_of_time": 0.034,
+      "routine": {
+        "n": 150,
+        "ratio": 0.46,
+        "chance95": [
+          0.9,
+          1.11
+        ]
+      },
+      "correction": {
+        "n": 124,
+        "ratio": 1.18,
+        "chance95": [
+          0.83,
+          1.18
+        ]
+      }
+    },
+    "fine, 2 to 5 s": {
+      "hours": 9.3,
+      "share_of_time": 0.082,
+      "routine": {
+        "n": 350,
+        "ratio": 0.38,
+        "chance95": [
+          0.94,
+          1.07
+        ]
+      },
+      "correction": {
+        "n": 243,
+        "ratio": 1.03,
+        "chance95": [
+          0.88,
+          1.12
+        ]
+      }
+    },
+    "fine, 5 to 10 s": {
+      "hours": 10.4,
+      "share_of_time": 0.092,
+      "routine": {
+        "n": 305,
+        "ratio": 0.35,
+        "chance95": [
+          0.94,
+          1.06
+        ]
+      },
+      "correction": {
+        "n": 96,
+        "ratio": 0.38,
+        "chance95": [
+          0.88,
+          1.13
+        ]
+      }
+    },
+    "fine, 10 s and more": {
+      "hours": 11.1,
+      "share_of_time": 0.098,
+      "routine": {
+        "n": 239,
+        "ratio": 0.28,
+        "chance95": [
+          0.94,
+          1.07
+        ]
+      },
+      "correction": {
+        "n": 57,
+        "ratio": 0.2,
+        "chance95": [
+          0.89,
+          1.1
+        ]
+      }
+    },
+    "other verb, under 2 s": {
+      "hours": 20.7,
+      "share_of_time": 0.182,
+      "routine": {
+        "n": 3503,
+        "ratio": 0.91,
+        "chance95": [
+          0.97,
+          1.03
+        ]
+      },
+      "correction": {
+        "n": 722,
+        "ratio": 1.22,
+        "chance95": [
+          0.94,
+          1.07
+        ]
+      }
+    },
+    "other verb, 2 to 5 s": {
+      "hours": 21.6,
+      "share_of_time": 0.189,
+      "routine": {
+        "n": 4485,
+        "ratio": 1.02,
+        "chance95": [
+          0.98,
+          1.03
+        ]
+      },
+      "correction": {
+        "n": 1001,
+        "ratio": 1.6,
+        "chance95": [
+          0.93,
+          1.07
+        ]
+      }
+    },
+    "other verb, 5 to 10 s": {
+      "hours": 8.5,
+      "share_of_time": 0.075,
+      "routine": {
+        "n": 1632,
+        "ratio": 0.89,
+        "chance95": [
+          0.96,
+          1.04
+        ]
+      },
+      "correction": {
+        "n": 293,
+        "ratio": 1.36,
+        "chance95": [
+          0.87,
+          1.14
+        ]
+      }
+    },
+    "other verb, 10 s and more": {
+      "hours": 4.6,
+      "share_of_time": 0.041,
+      "routine": {
+        "n": 761,
+        "ratio": 0.76,
+        "chance95": [
+          0.94,
+          1.06
+        ]
+      },
+      "correction": {
+        "n": 83,
+        "ratio": 0.79,
+        "chance95": [
+          0.81,
+          1.18
+        ]
+      }
+    },
+    "idle": {
+      "hours": 23.7,
+      "share_of_time": 0.208,
+      "routine": {
+        "n": 8403,
+        "ratio": 1.45,
+        "chance95": [
+          0.98,
+          1.02
+        ]
+      },
+      "correction": {
+        "n": 380,
+        "ratio": 0.65,
+        "chance95": [
+          0.94,
+          1.06
+        ]
+      }
+    }
+  }
+}

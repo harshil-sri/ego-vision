@@ -436,6 +436,9 @@ locally as `last_305.pt`). Tests: 128 passed.
   HoloAssist only.
 - Paper framing decided by Harshil (2026-11-12): the HoloAssist finding
   with honest limits; WTaG and Ego-EXTRA are reported as failed
-  replications. Next steps in order are in
+  replications. HoloAssist by action length
+  (`scripts/holoassist_action_length.py`): the avoidance is tied to
+  screw, unscrew and insert at any length (0.46 under 2 s, 0.28 at
+  10 s and more); other verbs 0.76 to 1.02. Next steps in order are in
   `reports/RESEARCH_SUMMARY.md` ("What the paper needs next").
 Tests: 132 passed.
