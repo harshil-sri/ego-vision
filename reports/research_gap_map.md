@@ -183,16 +183,27 @@ keyword; not a systematic review). What it changes:
   (When2Talk 2026), working-memory load (ProMemAssist). None uses the
   hand state from an egocentric camera, and none checks the rule against
   when human instructors speak.
-- Human-robot work (Cini et al. 2021; Banerjee et al., "Effects of
-  Interruptibility-Aware Robot Behavior", 2018) treats the timing of a
-  robot's signal relative to the human's manual action. Not read beyond
-  the abstract; it must be read before a submission.
+- **The cost depends on the phase of the hand movement, and this is
+  shown by experiment** (Cini et al., Science Robotics 2021; full
+  abstract read, not the paper). People did a continuous pick-and-place
+  task. A robot's cue at the start of a reach-to-grasp movement caused
+  more errors, slower and less smooth arm movement, and deflected gaze.
+  The interference disappeared when the cue came shortly after the
+  person picked up the object. This is the causal evidence that this
+  project lacks, for a robot's signal instead of speech. It agrees with
+  finding 4 (instructors speak 1 to 2 s after an action ends). It means
+  the paper must not claim to discover that timing relative to the hand
+  movement matters. Banerjee et al. ("Effects of Interruptibility-Aware
+  Robot Behavior", 2018) predict interruptibility for a mobile robot
+  and find better social perception; abstract only.
 
 The claim that survives, stated narrowly: the hand state read from an
 egocentric camera predicts when human instructors hold routine speech,
 at the scale of seconds, on 166 h of real instruction; an assistant can
-use it as a hold rule; urgency removes the hold. Open against this: the
-human-robot papers above.
+use it as a hold rule; urgency removes the hold. The experiments above
+(2017, 2021) supply the reason why such a rule should help; this
+project supplies the signal from video, the scale, and the comparison
+with instructors. Whether the rule helps a user is still not measured.
 
 Baselines with released weights (not run; they need the GPU and large
 downloads): ProAssist has checkpoints and data on Hugging Face
