@@ -6,6 +6,8 @@ Event kinds (from the build brief, WP5):
   session_started, scan_progress, scan_complete, ingredient_matched,
   verb_predicted, step_advanced, wrong_order, repeat, idle, done,
   metrics_tick, error, app_state
+  say (experimental, only with a hand-state scorer): a message released by
+      src.pipeline.delivery; payload source, text, urgent, held_s, reason
 """
 
 from __future__ import annotations

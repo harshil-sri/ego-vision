@@ -181,3 +181,27 @@ def test_app_shutdown_stops_engine():
     assert not eng.is_running, "lifespan shutdown must stop the engine"
     assert any(e.kind == "session_stopped" for e in eng.bus.history())
     eng.stop()  # idempotent cleanup
+
+
+def test_routine_message_waits_for_fine_motor_hands():
+    """With a hand-state scorer the engine holds a step message while the
+    hands do fine-motor work and publishes it as a "say" event afterwards."""
+    cfg = EngineConfig(mode="keyboard", embedder="toy")
+    eng = CookingEngine(SyntheticFrameSource(fps=20), cfg, RECIPE, bus=EventBus(),
+                        hand_state=object())             # only its presence matters here
+    recorder: list = []
+    eng.bus.subscribe(recorder.append)
+    step = eng.recipe.steps[0]
+    eng._ingredient = (step.ingredient, 1.0)
+    eng.delivery.tick(0.9, time.monotonic())             # hands in fine-motor work
+    eng._consume_verb(step.verb, 1.0)
+    assert events_of(recorder, "step_advanced")          # the machine advanced as usual
+    assert not events_of(recorder, "say")                # but the message is held
+    assert eng.state()["held_message"]
+    eng._say(eng.delivery.tick(0.1, time.monotonic()))   # hands free
+    said = events_of(recorder, "say")
+    assert len(said) == 1 and said[0].payload["reason"] == "hands free"
+    assert eng.state()["held_message"] is None
+
+    plain = CookingEngine(SyntheticFrameSource(fps=20), cfg, RECIPE, bus=EventBus())
+    assert plain.delivery is None and plain.state()["held_message"] is None

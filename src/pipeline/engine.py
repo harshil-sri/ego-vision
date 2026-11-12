@@ -95,6 +95,12 @@ class CookingEngine:
         self._embedder = embedder
         self.hand_state = hand_state
         self._hands: dict | None = None      # newest hand-state reading, or None
+        # experimental: routine messages wait for the hands (src.pipeline.delivery).
+        # Only with a hand-state scorer; without one every message goes out at once.
+        self.delivery = None
+        if hand_state is not None:
+            from src.pipeline.delivery import HandAwareDelivery
+            self.delivery = HandAwareDelivery()
 
         matcher_cls = registry.get_class("enrollment")
         self.matcher = matcher_cls(self._get_embedder,
@@ -246,6 +252,8 @@ class CookingEngine:
                       else IDLE)
         self._last_verb = (None, 0.0)
         self._ingredient = ("unknown", 0.0)
+        if self.delivery is not None:
+            self.delivery.reset()
 
     # ----- scan phase -------------------------------------------------
 
@@ -308,9 +316,17 @@ class CookingEngine:
         if ev.kind == "wrong_order":
             self._warning_until = time.monotonic() + 3.0
             self._warning_msg = ev.message
+        if self.delivery is not None and ev.message:
+            self._say(self.delivery.submit(ev.kind, ev.message, ev.kind == "wrong_order",
+                                           time.monotonic()))
         if ev.kind == "done":
             with self._lock:
                 self.phase = DONE
+
+    def _say(self, messages: list[dict]) -> None:
+        """Publish the messages that the delivery policy releases now ("say" events)."""
+        for m in messages:
+            self.bus.publish("say", **m)
 
     # ----- state snapshot ----------------------------------------------
 
@@ -343,6 +359,9 @@ class CookingEngine:
                                "score": round(self._ingredient[1], 3)},
                 # experimental: {"fine", "free", "other", "state"} or None
                 "hands": self._hands,
+                # experimental: routine message that waits for the hands, or None
+                "held_message": (self.delivery.held["text"]
+                                 if self.delivery is not None and self.delivery.held else None),
                 "warning": ({"message": self._warning_msg}
                             if time.monotonic() < self._warning_until else None),
                 "metrics": {"fps": round(self._frames_pushed_per_s(), 1),
@@ -491,6 +510,8 @@ class CookingEngine:
         feature = getattr(self.verb_source, "last_feature", None)
         if self.hand_state is not None and feature is not None:
             self._hands = self.hand_state.update(feature)
+            if self.delivery is not None:
+                self._say(self.delivery.tick(self._hands["fine"], time.monotonic()))
         if self.cfg.recipe_prior:
             from src.pipeline.prior import apply_recipe_prior, legal_verbs
             legal = legal_verbs(self.recipe.steps, self.machine.current_index)

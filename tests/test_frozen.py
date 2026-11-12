@@ -135,6 +135,28 @@ def test_resolve_data_path(monkeypatch):
     assert resolve_data_path("runs/baseline") == "runs/baseline"
 
 
+def test_hand_aware_delivery_rules():
+    """Routine messages wait for fine-motor work to end; urgent ones do not."""
+    from src.pipeline.delivery import HandAwareDelivery
+
+    d = HandAwareDelivery(fine_threshold=0.5, max_hold_s=4.0)
+    assert d.submit("advance", "next: cut onion", False, 0.0)[0]["reason"] == "hands free"   # no reading yet
+    assert d.tick(0.9, 1.0) == []                                   # hands now in fine work, nothing held
+    assert d.submit("advance", "next: stir pan", False, 2.0) == [] and d.held["text"] == "next: stir pan"
+    out = d.submit("wrong_order", "not yet", True, 2.5)             # a warning does not wait
+    assert out[0]["urgent"] and out[0]["held_s"] == 0.0 and d.held is not None
+    assert d.tick(0.8, 3.0) == []                                   # still busy, 1 s held
+    out = d.tick(0.2, 3.5)                                          # hands free: released after 1.5 s
+    assert [m["text"] for m in out] == ["next: stir pan"] and out[0]["held_s"] == 1.5
+    assert out[0]["reason"] == "hands free" and d.held is None
+    d.tick(0.9, 10.0)
+    assert d.submit("advance", "a", False, 10.0) == [] and d.submit("advance", "b", False, 11.0) == []
+    assert d.superseded == 1 and d.held["text"] == "b"              # the newer message replaces the held one
+    assert d.tick(0.9, 14.9) == []
+    out = d.tick(0.9, 15.0)                                         # 4 s after "b": released although still busy
+    assert out[0]["text"] == "b" and out[0]["reason"] == "held too long"
+
+
 def test_hand_state_scorer_groups_and_smoothing(tmp_path):
     """Scorer: 768-d vector -> 3 group probabilities that sum to 1; the
     running average moves toward the newest reading."""

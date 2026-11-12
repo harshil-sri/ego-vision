@@ -94,5 +94,13 @@ middle of fine work costs you something.
 
 The hand-state classifier runs on the vector the verb model already
 computes (0.5 ms per tick) and appears in the engine state as `"hands"`.
-It is experimental: trained on assembly video, only indirectly checked
-on kitchen video, and nothing acts on it yet.
+It is experimental: trained on assembly video and only indirectly
+checked on kitchen video.
+
+One rule now acts on it (`src/pipeline/delivery.py`, only when the app is
+started with `--hand-state-dir`): a routine step message waits while the
+fine-motor probability is 0.5 or more, for at most 4 s; a wrong-order
+warning never waits. The released message is a `"say"` event, and the
+waiting message is `"held_message"` in the engine state. The screen
+still shows every message at once: the rule is for a future voice output.
+The two numbers are first guesses. Not tested on a real kitchen recording.

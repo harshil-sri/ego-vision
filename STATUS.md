@@ -384,6 +384,10 @@ average precision over task only (labels +0.029); shift test from video
 1.19); part 8 from video (unneeded at 20% failed): history gate 0.41;
 history + video with the window ending at the mistake start 0.37; with
 2 s of tolerance and the window ending 1 s after the start 0.30, equal to
-the label ceiling. Pushed to GitHub and main fast-forwarded at 8e38c5a. Tests: 125
+the label ceiling. Pushed to GitHub and main fast-forwarded at 8e38c5a.
+Work continues on `main`. App: `src/pipeline/delivery.py` holds routine
+step messages while the hands do fine-motor work (at most 4 s) and
+publishes them as "say" events; warnings do not wait. Active only with
+`--hand-state-dir`. The UI does not use "say" yet. Tests: 127 passed. Tests: 125
 passed.
 
