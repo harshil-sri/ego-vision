@@ -64,11 +64,11 @@ GROUPS = ["fine", "free", "other"]
 THIRDS = ["low", "mid", "high"]
 
 
-def holoassist_ticks(window: float, with_types: bool = False):
+def holoassist_ticks(window: float, with_types: bool = False, tag: str = ""):
     """-> features (n, 768), hand state id (n,), onset in next second (n,), state names, video name (n,).
     with_types: also a dict {utterance type: (n,) bool}, true where an instructor utterance of that
     type (follow_up, high_level, confirm, correct) starts within one tick after the tick."""
-    fd = Path(resolve_data_path(HOLO)) / f"features_w{window}"
+    fd = Path(resolve_data_path(HOLO)) / f"features{tag}_w{window}"       # tag "_dino": second encoder
     meta, feats = pd.read_csv(fd / "meta.csv"), np.load(fd / "feats.npy").astype(np.float32)
     tick = float(json.loads((fd / "info.json").read_text())["tick_s"])
     data = {v["video_name"]: v for v in json.loads(Path(resolve_data_path(LABELS)).read_text(encoding="utf-8"))}

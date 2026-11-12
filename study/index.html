@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assistant timing study</title>
+<style>
+  :root { --bg:#f6f5f1; --card:#fff; --ink:#1d1d1b; --mute:#66645e; --line:#dcd9d0; --accent:#1f5fbf; --accent-ink:#fff; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#161614; --card:#201f1c; --ink:#eceae4; --mute:#a3a097; --line:#3a3833; --accent:#7fb0ff; --accent-ink:#0d1b33; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 680px; margin: 0 auto; padding: 20px 16px 48px; }
+  h1 { font-size: 1.35rem; margin: 8px 0 12px; }
+  p { margin: 0 0 12px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px; }
+  .mute { color:var(--mute); font-size:.92rem; }
+  button { font:inherit; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink);
+           padding:10px 16px; cursor:pointer; }
+  button.primary { background:var(--accent); color:var(--accent-ink); border-color:var(--accent); font-weight:600; }
+  button:disabled { opacity:.45; cursor:default; }
+  button:focus-visible { outline:3px solid var(--accent); outline-offset:2px; }
+  .videobox { position:relative; background:#000; border-radius:10px; overflow:hidden; aspect-ratio:16/9; }
+  video { width:100%; height:100%; display:block; }
+  .caption { position:absolute; left:8px; right:8px; bottom:8px; background:rgba(0,0,0,.78); color:#fff; padding:8px 10px;
+             border-radius:8px; font-size:.95rem; display:none; }
+  .overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.35); }
+  .scale { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin:10px 0 4px; }
+  .scale button { padding:12px 0; font-weight:600; }
+  .scale button.on { background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+  .ends { display:flex; justify-content:space-between; }
+  .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:14px; }
+  .bar { height:6px; background:var(--line); border-radius:3px; margin:0 0 14px; overflow:hidden; }
+  .bar i { display:block; height:100%; background:var(--accent); width:0; }
+  textarea { width:100%; min-height:70px; font:inherit; padding:8px; border-radius:8px; border:1px solid var(--line);
+             background:var(--card); color:var(--ink); }
+  .code { word-break:break-all; font:12px/1.4 ui-monospace, Consolas, monospace; background:var(--bg); border:1px solid var(--line);
+          border-radius:8px; padding:10px; max-height:140px; overflow:auto; }
+  label { display:block; margin:10px 0 4px; }
+  select { font:inherit; padding:8px; border-radius:8px; border:1px solid var(--line); background:var(--card); color:var(--ink); }
+</style>
+</head>
+<body>
+<main>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="card" id="app"></div>
+  <p class="mute" style="margin-top:14px">Video: HoloAssist dataset (Microsoft, CDLA-Permissive-2.0). No personal data is collected.</p>
+</main>
+<script src="manifest.js"></script>
+<script>
+// Optional: a URL that accepts a POST with the result as text (for example a Google Apps Script web app).
+// Empty = the rater copies a code and sends it.
+const ENDPOINT = "";
+
+const S = window.STUDY, app = document.getElementById("app"), bar = document.getElementById("bar");
+const rnd = () => crypto.getRandomValues(new Uint32Array(1))[0] / 2 ** 32;
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const el = (html) => { app.innerHTML = html; window.scrollTo(0, 0); };
+
+// each rater: every clip once; inside each message type, half "now" and half "held", at random
+function plan() {
+  const trials = [];
+  for (const type of ["routine", "warning"]) {
+    const items = shuffle(S.items.filter(x => x.type === type));
+    const first = rnd() < 0.5 ? "now" : "held";
+    items.forEach((it, i) => trials.push({ it, cond: (i % 2 === 0) === (first === "now") ? "now" : "held" }));
+  }
+  return shuffle(trials);
+}
+const practice = S.items.find(x => x.type === "practice");
+const trials = plan();
+const result = { v: S.version, id: Math.random().toString(36).slice(2, 10), t0: new Date().toISOString(),
+                 ua: navigator.userAgent.slice(0, 120), w: innerWidth, answers: [] };
+let k = -1;                       // -1 = practice
+
+function intro() {
+  el(`<h1>When should an assistant speak?</h1>
+    <p>You will watch <b>${trials.length} short clips</b> (about 12 seconds each). Each clip shows what a person sees
+    while working with the hands. An <b>AI assistant</b> watches through the person's glasses and says one sentence.</p>
+    <p>After each clip, tell us if the assistant spoke at a good moment. There are no right or wrong answers.
+    We want your first impression.</p>
+    <p><b>Please turn the sound on.</b> The sentence also appears as text. The study takes about 7 minutes.
+    Please do it in one go, on a laptop or a phone held sideways.</p>
+    <p class="mute">Your answers are anonymous. We store only your ratings, the time you needed, and your browser type.</p>
+    <div class="row"><button class="primary" id="go">Start with a practice clip</button></div>`);
+  document.getElementById("go").onclick = () => trial();
+}
+
+function trial() {
+  const isP = k < 0, t = isP ? { it: practice, cond: "now" } : trials[k];
+  bar.style.width = (isP ? 0 : 100 * k / trials.length) + "%";
+  const speaksFor = 1.2 + 0.33 * t.it.text.split(" ").length;
+  el(`<p class="mute">${isP ? "Practice clip (not counted)" : `Clip ${k + 1} of ${trials.length}`}</p>
+    <div class="videobox">
+      <video id="v" playsinline preload="auto" src="clips/${t.it.id}_${t.cond}.mp4"></video>
+      <div class="caption" id="cap"></div>
+      <div class="overlay" id="ov"><button class="primary" id="play">Play clip</button></div>
+    </div>
+    <div id="q" style="visibility:hidden">
+      <p style="margin-top:14px"><b>The assistant spoke at a good moment.</b></p>
+      <div class="scale" id="scale">${[1, 2, 3, 4, 5].map(n => `<button data-n="${n}">${n}</button>`).join("")}</div>
+      <div class="ends mute"><span>1 = very bad moment</span><span>5 = very good moment</span></div>
+      ${isP ? `<label for="snd">Did you hear the assistant's voice?</label>
+        <select id="snd"><option value="">Choose</option><option value="yes">Yes</option><option value="no">No, I only saw the text</option></select>` : ""}
+      <div class="row"><button id="again">Watch again</button><button class="primary" id="next" disabled>Next</button></div>
+    </div>`);
+  const v = document.getElementById("v"), cap = document.getElementById("cap"), ov = document.getElementById("ov");
+  const q = document.getElementById("q"), next = document.getElementById("next");
+  let plays = 0, rating = 0, shown = 0;
+  cap.textContent = "Assistant: " + t.it.text;
+  v.ontimeupdate = () => { const on = v.currentTime >= t.it.at[t.cond] && v.currentTime <= t.it.at[t.cond] + speaksFor; cap.style.display = on ? "block" : "none"; };
+  v.onended = () => { q.style.visibility = "visible"; if (!shown) shown = performance.now(); };
+  const play = () => { ov.style.display = "none"; plays++; v.currentTime = 0; v.play(); };
+  document.getElementById("play").onclick = play;
+  document.getElementById("again").onclick = play;
+  const ready = () => { next.disabled = !(rating && (!isP || document.getElementById("snd").value)); };
+  document.getElementById("scale").onclick = e => {
+    const n = +e.target.dataset.n; if (!n) return;
+    rating = n; [...e.currentTarget.children].forEach(b => b.classList.toggle("on", +b.dataset.n === n)); ready();
+  };
+  if (isP) document.getElementById("snd").onchange = ready;
+  next.onclick = () => {
+    if (isP) result.sound = document.getElementById("snd").value;
+    else result.answers.push({ c: t.it.id, k: t.cond, r: rating, p: plays, ms: Math.round(performance.now() - shown), i: k });
+    k++;
+    if (k < trials.length) trial(); else finish();
+  };
+}
+
+function finish() {
+  bar.style.width = "100%";
+  el(`<h1>Last step</h1>
+    <label for="cm">Anything you noticed about the timing? (optional)</label>
+    <textarea id="cm" maxlength="500"></textarea>
+    <div class="row"><button class="primary" id="done">Finish</button></div>`);
+  document.getElementById("done").onclick = async () => {
+    result.comment = document.getElementById("cm").value.trim();
+    result.t1 = new Date().toISOString();
+    const code = btoa(unescape(encodeURIComponent(JSON.stringify(result))));
+    let sent = false;
+    if (ENDPOINT) { try { await fetch(ENDPOINT, { method: "POST", mode: "no-cors", body: JSON.stringify(result) }); sent = true; } catch (e) {} }
+    el(`<h1>Thank you!</h1>
+      ${sent ? "<p>Your answers were sent. As a backup, you can also copy the code below.</p>"
+             : "<p><b>One more thing:</b> please copy this code and send it to the person who invited you.</p>"}
+      <div class="code" id="code">${code}</div>
+      <div class="row"><button class="primary" id="copy">Copy code</button><button id="dl">Download as file</button></div>
+      <p class="mute" id="msg" style="margin-top:10px"></p>`);
+    document.getElementById("copy").onclick = async () => {
+      try { await navigator.clipboard.writeText(code); document.getElementById("msg").textContent = "Copied. Paste it in a message."; }
+      catch (e) { document.getElementById("msg").textContent = "Select the code and copy it by hand."; }
+    };
+    document.getElementById("dl").onclick = () => {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([JSON.stringify(result)], { type: "application/json" }));
+      a.download = `timing-study-${result.id}.json`; a.click();
+    };
+  };
+}
+intro();
+</script>
+</body>
+</html>

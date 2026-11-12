@@ -1,0 +1,323 @@
+{
+ "version": 1,
+ "seed": 0,
+ "question": "The assistant spoke at a good moment.",
+ "source": "HoloAssist (CDLA-Permissive-2.0)",
+ "items": [
+  {
+   "id": "c01",
+   "type": "routine",
+   "text": "Start unscrewing the top of the legs.",
+   "duration": 11.5,
+   "at": {
+    "now": 3.0,
+    "held": 7.0
+   },
+   "video": "z039-june-23-22-gladom_disassemble",
+   "task": "disassemble tray table",
+   "verb": "unscrew",
+   "c": 21.01,
+   "r": 25.01
+  },
+  {
+   "id": "c02",
+   "type": "routine",
+   "text": "Take the flat piece and put it on the top.",
+   "duration": 10.48,
+   "at": {
+    "now": 3.0,
+    "held": 5.98
+   },
+   "video": "z208-sep-27-22-gladom_assemble",
+   "task": "assemble tray table",
+   "verb": "insert",
+   "c": 149.71,
+   "r": 152.69
+  },
+  {
+   "id": "c03",
+   "type": "routine",
+   "text": "Please take the feet and flip them onto the baseboard.",
+   "duration": 11.53,
+   "at": {
+    "now": 3.0,
+    "held": 7.03
+   },
+   "video": "z078-july-01-22-marius_assemble",
+   "task": "assemble stool",
+   "verb": "screw",
+   "c": 100.62,
+   "r": 104.65
+  },
+  {
+   "id": "c04",
+   "type": "routine",
+   "text": "Please start with the button screws first.",
+   "duration": 13.53,
+   "at": {
+    "now": 3.0,
+    "held": 9.03
+   },
+   "video": "z199-sep-21-22-rashult_disassemble",
+   "task": "disassemble utility cart",
+   "verb": "unscrew",
+   "c": 33.21,
+   "r": 39.24
+  },
+  {
+   "id": "c05",
+   "type": "routine",
+   "text": "Attach the other tray tubes first.",
+   "duration": 11.56,
+   "at": {
+    "now": 3.0,
+    "held": 7.06
+   },
+   "video": "z200-sep-22-22-rashult_assemble",
+   "task": "assemble utility cart",
+   "verb": "screw",
+   "c": 159.21,
+   "r": 163.27
+  },
+  {
+   "id": "c06",
+   "type": "routine",
+   "text": "Please make sure it has the correct positon.",
+   "duration": 12.51,
+   "at": {
+    "now": 3.0,
+    "held": 8.01
+   },
+   "video": "z047-june-25-22-gladom_disassemble",
+   "task": "disassemble tray table",
+   "verb": "unscrew",
+   "c": 90.23,
+   "r": 95.24
+  },
+  {
+   "id": "c07",
+   "type": "routine",
+   "text": "Next, please change the mount from the tripod to the handheld mount.",
+   "duration": 12.56,
+   "at": {
+    "now": 3.0,
+    "held": 8.06
+   },
+   "video": "z067-june-29-22-gopro",
+   "task": "setup gopro",
+   "verb": "unscrew",
+   "c": 284.04,
+   "r": 289.1
+  },
+  {
+   "id": "c08",
+   "type": "routine",
+   "text": "Lastly, please tighten the central screw.",
+   "duration": 12.51,
+   "at": {
+    "now": 3.0,
+    "held": 8.01
+   },
+   "video": "z038-june-23-22-marius_assemble",
+   "task": "assemble stool",
+   "verb": "screw",
+   "c": 210.25,
+   "r": 215.26
+  },
+  {
+   "id": "c09",
+   "type": "routine",
+   "text": "The last one is to remove the tripod.",
+   "duration": 13.52,
+   "at": {
+    "now": 3.0,
+    "held": 9.02
+   },
+   "video": "z145-aug-18-22-gopro",
+   "task": "setup gopro",
+   "verb": "screw",
+   "c": 303.09,
+   "r": 309.11
+  },
+  {
+   "id": "c10",
+   "type": "routine",
+   "text": "You need to tighten the middle part with a wrench.",
+   "duration": 13.4,
+   "at": {
+    "now": 3.0,
+    "held": 8.9
+   },
+   "video": "z184-sep-08-22-marius_assemble",
+   "task": "assemble stool",
+   "verb": "screw",
+   "c": 155.45,
+   "r": 161.35
+  },
+  {
+   "id": "c11",
+   "type": "routine",
+   "text": "Now please remove the handheld grip.",
+   "duration": 11.5,
+   "at": {
+    "now": 3.0,
+    "held": 7.0
+   },
+   "video": "z204-sep-25-22-gopro",
+   "task": "setup gopro",
+   "verb": "unscrew",
+   "c": 210.2,
+   "r": 214.2
+  },
+  {
+   "id": "c12",
+   "type": "routine",
+   "text": "Now, please attach the middle part as well.",
+   "duration": 11.51,
+   "at": {
+    "now": 3.0,
+    "held": 7.01
+   },
+   "video": "z155-aug-26-22-rashult_assemble",
+   "task": "assemble utility cart",
+   "verb": "screw",
+   "c": 493.9,
+   "r": 497.91
+  },
+  {
+   "id": "c13",
+   "type": "warning",
+   "text": "Stop. That is the wrong part.",
+   "duration": 12.53,
+   "at": {
+    "now": 3.0,
+    "held": 8.03
+   },
+   "video": "z189-sep-10-22-knarrevik_disassemble",
+   "task": "disassemble nightstand",
+   "verb": "unscrew",
+   "c": 20.12,
+   "r": 25.15
+  },
+  {
+   "id": "c14",
+   "type": "warning",
+   "text": "Wait. That is not the right way.",
+   "duration": 13.53,
+   "at": {
+    "now": 3.0,
+    "held": 9.03
+   },
+   "video": "z188-sep-10-22-knarrevik_disassemble",
+   "task": "disassemble nightstand",
+   "verb": "unscrew",
+   "c": 187.06,
+   "r": 193.09
+  },
+  {
+   "id": "c15",
+   "type": "warning",
+   "text": "Stop. Check that again.",
+   "duration": 13.4,
+   "at": {
+    "now": 3.0,
+    "held": 8.9
+   },
+   "video": "z151-aug-25-22-knarrevik_assemble",
+   "task": "assemble nightstand",
+   "verb": "screw",
+   "c": 461.62,
+   "r": 467.52
+  },
+  {
+   "id": "c16",
+   "type": "warning",
+   "text": "Wait. That one is wrong.",
+   "duration": 13.51,
+   "at": {
+    "now": 3.0,
+    "held": 9.01
+   },
+   "video": "z191-sep-11-22-knarrevik_assemble",
+   "task": "assemble nightstand",
+   "verb": "screw",
+   "c": 403.63,
+   "r": 409.64
+  },
+  {
+   "id": "c17",
+   "type": "warning",
+   "text": "Stop. That is the wrong part.",
+   "duration": 11.47,
+   "at": {
+    "now": 3.0,
+    "held": 6.97
+   },
+   "video": "z185-sep-09-22-knarrevik_assemble",
+   "task": "assemble nightstand",
+   "verb": "screw",
+   "c": 462.8,
+   "r": 466.77
+  },
+  {
+   "id": "c18",
+   "type": "warning",
+   "text": "Wait. That is not the right way.",
+   "duration": 12.56,
+   "at": {
+    "now": 3.0,
+    "held": 8.06
+   },
+   "video": "z120-aug-09-22-marius_disassemble",
+   "task": "disassemble stool",
+   "verb": "unscrew",
+   "c": 21.24,
+   "r": 26.3
+  },
+  {
+   "id": "c19",
+   "type": "warning",
+   "text": "Stop. Check that again.",
+   "duration": 13.51,
+   "at": {
+    "now": 3.0,
+    "held": 9.01
+   },
+   "video": "z123-aug-09-22-knarrevik_disassemble",
+   "task": "disassemble nightstand",
+   "verb": "insert",
+   "c": 170.12,
+   "r": 176.13
+  },
+  {
+   "id": "c20",
+   "type": "warning",
+   "text": "Wait. That one is wrong.",
+   "duration": 12.5,
+   "at": {
+    "now": 3.0,
+    "held": 8.0
+   },
+   "video": "z185-sep-09-22-marius_disassemble",
+   "task": "disassemble stool",
+   "verb": "unscrew",
+   "c": 64.0,
+   "r": 69.0
+  },
+  {
+   "id": "p01",
+   "type": "practice",
+   "text": "You need to turn it twice.",
+   "duration": 13.42,
+   "at": {
+    "now": 3.0,
+    "held": 8.92
+   },
+   "video": "z201-sep-22-22-rashult_assemble",
+   "task": "assemble utility cart",
+   "verb": "screw",
+   "c": 776.38,
+   "r": 782.3
+  }
+ ]
+}

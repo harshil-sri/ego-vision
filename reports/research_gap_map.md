@@ -20,7 +20,9 @@ question 2 from the hands.
 ## 2. What exists
 
 Read-depth codes: **P** = targeted passages of the full text were retrieved
-and read (not the whole paper). **A** = abstract only.
+and read (not the whole paper). **A** = abstract only. **Q** = the full
+text was queried with specific questions by a reading tool on 2026-11-12;
+the answers were not checked against the text by hand.
 
 | Work | What decides the moment to speak | Signals used | Human timing data? | Read |
 |---|---|---|---|---|
@@ -44,6 +46,9 @@ and read (not the whole paper). **A** = abstract only.
 | Satori (CHI 2025), PrISM-Observer (UIST 2024, 2407.16785) | Satori: belief-desire-intention model of the user. PrISM-Observer: step tracking from a smartwatch, reminder before a likely error | Video / smartwatch audio and motion | User studies | A |
 | Classic HCI: Hudson, Fogarty et al. (CHI 2003, TOCHI 2005); Adamczyk and Bailey (CHI 2004); Iqbal and Bailey (CHI 2007, 2008); Turner et al. survey (UbiComp 2015) | Sensor-based interruptibility models for office work; interruptions at task breakpoints cost less | Desk sensors, keyboard and mouse, later phones | Self-reports and experiments, desk and phone settings | A |
 | EgoProactive track, ECCV 2026 Wearable AI Challenge | Challenge on proactive timing | Video | - | A |
+| EgoIntrospect (2605.17262, Tsinghua and others) | Benchmark task: is the wearer interruptible in this clip (yes/no)? Labels are the wearer's own marks of segments where they would not want a recommendation | Video, audio, gaze, profile; 180 h, 60 people, daily routines. Best macro F1 60.7 with a vision-language model | Self-report of the wearer; no helper timing | Q |
+| "When Should the Agent Speak?" survey (Tao An, OpenReview, 2026) | Survey of intervention timing | - | - | Q |
+| WTaG (2311.00738, EMNLP Findings 2023) and "Investigating Proactivity in Multimodal Task-Guidance Dialogues" (LREC 2026) | WTaG: 56 cooking recordings (10 h, 3 recipes, 17 users, 3 instructors) with live instructor speech; task "should the instructor talk at time t". LREC 2026: 24% of utterances are proactive | Video (HoloLens), transcripts, mistakes, intents | Yes | Q |
 
 Human-factors evidence that interruptibility matters: interruptions cost less
 at task breakpoints (Powers and Scerbo 2023; Hirsch et al. 2025). Read: A.
@@ -108,6 +113,35 @@ Limits of this claim:
   marked A may contain a hand-state term that the abstract does not mention.
 - The field moves fast: an ECCV 2026 challenge track on proactive timing
   exists. A paper filling this gap could appear at any time.
+
+Audit of 2026-11-12 (keyword search, three new works, read-depth Q):
+
+- **EgoIntrospect** is the nearest new neighbour. It predicts
+  interruptibility from egocentric video, so "interruptibility from an
+  egocentric camera" is not new. The differences, as far as the answers
+  of the reading tool go: its label is the wearer's own judgement about
+  recommendations in daily life, at the scale of minutes; it does not
+  analyse hand activity, does not separate urgent from routine messages,
+  and does not use the timing of human helpers. This project works at
+  the scale of seconds, during manual tasks, with the hand state, and
+  against instructor behaviour. The two are complementary: EgoIntrospect
+  has the self-report this project lacks.
+- **The survey "When Should the Agent Speak?"** supports the gap in its
+  own words: it finds rich hand and finger sensing "rarely aimed at
+  timing" and names a state-dependent interruption cost as an open
+  problem. According to the reading tool it lists no work that times
+  speech by the hand state against instructor data. It is a single-author
+  OpenReview submission; its venue status is unknown.
+- **Sensible Agent** (already in the table) names "idle hands" as an
+  interruptibility signal for a future task monitor. That is a statement
+  of the idea as future work by a Google team, not a result.
+- **WTaG** is a candidate second dataset (cooking, live instructor,
+  HoloLens video like HoloAssist). Its transcripts and annotations are a
+  direct download; the audio-video version needs a signed licence form.
+  Not downloaded yet.
+
+Still not done: a hand check of the Q answers, a full read of the seven P
+papers, and a systematic search of CHI, UIST, IMWUT and CSCW.
 
 Before any submission, do a full read of the seven P papers and a search of
 the HCI literature on interruptibility sensing.

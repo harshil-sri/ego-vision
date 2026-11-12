@@ -122,3 +122,58 @@ def test_need_controlled_episodes():
     assert b[:, 1].tolist() == [1, 1, 1] and b[:, 2].tolist() == [1, 1, 1]
     assert b[:, 3].tolist() == [0, 0, 1]
 
+
+
+def test_rating_study_analysis(tmp_path):
+    """Result codes and files are read once per rater; cell means and differences are right."""
+    import base64
+    import json
+
+    from scripts.rating_study_analyze import cell_means, load, summarize
+
+    type_of = {"c01": "routine", "c02": "routine", "c03": "warning", "c04": "warning"}
+
+    def rater(i, routine_now, routine_held, warn_now, warn_held):
+        return {"id": f"r{i}", "sound": "yes", "answers": [
+            {"c": "c01", "k": "now", "r": routine_now, "ms": 1000}, {"c": "c02", "k": "held", "r": routine_held, "ms": 1000},
+            {"c": "c03", "k": "now", "r": warn_now, "ms": 1000}, {"c": "c04", "k": "held", "r": warn_held, "ms": 1000}]}
+
+    a, b = rater(1, 2, 5, 4, 1), rater(2, 3, 4, 5, 2)
+    (tmp_path / "a.json").write_text(json.dumps(a))
+    code = base64.b64encode(json.dumps(b).encode()).decode()
+    (tmp_path / "codes.txt").write_text(code + "\n" + code + "\nnot-a-code\n")       # the same rater twice
+    got = load(tmp_path)
+    assert [r["id"] for r in got] == ["r1", "r2"]
+    M = np.stack([cell_means(r, type_of) for r in got])
+    assert M.tolist() == [[2, 5, 4, 1], [3, 4, 5, 2]]
+    s = summarize(M, boot=200)
+    assert s["routine: held - now"]["mean"] == 2.0 and s["warning: held - now"]["mean"] == -3.0
+    assert s["interaction: (routine held - now) - (warning held - now)"]["mean"] == 5.0
+    assert s["routine: held - now"]["raters_above_0"] == 2
+
+
+def test_robustness_shift_ratio():
+    """Onsets that never fall in the state give ratio 0; the state read one tick earlier gives a high ratio."""
+    from scripts.holoassist_robustness import family, shift_ratio, slices
+
+    vid = np.array(["a"] * 40 + ["b"] * 60)
+    sl = slices(vid)
+    assert sl == [(0, 40), (40, 100)]
+    state = np.tile([True, False], 50)                     # even ticks are in the state
+    event = np.zeros(100, dtype=bool)
+    event[1::10] = True                                    # every event on an odd tick
+    r = shift_ratio(state, event, sl, np.random.default_rng(0), shifts=300)
+    assert r[0] == 0.0 and r[3] == 10 and r[1] < 1 < r[2]
+    r1 = shift_ratio(state, event, sl, np.random.default_rng(0), shifts=300, lag=1)
+    assert 1.7 < r1[0] < 2.3                               # one tick earlier: always in the state (chance is half)
+    assert family("disassemble tray table") == "tray table" and family("setup big printer") == "printer"
+
+
+def test_rating_study_instruction_filter():
+    from scripts.rating_study_build import clean
+
+    assert clean("start unscrewing the top of the legs") == "Start unscrewing the top of the legs."
+    assert clean("And you lift that up now please") is None            # fragment
+    assert clean("put it on, on the table over there") is None         # repeated word
+    assert clean("um take the screw and turn it") is None and clean("can you take the screw out now?") is None
+    assert clean("too short") is None

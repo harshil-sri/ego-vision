@@ -46,6 +46,10 @@ def main() -> None:
                     help="for square wide-angle video (Ego-EXTRA, Aria glasses): resize to this side and "
                          "use only the central 224 x 224. 320 keeps the central 70%% of the view, closer "
                          "to the narrower HoloLens camera that the hand-state head was trained on.")
+    ap.add_argument("--encoder", default="videomae", choices=["videomae", "dino"],
+                    help="dino: DINOv2 ViT-S/14 on 4 single frames of the window, averaged (an image model "
+                         "with no motion input; robustness check). Output in features_dino_w<W>.")
+    ap.add_argument("--only", default="", help="JSON file with a 'videos' list: use only these videos")
     ap.add_argument("--limit", type=int, default=0, help="smoke test: first N videos, output in features_w<W>_smoke")
     args = ap.parse_args()
 
@@ -53,10 +57,15 @@ def main() -> None:
     from src.models.frozen import VideoMAEEncoder, target_size
 
     root = Path(resolve_data_path(args.root))
-    out = root / (f"features_w{args.window}" + ("_smoke" if args.limit else ""))
+    tag = "" if args.encoder == "videomae" else f"_{args.encoder}"
+    out = root / (f"features{tag}_w{args.window}" + ("_smoke" if args.limit else ""))
     parts = out / "parts"                                 # one file per finished video: the run can be repeated
     parts.mkdir(parents=True, exist_ok=True)
-    everything = sorted((root / "videos").rglob("*.mp4"))[:args.limit or None]
+    everything = sorted((root / "videos").rglob("*.mp4"))
+    if args.only:
+        wanted = set(json.loads(Path(resolve_data_path(args.only)).read_text())["videos"])
+        everything = [p for p in everything if p.stem in wanted]
+    everything = everything[:args.limit or None]
     videos = [p for p in everything if not (parts / f"{p.stem}.npz").exists()]
     t0 = time.time()
     if videos:
@@ -76,14 +85,22 @@ def main() -> None:
         print(f"{len(videos)} new videos ({len(everything) - len(videos)} done before), input {hw}, "
               f"fps {min(fps):.2f}..{max(fps):.2f}", flush=True)
 
-        enc = VideoMAEEncoder(device=args.device)
+        if args.encoder == "dino":
+            from src.models.frozen import DinoFrameEncoder
+            enc = DinoFrameEncoder(device=args.device)
+        else:
+            enc = VideoMAEEncoder(device=args.device)
         loader = torch.utils.data.DataLoader(
             WindowStream(videos, fps, [args.window], [args.tick] * len(videos), hw),
             batch_size=args.batch, num_workers=args.workers)
         feats, vid, frame = [], [], []
         for clips, v, f in loader:                                    # clips (B, 1, 16, h, w, 3)
             x = clips[:, 0][:, :, top:top + 224]
-            e = torch.stack([enc.encode(x[:, :, :, c:c + 224]) for c in crops]).mean(0)   # (B, 768)
+            if args.encoder == "dino":                                # frames 3, 7, 11, 15 of the 16, whole view
+                fr = clips[:, 0][:, 3::4]                             # (B, 4, h, w, 3)
+                e = enc.encode(fr.reshape(-1, *fr.shape[2:])).view(len(fr), 4, -1).mean(1)
+            else:
+                e = torch.stack([enc.encode(x[:, :, :, c:c + 224]) for c in crops]).mean(0)   # (B, 768)
             feats.append(e.numpy().astype(np.float16)); vid += v.tolist(); frame += f.tolist()
             if len(frame) % 4000 < len(f):
                 print(f"{len(frame)} ticks  {len(frame) / (time.time() - t0):.1f}/s", flush=True)
@@ -104,7 +121,7 @@ def main() -> None:
     meta["t_end"] = meta["frame"] / meta["fps"]
     meta["t_mid"] = meta["t_end"] - args.window / 2
     meta.to_csv(out / "meta.csv", index=False)
-    info = {"model": "videomae_base_ssv2", "window_s": args.window, "tick_s": args.tick,
+    info = {"model": "videomae_base_ssv2" if args.encoder == "videomae" else "dinov2_vits14_4frames", "window_s": args.window, "tick_s": args.tick,
             "ticks": int(len(meta)), "videos": int(meta["video_name"].nunique()),
             "wall_seconds_this_run": round(time.time() - t0, 1)}
     (out / "info.json").write_text(json.dumps(info, indent=2))
