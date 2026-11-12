@@ -409,4 +409,11 @@ locally as `last_305.pt`). Tests: 128 passed.
 - Second encoder (DINOv2 single frames,
   `reports/holoassist_robustness_dino.md`): 0.52 (VideoMAE 0.42), unseen
   objects 0.68, 91% of sessions below 1.
+- Related work, second pass: the three new papers were checked against
+  their text; the timing survey is published in TMLR. A keyword search
+  of the interruption literature found an assembly experiment (2017)
+  that already shows the cost of messages inside an action sequence.
+  The novelty claim in `reports/research_gap_map.md` is narrowed.
+- Rating study page checked by eye on desktop and phone size.
+- WTaG download approved by Harshil, not started (he asked to wait).
 Tests: 132 passed.

@@ -100,8 +100,13 @@ middle of fine work costs you something.
   performer who stops may be asking for the next step, so "nothing needs
   saying" explains much of finding 1.
 - Not new: using hand state as an input (HoloAssist's own benchmark,
-  Sensible Agent). Possibly new: hand state as a cost that delays speech,
-  checked against when real instructors speak and stay silent.
+  Sensible Agent). Also not new: that a message in the middle of manual
+  assembly work costs something (an ergonomics experiment of 2017 found
+  such notifications are missed more often), and that people interrupt
+  sooner when the matter is urgent (2021). Possibly new: the hand state
+  read from the camera as the signal that delays routine speech, checked
+  against when real instructors speak and stay silent. See the search of
+  2026-11-12 in `reports/research_gap_map.md`.
 
 ## What to do with it (my order)
 

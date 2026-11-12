@@ -47,7 +47,12 @@ the answers were not checked against the text by hand.
 | Classic HCI: Hudson, Fogarty et al. (CHI 2003, TOCHI 2005); Adamczyk and Bailey (CHI 2004); Iqbal and Bailey (CHI 2007, 2008); Turner et al. survey (UbiComp 2015) | Sensor-based interruptibility models for office work; interruptions at task breakpoints cost less | Desk sensors, keyboard and mouse, later phones | Self-reports and experiments, desk and phone settings | A |
 | EgoProactive track, ECCV 2026 Wearable AI Challenge | Challenge on proactive timing | Video | - | A |
 | EgoIntrospect (2605.17262, Tsinghua and others) | Benchmark task: is the wearer interruptible in this clip (yes/no)? Labels are the wearer's own marks of segments where they would not want a recommendation | Video, audio, gaze, profile; 180 h, 60 people, daily routines. Best macro F1 60.7 with a vision-language model | Self-report of the wearer; no helper timing | Q |
-| "When Should the Agent Speak?" survey (Tao An, OpenReview, 2026) | Survey of intervention timing | - | - | Q |
+| "When Should the Agent Speak?" survey (Tao An, TMLR, published 2026-09-23) | Survey of intervention timing around one rule: speak if expected benefit minus expected cost of interrupting exceeds a threshold | - | - | Q, abstract and introduction checked |
+| Kolbeinsson, Lindblom, Thorvald, "Missing mediated interruptions in manual assembly" (Applied Ergonomics 61, 2017) | Experiment in a simulated assembly station: notifications sent at fine breakpoints (inside an action sequence) are missed significantly more often than at coarse breakpoints | Pre-defined breakpoints, no sensing | Controlled experiment | A |
+| Cini et al., "The relevance of signal timing in human-robot collaborative manipulation" (Science Robotics, 2021) | A robot should signal without disturbing the manual action the human performs at that moment | Not read | Not read | A, truncated |
+| Edwards et al., "Eliciting Spoken Interruptions to Inform Proactive Speech Agent Design" (2106.02077, CUI 2021) | How people interrupt someone busy with a task: sooner when urgent; they time the interruption with cues from the task | Screen task, no hands | Elicitation study | A |
+| When2Talk (2609.12503) | In-car agent: immediate, delayed or silent by event priority and passenger activity; 41 participants; fewer perceived interruptions | Simulated ride | User study | A |
+| Kosmyna et al. (2606.13190) | An agent message is held while EEG engagement is high and released when it drops (proof of concept) | Consumer EEG | No | A |
 | WTaG (2311.00738, EMNLP Findings 2023) and "Investigating Proactivity in Multimodal Task-Guidance Dialogues" (LREC 2026) | WTaG: 56 cooking recordings (10 h, 3 recipes, 17 users, 3 instructors) with live instructor speech; task "should the instructor talk at time t". LREC 2026: 24% of utterances are proactive | Video (HoloLens), transcripts, mistakes, intents | Yes | Q |
 
 Human-factors evidence that interruptibility matters: interruptions cost less
@@ -120,7 +125,9 @@ Audit of 2026-11-12 (keyword search, three new works, read-depth Q):
   interruptibility from egocentric video, so "interruptibility from an
   egocentric camera" is not new. The differences, as far as the answers
   of the reading tool go: its label is the wearer's own judgement about
-  recommendations in daily life, at the scale of minutes; it does not
+  recommendations in daily life, at the scale of minutes (checked in the
+  text on 2026-11-12: marked intervals are cut into clips of 15 to 300 s
+  with one yes/no label each); it does not
   analyse hand activity, does not separate urgent from routine messages,
   and does not use the timing of human helpers. This project works at
   the scale of seconds, during manual tasks, with the hand state, and
@@ -130,18 +137,73 @@ Audit of 2026-11-12 (keyword search, three new works, read-depth Q):
   own words: it finds rich hand and finger sensing "rarely aimed at
   timing" and names a state-dependent interruption cost as an open
   problem. According to the reading tool it lists no work that times
-  speech by the hand state against instructor data. It is a single-author
-  OpenReview submission; its venue status is unknown.
+  speech by the hand state against instructor data. Checked in the text
+  on 2026-11-12: it is published in TMLR (2026-09-23); section 3 has the
+  title "Signals: Rich Perception, Rarely Aimed at Timing"; the
+  introduction says of the cost fragments in 2026 work that none
+  "conditions on what the user is doing right now". It also says that the
+  interruptibility work of 1999 to 2017 and the proactive-agent work of
+  2024 to 2026 almost never cite each other. A paper from this project
+  must cite both.
 - **Sensible Agent** (already in the table) names "idle hands" as an
   interruptibility signal for a future task monitor. That is a statement
   of the idea as future work by a Google team, not a result.
 - **WTaG** is a candidate second dataset (cooking, live instructor,
   HoloLens video like HoloAssist). Its transcripts and annotations are a
   direct download; the audio-video version needs a signed licence form.
-  Not downloaded yet.
+  Not downloaded yet. Checked in the text on 2026-11-12: 56 recordings,
+  17 users, 3 instructors, 3 recipes, 4,233 utterances, a "when to talk"
+  task (yes/no at time t), and all three zero-shot methods of the paper
+  predict when to talk "with around chance performance".
 
-Still not done: a hand check of the Q answers, a full read of the seven P
-papers, and a systematic search of CHI, UIST, IMWUT and CSCW.
+Hand check of 2026-11-12: the numbers and task definitions of
+EgoIntrospect and WTaG, and the abstract and introduction of the survey,
+were compared with the paper text by keyword search. One sentence in
+EgoIntrospect's appendix touches this project: in an example, two models
+call a segment non-interruptible, "likely because the user is engaged in
+a hands-on activity". It is a remark on one example, not an analysis.
+
+Search of the interruption literature, 2026-11-12 (abstracts only, by
+keyword; not a systematic review). What it changes:
+
+- **The cost of a badly timed message in manual assembly is known.**
+  Kolbeinsson et al. (2017) measured it in an experiment: notifications
+  inside an action sequence are missed more often than between
+  sequences, and their explanation is the overlap of action and
+  anticipated action. This is prior evidence for the cost that this
+  project does not measure. It also means "a message during fine work
+  costs something" is not a new claim. That work has no sensing, no
+  video, no instructor data and no model.
+- **"Urgent does not wait" has support.** Edwards et al. (2021) found
+  that people interrupt sooner when the matter is urgent and use cues
+  from the other person's task to pick the moment. This agrees with
+  finding 3 (routine speech waits, corrections do not), in a screen task.
+- **Hold-and-release rules exist with other signals**: EEG engagement
+  (Kosmyna et al. 2026), event priority and passenger activity
+  (When2Talk 2026), working-memory load (ProMemAssist). None uses the
+  hand state from an egocentric camera, and none checks the rule against
+  when human instructors speak.
+- Human-robot work (Cini et al. 2021; Banerjee et al., "Effects of
+  Interruptibility-Aware Robot Behavior", 2018) treats the timing of a
+  robot's signal relative to the human's manual action. Not read beyond
+  the abstract; it must be read before a submission.
+
+The claim that survives, stated narrowly: the hand state read from an
+egocentric camera predicts when human instructors hold routine speech,
+at the scale of seconds, on 166 h of real instruction; an assistant can
+use it as a hold rule; urgency removes the hold. Open against this: the
+human-robot papers above.
+
+Baselines with released weights (not run; they need the GPU and large
+downloads): ProAssist has checkpoints and data on Hugging Face
+(collection 594zyc/proassist), but its HoloAssist dialogues are
+generated by a language model, so its "when to speak" target is not the
+instructor. EgoVoice (now EMNLP 2026 main) trains on the real instructor
+onsets and announces code and models on egocentricvoice.github.io;
+whether they are released was not checked.
+
+Still not done: a full read of the seven P papers and of the human-robot
+papers, and a systematic search of CHI, UIST, IMWUT, CSCW and HRI.
 
 Before any submission, do a full read of the seven P papers and a search of
 the HCI literature on interruptibility sensing.
