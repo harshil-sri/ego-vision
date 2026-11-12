@@ -1,4 +1,12 @@
-# When should an assistant speak? One-page summary (2026-11-11)
+# When should an assistant speak? One-page summary (2026-11-12)
+
+**Paper framing (decided by Harshil, 2026-11-12): the HoloAssist finding
+with honest limits.** The claim: in assembly tasks, routine speech from
+both the instructor and the worker avoids fine-motor work, and a video
+model can read the hand state well enough to use it. The limit, stated
+in the paper itself: the effect was not found in cooking (WTaG, checked
+with labels) and not with a predicted hand state on Ego-EXTRA. The
+paper reports these as failed replications, not as support.
 
 Read this first. Details, numbers with intervals, and limits are in
 `reports/research_gap_map.md`. Every number comes from a script in
@@ -20,6 +28,9 @@ middle of fine work costs you something.
 - **Ego-EXTRA**: 50 h, same setup with a remote expert, four scenarios
   (bike workshop, bakery, furniture assembly, kitchen). No action labels;
   transcripts, hand tracking, gaze, video.
+- **WTaG**: 9.9 h, three kitchen recipes, a human instructor. Labels for
+  every utterance (routine instruction or correction) and every step;
+  no hand labels; 417 moments labelled by eye for this project.
 
 ## What was found
 
@@ -113,9 +124,11 @@ middle of fine work costs you something.
 
 ## What it means
 
-- Supported: fine-motor moments are quiet moments, from both sides of the
+- Supported, on HoloAssist (assembly, 166 h, human hand labels):
+  fine-motor moments are quiet moments, from both sides of the
   conversation; hand state from video carries timing information; the
-  urgency of a message changes whether it waits.
+  urgency of a message changes whether it waits. Robust inside the
+  dataset (finding 8) and on its official split (finding 9).
 - Supported on one dataset only: that the INSTRUCTOR holds routine
   speech during fine-motor work. It holds on HoloAssist (assembly, hand
   labels) and not on Ego-EXTRA or WTaG, where the hand state is a
@@ -143,21 +156,30 @@ middle of fine work costs you something.
   against when real instructors speak and stay silent. See the search of
   2026-11-12 in `reports/research_gap_map.md`.
 
-## What to do with it (my order)
+## What the paper needs next (order follows the chosen framing)
 
-1. A "should stay silent" evaluation: mistakes that performers fix alone
-   are moments where a good assistant says nothing. Benchmarks do not
-   score this. A first score exists (finding 7). Open: decide how much later than a human an
-   assistant may be; the answer changes which gate wins.
-2. Tighten the fixed-need test (finding 3), and repeat it from video on
-   all videos.
-3. The worker-side signal (when does the person want to talk): present
-   on both datasets, but small on Ego-EXTRA.
-4. A small controlled study with participants. Only this can show cost.
-   A first step is built and waits for raters (`study/`): observers rate
-   the timing of a routine message or a warning, spoken during fine-motor
-   work or when the rule releases it. The hypotheses are fixed in
-   `study/PREREGISTRATION.md`.
+1. **The rating study** (`study/`, hypotheses fixed in
+   `study/PREREGISTRATION.md`). It is now the main evidence that the
+   hold rule is worth something to a person, because the observational
+   effect did not replicate. It waits for 10 to 20 raters.
+2. **A person checks a part of the WTaG labels**
+   (`reports/wtag_hand_labels.csv`, 417 rows; 60 rows are enough for an
+   agreement number). Until then the failed replication rests on one
+   labeller, the AI assistant.
+3. **Say why assembly differs from cooking, and test it.** The working
+   idea: screw and insert lock hands and eyes on one small part for
+   several seconds (median 6 s on HoloAssist); pouring and spreading do
+   not. Tests that need no new data: on HoloAssist, the avoidance by
+   length of the fine-motor action, and by task type (the one coffee
+   task was the only exception among 19).
+4. **A label check on Ego-EXTRA's furniture-assembly scenario**, the
+   only setting outside HoloAssist that is assembly. The trainee's
+   speech avoided predicted fine-motor seconds most there (0.77), but
+   the prediction is now in doubt.
+5. The "should stay silent" evaluation (finding 7) stays in the paper as
+   a second section. It does not depend on the hand-state effect.
+   Open: how much later than a human an assistant may be.
+6. Baselines with released weights (ProAssist, EgoVoice if released).
 
 ## In the app
 

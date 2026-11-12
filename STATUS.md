@@ -433,5 +433,9 @@ locally as `last_305.pt`). Tests: 128 passed.
   question onsets against 40% of random seconds (ratio 0.93, 0.67 to
   1.23). With labels the worker-side effect is not seen on WTaG
   either; the model's 0.68 is not confirmed. Both effects stand on
-  HoloAssist only. The paper framing is open again.
+  HoloAssist only.
+- Paper framing decided by Harshil (2026-11-12): the HoloAssist finding
+  with honest limits; WTaG and Ego-EXTRA are reported as failed
+  replications. Next steps in order are in
+  `reports/RESEARCH_SUMMARY.md` ("What the paper needs next").
 Tests: 132 passed.

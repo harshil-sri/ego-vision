@@ -258,10 +258,17 @@ keyword; not a systematic review). What it changes:
   Robot Behavior", 2018) predict interruptibility for a mobile robot
   and find better social perception; abstract only.
 
-The claim that survives, stated narrowly: the hand state read from an
-egocentric camera predicts when human instructors hold routine speech,
-at the scale of seconds, on 166 h of real instruction; an assistant can
-use it as a hold rule; urgency removes the hold. The experiments above
+Framing decided by Harshil on 2026-11-12, after the WTaG label check:
+the HoloAssist finding with honest limits. The claim below holds for
+HoloAssist's assembly tasks only; the paper reports that it was not
+found on WTaG (cooking, with labels) or, with a predicted hand state,
+on Ego-EXTRA.
+
+The claim that survives, stated narrowly: in assembly tasks, the hand
+state read from an egocentric camera predicts when human instructors
+hold routine speech, at the scale of seconds, on 166 h of real
+instruction; an assistant can use it as a hold rule; urgency removes
+the hold. The experiments above
 (2017, 2021) supply the reason why such a rule should help; this
 project supplies the signal from video, the scale, and the comparison
 with instructors. Whether the rule helps a user is still not measured.
