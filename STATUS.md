@@ -423,4 +423,10 @@ locally as `last_305.pt`). Tests: 128 passed.
   instructor routine speech in predicted fine-motor seconds 0.91 times
   chance (not different from chance), corrections 0.96; user speech
   0.79, user questions 0.68. Same pattern as Ego-EXTRA.
+- WTaG labelled sample (`scripts/wtag_label_check.py`, 240 moments
+  labelled by eye by the assistant, blind): precise hand work at 38% of
+  routine-instruction onsets and 40% of random seconds (ratio 0.94,
+  0.67 to 1.31). The hand-state head is weak on kitchen video (AUC
+  0.64). Labels in `reports/wtag_hand_labels.csv`; not checked by a
+  person.
 Tests: 132 passed.

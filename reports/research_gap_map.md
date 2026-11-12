@@ -188,6 +188,22 @@ Audit of 2026-11-12 (keyword search, three new works, read-depth Q):
   frame rates differ between recordings (7 to 29 per second) and video
   time is frame / average rate, so a drift of about a second inside a
   recording is possible; the dataset is small.
+  Labelled sample of 2026-11-12 (`reports/wtag_label_check.md`,
+  `reports/wtag_hand_labels.csv`): 120 routine-instruction onsets and
+  120 random seconds of the same recordings, labelled by eye from 4
+  frames each, blind to which is which. Labeller: the AI assistant, one
+  pass, no second rater. S = screw, unscrew or insert; B = other
+  precise work (pour, spread, cut, measure, stir, fold); F = the rest.
+  Result 1: precise work (S or B) at 38% of the onsets and 40% of the
+  random seconds, ratio 0.94 (95% interval 0.67 to 1.31); S alone 9%
+  and 9%, ratio 1.00 (0.40 to 2.43). The HoloAssist value (0.34) is
+  outside the first interval and at the edge of the second. So with
+  labels too, WTaG instructors do not hold routine instructions during
+  precise work. Result 2: the head is weak on kitchen video. Of the
+  moments it calls fine, 17% are S and 66% are S or B; it finds 27% of
+  the S moments; AUC of p(fine) 0.64 for S, 0.66 for S or B. Both
+  explanations are therefore true in part: the head transfers badly,
+  and the effect is absent on WTaG when measured without the head.
 
 Hand check of 2026-11-12: the numbers and task definitions of
 EgoIntrospect and WTaG, and the abstract and introduction of the survey,

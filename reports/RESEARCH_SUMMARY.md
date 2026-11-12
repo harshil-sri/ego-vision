@@ -98,7 +98,13 @@ middle of fine work costs you something.
     predicted fine-motor seconds at 0.91 times chance (inside the chance
     range), corrections at 0.96. The USER's speech avoids these seconds
     (0.79; questions 0.68), and the instructor's answers follow
-    (0.67). The hand-state model is not checked on kitchen video.
+    (0.67). A labelled sample confirms it without the model
+    (`reports/wtag_label_check.md`): of 120 routine-instruction onsets
+    and 120 random seconds labelled by eye, precise hand work is seen
+    at 38% and 40% (ratio 0.94, interval 0.67 to 1.31). The same sample
+    shows that the hand-state model is weak on kitchen video (17% of
+    its "fine" moments are screw or insert; AUC 0.64). The labels are
+    by the AI assistant, one pass; a person should check a part.
 
 ## What it means
 
@@ -108,10 +114,11 @@ middle of fine work costs you something.
 - Supported on one dataset only: that the INSTRUCTOR holds routine
   speech during fine-motor work. It holds on HoloAssist (assembly, hand
   labels) and not on Ego-EXTRA or WTaG, where the hand state is a
-  prediction of a model trained on assembly video. Either the effect is
-  specific to assembly work, or the model does not see fine-motor work
-  in other settings. Hand labels on a few hours of kitchen video would
-  decide it. What holds on all three datasets is the worker's side: the
+  prediction of a model trained on assembly video. On WTaG a labelled
+  sample gives the same answer without the model (finding 10), so the
+  effect looks specific to HoloAssist's assembly tasks, not hidden by a
+  weak model. Ego-EXTRA is not checked this way. What holds on all
+  three datasets, with predicted hand state, is the worker's side: the
   person doing the task speaks less during (predicted) fine-motor work.
 - Not shown: that speaking during fine work HURTS the performer. All of
   this is observation. Mistakes are also rare during fine work, and a
