@@ -24,3 +24,6 @@ runs/hand_state_*/
 .claude/
 .plans/
 glm-build-brief.md
+
+# blind check sheets for a human labeller (dataset frames and the key stay local)
+runs/label_check/
