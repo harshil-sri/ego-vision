@@ -33,6 +33,7 @@ SHELL = """<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="robots" content="noindex,nofollow"><title>Hand label check</title></head>
 <body style="font-family:system-ui,sans-serif;max-width:640px;margin:40px auto;padding:0 16px">
 <p id="m">Opening the sheet. This can take some seconds.</p>
+<script id="d" type="application/octet-stream">__DATA__</script>
 <script>
 const SALT="__SALT__", IV="__IV__", ROUNDS=__ROUNDS__;
 const b=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
@@ -49,7 +50,6 @@ const b=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
   }catch(e){m.textContent='The sheet could not be opened. Please copy the full link from the message again.';}
 })();
 </script>
-<script id="d" type="application/octet-stream">__DATA__</script>
 </body></html>"""
 
 
