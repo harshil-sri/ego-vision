@@ -464,4 +464,8 @@ locally as `last_305.pt`). Tests: 128 passed.
   blind html sheet of 60 moments (Ego-EXTRA furniture, WTaG) to
   `runs/label_check/`; `scripts/label_agreement.py` gives agreement and
   kappa from the checker's file. Waiting for a person to label.
+- Check sheets are online, encrypted (`scripts/label_check_publish.py`,
+  `study/check/`). The full links and the messages for the checkers are
+  in `runs/label_check/MESSAGES.md` (local only). Plan: 2 checkers, each
+  does both sheets.
 Tests: 132 passed.
