@@ -458,4 +458,10 @@ locally as `last_305.pt`). Tests: 128 passed.
   held routine message. Collection closed after 1 day (amendment in
   `study/PREREGISTRATION.md`). Next steps in order are in
   `reports/RESEARCH_SUMMARY.md` ("What the paper needs next").
+- Paper draft, 2026-11-13: `paper/draft.md` (first full draft, claim:
+  descriptive plus negative result).
+- Human label check prepared: `scripts/label_check_kit.py` writes a
+  blind html sheet of 60 moments (Ego-EXTRA furniture, WTaG) to
+  `runs/label_check/`; `scripts/label_agreement.py` gives agreement and
+  kappa from the checker's file. Waiting for a person to label.
 Tests: 132 passed.

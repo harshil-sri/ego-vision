@@ -19,6 +19,9 @@ Read this first. Details, numbers with intervals, and limits are in
 `reports/research_gap_map.md`. Every number comes from a script in
 `scripts/` (commands in `README.md`).
 
+**Paper draft (2026-11-13):** `paper/draft.md`, first full draft with
+this claim. Open items are in its section 9.
+
 ## The question
 
 A camera on your head watches you do a task. An assistant can speak.
@@ -259,6 +262,12 @@ middle of fine work costs you something.
    (`reports/wtag_hand_labels.csv`, 417 rows; 60 rows are enough for an
    agreement number). Until then the failed replication rests on one
    labeller, the AI assistant.
+   The sheet is ready (2026-11-13): `python -m scripts.label_check_kit
+   --dataset wtag --root <WTaG folder>` writes one html file with 60
+   blind moments to `runs/label_check/` (not in git). The checker opens
+   it, labels, and sends back one file; `python -m
+   scripts.label_agreement` gives agreement and Cohen's kappa. The same
+   for `--dataset egoextra` (item 4).
 3. **Say why assembly differs from cooking.** Tested (finding 11): the
    length of the action is not the reason; the kind of action is. The
    paper's claim must therefore name the actions (screw, unscrew,
