@@ -39,7 +39,7 @@ import pandas as pd
 
 SETS = {
     "egoextra": {
-        "vf": "crop=500:500:102:170,scale=300:300", "size": (300, 300),
+        "vf": "crop=500:500:102:170,scale=300:300", "size": (300, 300), "in_order": False,
         "task": "furniture assembly",
         "S": "A screw, unscrew or insert action is in progress: a screwdriver or hex key is turning, "
              "a screw or dowel is going into its hole, a cap is being turned.",
@@ -47,7 +47,7 @@ SETS = {
         "F": "Everything else: hold, carry, reach, pick up, look, gesture, or no hands in view.",
     },
     "wtag": {
-        "vf": "scale=384:216", "size": (216, 384),
+        "vf": "scale=384:216", "size": (216, 384), "in_order": True,
         "task": "cooking",
         "S": "A screw, unscrew or insert action is in progress: twisting a lid, putting the filter "
              "into the cone, pushing toothpicks into the wrap.",
@@ -109,6 +109,31 @@ def frame(video: Path, t: float, vf: str, size) -> np.ndarray:
     return im if im is not None else np.zeros((*size, 3), np.uint8)
 
 
+def frames_in_order(video: Path, times: list[float], size) -> list[np.ndarray]:
+    """Frames at the given times, read in order from the start of the file.
+
+    The WTaG videos have packets without a time stamp. A seek (ffmpeg -ss)
+    then returns the last key frame, up to some seconds off, and the 4
+    pictures of a row are often the same picture. Reading in order is
+    slow and exact."""
+    cap = cv2.VideoCapture(str(video))
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    want = {}
+    for j, t in enumerate(times):
+        want.setdefault(int(round(max(t, 0) * fps)), []).append(j)
+    out = [np.zeros((*size, 3), np.uint8) for _ in times]
+    for i in range(max(want) + 1):
+        if i in want:
+            ok, f = cap.read()
+            if ok:
+                for j in want[i]:
+                    out[j] = cv2.resize(f, (size[1], size[0]))
+        elif not cap.grab():
+            break
+    cap.release()
+    return out
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dataset", choices=sorted(SETS), required=True)
@@ -128,12 +153,19 @@ def main() -> None:
 
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
-    items, key = [], {}
+    items, key, repeated = [], {}, 0
     for i, r in pick.iterrows():
         video = Path(a.root) / "videos" / f"{r.recording}.mp4"
-        row = np.concatenate([frame(video, r.t_s - o, cfg["vf"], cfg["size"]) for o in (1.75, 1.25, 0.75, 0.25)], 1)
+        offs = (1.75, 1.25, 0.75, 0.25)
+        if cfg["in_order"]:
+            fr = frames_in_order(video, [r.t_s - o for o in offs], cfg["size"])
+        else:
+            fr = [frame(video, r.t_s - o, cfg["vf"], cfg["size"]) for o in offs]
+        row = np.concatenate(fr, 1)
         if not row.any():
             raise SystemExit(f"no frames for {video} at {r.t_s}")
+        if any(np.abs(fr[j].astype(float) - fr[j + 1]).mean() < 0.5 for j in range(3)):
+            repeated += 1
         ok, jpg = cv2.imencode(".jpg", row, [cv2.IMWRITE_JPEG_QUALITY, 85])
         n = i + 1
         key[str(n)] = int(r.id)
@@ -147,7 +179,8 @@ def main() -> None:
     sheet = out / f"{a.dataset}_check.html"
     sheet.write_text(html, encoding="utf-8")
     (out / f"{a.dataset}_check_key.json").write_text(json.dumps(key))
-    print(f"{sheet} ({sheet.stat().st_size / 1e6:.1f} MB), {len(items)} moments, {per} of each kind: {kinds}")
+    print(f"{sheet} ({sheet.stat().st_size / 1e6:.1f} MB), {len(items)} moments, {per} of each kind: {kinds}; "
+          f"{repeated} rows with a repeated picture")
 
 
 if __name__ == "__main__":

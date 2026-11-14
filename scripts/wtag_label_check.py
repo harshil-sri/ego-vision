@@ -21,6 +21,14 @@ hand labels, so 240 moments were labelled by eye:
     F  everything else: idle, hold, reach, carry, place, look, hands not
        in view
 
+Correction, 2026-11-14. The first labels were made from wrong pictures:
+the WTaG videos have packets without a time stamp, and a seek with
+ffmpeg -ss returned the last key frame, up to some seconds off, so most
+rows showed the same picture two to four times. All 417 moments were
+labelled again, blind and in a new order, from frames read in order from
+the start of each file. 73% of the labels stayed the same. The csv holds
+the new labels.
+
 The labeller was the AI assistant that wrote this project's code, not a
 trained human annotator, with one pass and no second rater. The labels
 are in reports/wtag_hand_labels.csv so that a person can check them.

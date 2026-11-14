@@ -2,56 +2,56 @@
   "items": 417,
   "label_counts": {
     "onset": {
-      "S": 11,
-      "B": 34,
-      "F": 75
+      "S": 9,
+      "B": 32,
+      "F": 79
     },
     "user_question": {
-      "S": 9,
-      "B": 35,
-      "F": 75
+      "S": 7,
+      "B": 26,
+      "F": 86
     },
     "random": {
-      "S": 13,
-      "B": 58,
-      "F": 107
+      "S": 15,
+      "B": 60,
+      "F": 103
     }
   },
   "ratio": {
     "instructor: routine instruction | S (screw, unscrew, insert)": {
-      "onset": 0.092,
-      "random": 0.073,
-      "ratio": 1.26,
+      "onset": 0.075,
+      "random": 0.084,
+      "ratio": 0.89,
       "ci95": [
-        0.52,
-        2.8
+        0.34,
+        1.98
       ]
     },
     "instructor: routine instruction | S or B (any precise work)": {
-      "onset": 0.375,
-      "random": 0.399,
-      "ratio": 0.94,
+      "onset": 0.342,
+      "random": 0.421,
+      "ratio": 0.81,
       "ci95": [
-        0.69,
-        1.26
+        0.59,
+        1.08
       ]
     },
     "user: question | S (screw, unscrew, insert)": {
-      "onset": 0.076,
-      "random": 0.073,
-      "ratio": 1.04,
+      "onset": 0.059,
+      "random": 0.084,
+      "ratio": 0.7,
       "ci95": [
-        0.4,
-        2.43
+        0.21,
+        1.5
       ]
     },
     "user: question | S or B (any precise work)": {
-      "onset": 0.37,
-      "random": 0.399,
-      "ratio": 0.93,
+      "onset": 0.277,
+      "random": 0.421,
+      "ratio": 0.66,
       "ci95": [
-        0.67,
-        1.23
+        0.46,
+        0.92
       ]
     }
   },
@@ -63,31 +63,31 @@
     },
     "predicted_by_label": {
       "S": {
-        "fine": 7,
+        "fine": 9,
         "free": 0,
-        "other": 26
+        "other": 22
       },
       "B": {
-        "fine": 27,
+        "fine": 23,
         "free": 9,
-        "other": 91
+        "other": 86
       },
       "F": {
-        "fine": 23,
+        "fine": 25,
         "free": 41,
-        "other": 193
+        "other": 202
       }
     },
-    "precision_fine_for_S": 0.123,
-    "precision_fine_for_S_or_B": 0.596,
-    "recall_of_S": 0.212,
-    "auc_p_fine_S_vs_rest": 0.682,
-    "auc_p_fine_SB_vs_F": 0.65,
-    "auc_p_free_F_vs_SB": 0.699,
+    "precision_fine_for_S": 0.158,
+    "precision_fine_for_S_or_B": 0.561,
+    "recall_of_S": 0.29,
+    "auc_p_fine_S_vs_rest": 0.735,
+    "auc_p_fine_SB_vs_F": 0.697,
+    "auc_p_free_F_vs_SB": 0.725,
     "mean_p_fine_by_label": {
-      "S": 0.312,
-      "B": 0.249,
-      "F": 0.158
+      "S": 0.341,
+      "B": 0.261,
+      "F": 0.153
     }
   }
 }
