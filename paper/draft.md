@@ -25,8 +25,10 @@ the hand state well enough to improve the prediction of speech onsets
 (average precision 0.119 to 0.161).
 
 Outside HoloAssist the picture is mixed, and we report all of it. In
-cooking video (WTaG) a blind labelled sample shows no avoidance of
-precise hand work (0.94, interval 0.69 to 1.26). In furniture assembly
+cooking video (WTaG) a blind labelled sample shows no clear avoidance of
+precise hand work by the instructor (0.81, interval 0.59 to 1.08),
+while the user's own questions do avoid it (0.66, interval 0.46 to
+0.92). In furniture assembly
 (Ego-EXTRA) a blind labelled sample shows the effect at a smaller size
 (0.59, interval 0.40 to 0.86), with one labeller and two batches that
 differ.
@@ -81,8 +83,9 @@ against our prediction.
   fixed need that separates routine speech from corrections (section 4).
 - Evidence that the effect is specific to screw, unscrew and insert
   actions, and tests of the same question on two other datasets with
-  blind labels: one failed replication (cooking) and one weaker
-  replication (furniture assembly) (sections 4.4 and 6).
+  blind labels: no clear instructor effect in cooking, a weaker one in
+  furniture assembly, and a performer-side effect in both (sections
+  4.4 and 6).
 - A hand-state classifier on frozen video features that carries more
   timing information than the human hand labels on HoloAssist, and that
   does not transfer to the other two datasets (section 5).
@@ -252,7 +255,7 @@ Applied unchanged to Ego-EXTRA and WTaG, the HoloAssist model gives no
 avoidance for the instructor: 1.11 times chance for unasked expert speech
 on Ego-EXTRA and 0.91 for routine instructions on WTaG. Section 6 shows
 that for Ego-EXTRA this null result came from the model. On kitchen video
-only 12% of the moments that the model calls fine are screw or insert
+only 16% of the moments that the model calls fine are screw or insert
 actions (`reports/wtag_label_check.md`).
 
 ## 6. Outside HoloAssist: two samples with blind labels
@@ -272,21 +275,26 @@ seconds, with a bootstrap interval.
 assistant used in this project, in one pass, with no second rater. A
 human check of a part of the labels is in progress (section 9).
 
-### 6.2 Cooking (WTaG): no effect
+### 6.2 Cooking (WTaG): no clear instructor effect, a user effect
 
 417 moments (`reports/wtag_label_check.md`).
 
 | Onsets | Hands | At onsets | At random seconds | Ratio |
 |---|---|---|---|---|
-| Instructor, routine instruction | S or B | 38% | 40% | 0.94 (0.69 to 1.26) |
-| User, question | S or B | 37% | 40% | 0.93 (0.67 to 1.23) |
-| Instructor, routine instruction | S | 9% | 7% | 1.26 (0.52 to 2.80) |
+| Instructor, routine instruction | S or B | 34% | 42% | 0.81 (0.59 to 1.08) |
+| User, question | S or B | 28% | 42% | 0.66 (0.46 to 0.92) |
+| Instructor, routine instruction | S | 8% | 8% | 0.89 (0.34 to 1.98) |
+| User, question | S | 6% | 8% | 0.70 (0.21 to 1.50) |
 
-Neither side avoids precise hand work in cooking. This agrees with
-section 4.3: precise work in the kitchen is mostly pouring, spreading and
-measuring, and such actions are not avoided on HoloAssist either. Screw
-and insert actions are rare in WTaG (33 of 417 moments), so WTaG does not
-test the narrow effect; the interval for S is too wide to decide.
+The instructor's interval includes 1: there is no clear avoidance of
+precise hand work, and a moderate one is not excluded. The user's
+questions do start less often during precise hand work. Screw and insert
+actions are rare in WTaG (31 of 417 moments), so WTaG does not test the
+narrow effect; the intervals for S are too wide to decide.
+
+A note on these labels: a first set was made from wrongly timed
+pictures (a seek error in the frame grab). All 417 moments were labelled
+again from correct frames; the numbers above are from the second set.
 
 ### 6.3 Furniture assembly (Ego-EXTRA): a weaker effect
 
@@ -308,9 +316,12 @@ batches differ.
 
 ### 6.4 Reading
 
-The effect appears where screw and insert actions are common (HoloAssist,
-furniture assembly) and is not testable where they are rare (cooking, the
-bike workshop). It does not extend to precise hand work in general.
+The instructor effect appears where screw and insert actions are common
+(HoloAssist, furniture assembly) and is not testable where they are rare
+(cooking, the bike workshop). For precise hand work in general it is not
+clear outside HoloAssist. The performer's own speech avoids such work in
+all three datasets (0.40 on HoloAssist, 0.57 in furniture assembly, 0.66
+in cooking).
 
 ## 7. Does the observation give a rule? A pre-registered rating study
 
@@ -421,8 +432,9 @@ wrong action, so nobody knows whether the performer would have fixed it.
 Human instructors on HoloAssist start routine speech during screw,
 unscrew and insert actions about one third as often as chance would
 give, and they do not hold back a correction. The same pattern appears,
-smaller, in a labelled sample of furniture assembly, and not for precise
-hand work in cooking. A video model reads the hand state well enough to
+smaller, in a labelled sample of furniture assembly, and not clearly for
+precise hand work in cooking, where only the performer's own questions
+avoid it. A video model reads the hand state well enough to
 improve onset prediction on HoloAssist. But 14 observers did not rate an
 assistant better when it held a routine message until the hands were
 free, and they rated it worse when it held a warning. The description of

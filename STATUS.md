@@ -468,4 +468,10 @@ locally as `last_305.pt`). Tests: 128 passed.
   `study/check/`). The full links and the messages for the checkers are
   in `runs/label_check/MESSAGES.md` (local only). Plan: 2 checkers, each
   does both sheets.
+- 2026-11-14, error found by Harshil on the cooking check sheet: the
+  WTaG frame grab by seek returned wrong frames (same picture several
+  times). All 417 WTaG moments relabelled from correct frames; results
+  changed (instructor 0.81, 0.59 to 1.08; user questions 0.66, 0.46 to
+  0.92). Cooking check sheet rebuilt and republished at the same link.
+  Ego-EXTRA sheets checked: not affected.
 Tests: 132 passed.

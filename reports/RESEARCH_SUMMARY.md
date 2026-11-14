@@ -120,17 +120,26 @@ middle of fine work costs you something.
     range), corrections at 0.96. The USER's speech avoids these seconds
     (0.79; questions 0.68), and the instructor's answers follow
     (0.67). A labelled sample (`reports/wtag_label_check.md`, 417
-    moments labelled by eye, blind) changes the reading:
-    - Precise hand work is seen at 38% of routine-instruction onsets
-      and 40% of random seconds (ratio 0.94, interval 0.69 to 1.26).
-      The instructor does not avoid it. This agrees with the model.
-    - It is seen at 37% of the user's question onsets (ratio 0.93,
-      0.67 to 1.23). With labels the USER does not avoid it either.
-      The model's 0.68 is not confirmed.
-    - The hand-state model is weak on kitchen video (12% of its "fine"
-      moments are screw or insert; AUC 0.68).
+    moments labelled by eye, blind). **Corrected on 2026-11-14:** the
+    first labels were made from wrong pictures (the frame grab by seek
+    returned frames some seconds off, found by Harshil on the check
+    sheet). All 417 moments were labelled again from correct frames;
+    73% of the labels stayed. The new numbers:
+    - Precise hand work is seen at 34% of routine-instruction onsets
+      and 42% of random seconds (ratio 0.81, interval 0.59 to 1.08).
+      The interval includes 1: no clear avoidance by the instructor,
+      but a moderate one is not excluded.
+    - It is seen at 28% of the user's question onsets (ratio 0.66,
+      0.46 to 0.92). With correct labels the USER does avoid precise
+      work. This agrees with the model's 0.68. The earlier statement
+      "the labels do not confirm it" was an effect of the wrong frames.
+    - Screw or insert alone: 31 of 417 moments, too few (instructor
+      0.89, 0.34 to 1.98; user 0.70, 0.21 to 1.50).
+    - The hand-state model is weak on kitchen video (16% of its "fine"
+      moments are screw or insert; AUC 0.73).
     The labels are by the AI assistant, one pass; a person should check
-    a part. A small effect (down to about 0.7) cannot be excluded.
+    a part. The Ego-EXTRA labels are not affected (their frames were
+    checked: they come from the requested times).
 
 11. **On HoloAssist the avoidance belongs to the kind of action, not to
     its length** (2026-11-12, `reports/holoassist_action_length.md`,
@@ -144,8 +153,8 @@ middle of fine work costs you something.
     What this means for WTaG: its "precise work" is mostly pouring,
     spreading and measuring, which are "other verbs" in HoloAssist terms
     and are not avoided on HoloAssist either. The WTaG moments with
-    screw or insert are few (33 of 417), and for them the interval (0.52
-    to 2.80 for instructions) is too wide to decide. So WTaG shows that
+    screw or insert are few (31 of 417), and for them the interval (0.34
+    to 1.98 for instructions) is too wide to decide. So WTaG shows that
     the effect does not extend to precise work in general; it does not
     test the screw-and-insert effect well.
 
@@ -215,18 +224,22 @@ middle of fine work costs you something.
   prediction of a model trained on assembly video. On WTaG a labelled
   sample gives the same answer without the model (finding 10), so the
   effect looks specific to HoloAssist's assembly tasks, not hidden by a
-  weak model. On Ego-EXTRA's furniture assembly a labelled sample does
+  weak model. (After the correction of 2026-11-14 the WTaG interval
+  for the instructor is 0.59 to 1.08: no clear effect, a moderate one
+  not excluded.) On Ego-EXTRA's furniture assembly a labelled sample does
   show it (finding 12). The pattern so far: the effect appears where
   screw and insert actions are common (HoloAssist, furniture assembly)
   and not where they are rare (cooking). The earlier Ego-EXTRA null
   result came from the model, which does not find these actions there.
-- Not supported outside HoloAssist, after the label check: the worker's
-  side. With the predicted hand state the worker speaks less during
-  "fine-motor" seconds on all three datasets, but on WTaG the labels do
-  not show it (finding 10). On Ego-EXTRA and WTaG the predicted state
-  is therefore not evidence about hand work. The sentence that follows
-  is true only for the predicted state: the
-  person doing the task speaks less during (predicted) fine-motor work.
+- The worker's side, after the corrected label check (2026-11-14):
+  with the predicted hand state the worker speaks less during
+  "fine-motor" seconds on all three datasets. On WTaG the corrected
+  labels agree: user questions start during precise hand work 0.66
+  times as often as chance (0.46 to 0.92). In Ego-EXTRA furniture
+  assembly the trainee is at 0.57 (0.33 to 0.89) for screw or insert.
+  So the person doing the task speaks less during precise hand work on
+  all three datasets, with labels on each. One labeller outside
+  HoloAssist; needs the human check.
 - Not supported by observers (finding 13): that a routine message is
   better after the fine-motor work. 14 raters rated the held routine
   message a little lower (-0.24, interval includes 0). They did rate a

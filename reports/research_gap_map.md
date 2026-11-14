@@ -211,7 +211,21 @@ Audit of 2026-11-12 (keyword search, three new works, read-depth Q):
   the same head. Result 3: the head is weak on kitchen video. Of the
   moments it calls fine, 12% are S and 60% are S or B; it finds 21% of
   the S moments; AUC of p(fine) 0.68 for S, 0.65 for S or B.
-  Conclusion: with labels, neither the instructor-side nor the
+  CORRECTION, 2026-11-14. The labels above were made from wrong
+  pictures: the WTaG videos have packets without a time stamp, and the
+  seek with ffmpeg -ss returned key frames some seconds off (most rows
+  showed one picture two to four times; Harshil saw it on the check
+  sheet). All 417 moments were labelled again, blind, from frames read
+  in order; 73% of the labels stayed. New numbers: instructor, S or B
+  34% against 42%, ratio 0.81 (0.59 to 1.08); S alone 0.89 (0.34 to
+  1.98). User questions, S or B 28% against 42%, ratio 0.66 (0.46 to
+  0.92); S alone 0.70 (0.21 to 1.50). Head: 16% of its fine moments
+  are S, AUC 0.73. New reading: the instructor shows no clear
+  avoidance (a moderate one is not excluded); the USER does avoid
+  precise work, as the head had said (0.68). The sentences above and
+  below that say the worker-side effect is not seen with labels are
+  withdrawn. The Ego-EXTRA sheets were checked and are not affected.
+  Old conclusion, kept for the record: with labels, neither the instructor-side nor the
   worker-side effect is seen on WTaG. Both are HoloAssist results
   (there with human hand labels on 166 h). A sample of this size cannot
   exclude a small effect (ratios down to about 0.7 are inside the
