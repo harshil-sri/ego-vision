@@ -1,0 +1,63 @@
+{
+ "dataset": "egoextra",
+ "n": 60,
+ "pairs": [
+  {
+   "a": "first labels",
+   "b": "checker 1",
+   "three_labels": {
+    "agreement": {
+     "value": 0.683,
+     "lo": 0.567,
+     "hi": 0.8
+    },
+    "kappa": {
+     "value": 0.364,
+     "lo": 0.149,
+     "hi": 0.561
+    }
+   },
+   "S_against_rest": {
+    "agreement": {
+     "value": 0.833,
+     "lo": 0.733,
+     "hi": 0.917
+    },
+    "kappa": {
+     "value": 0.368,
+     "lo": 0.049,
+     "hi": 0.662
+    }
+   },
+   "table": {
+    "S": {
+     "S": 4,
+     "B": 3,
+     "F": 6
+    },
+    "B": {
+     "S": 1,
+     "B": 4,
+     "F": 4
+    },
+    "F": {
+     "S": 0,
+     "B": 5,
+     "F": 33
+    }
+   }
+  }
+ ],
+ "share_S": {
+  "speech onsets": {
+   "n": 40,
+   "first labels": 0.225,
+   "checker 1": 0.1
+  },
+  "random seconds": {
+   "n": 20,
+   "first labels": 0.2,
+   "checker 1": 0.05
+  }
+ }
+}
