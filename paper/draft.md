@@ -453,8 +453,9 @@ wrong action, so nobody knows whether the performer would have fixed it.
 - **Baselines.** We do not compare with ProAssist or EgoVoice on onset
   prediction. [TO DO, needs released weights and GPU time]
 - **Before submission:** read in full the related papers that we cite
-  from the abstract only (Kolbeinsson 2017, Edwards 2021, When2Talk,
-  Sensible Agent details, EgoIntrospect).
+  from the abstract only (Kolbeinsson 2017, Sensible Agent details,
+  EgoIntrospect). Edwards 2021 and When2Talk were read in full on
+  2026-11-19; section 2 states what they found.
   Done 2026-11-19: all 12 arXiv numbers in section 2 match the cited
   titles in arXiv's own records (EgoServe is the benchmark of the Vinci2
   paper, now cited that way). WTaG licence: the GitHub repository
