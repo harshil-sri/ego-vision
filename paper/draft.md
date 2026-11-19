@@ -105,7 +105,7 @@ more hand motion makes help more likely there. TRAFA (2605.24526) uses
 forecast hand motion to predict an error before it happens. In all three,
 the hands are evidence of need. EgoVoice (2610.12248) trains a
 listen-or-speak decision on HoloAssist instructor speech, the same onsets
-that we analyse; it has no hand-state input. EgoServe (2607.11523) scores
+that we analyse; it has no hand-state input. EgoServe, the benchmark of Vinci2 (2607.11523), scores
 timing against annotated event windows. YETI (2501.09355) triggers on
 scene change. The HoloAssist benchmark (2309.17024) already shows that
 hand pose helps to predict the type of the next intervention. Using the
@@ -119,9 +119,13 @@ time the suggestion. EgoIntrospect (2605.17262) asks whether the wearer
 is interruptible, from the wearer's own marks. Kolbeinsson et al. (2017)
 show in an experiment that notifications inside an assembly action
 sequence are missed more often. Edwards et al. (2021, arXiv 2106.02077)
-find that people interrupt a busy person sooner when the matter is
-urgent. When2Talk (2609.12503) delays an in-car agent by event priority
-and passenger activity.
+find that people interrupt a busy person (a Tetris player) sooner when
+the matter is urgent, and several of them say they waited for a subtask
+boundary. When2Talk (2609.12503) delays or withholds the speech of an
+in-car agent by event priority and passenger activity; in a study with
+41 passengers the delay lowered perceived interruption but also lowered
+rated usefulness. A cost of waiting is therefore already reported, in a
+different setting.
 
 **What is different here.** We do not propose a new signal. We measure,
 on recordings of real instructors, which hand states they avoid, we test
@@ -448,11 +452,17 @@ wrong action, so nobody knows whether the performer would have fixed it.
   is spoken. That is a new pre-registration.
 - **Baselines.** We do not compare with ProAssist or EgoVoice on onset
   prediction. [TO DO, needs released weights and GPU time]
-- **Before submission:** check the licence of WTaG for publication of
-  derived labels; read in full the related papers that we cite from the
-  abstract only (Kolbeinsson 2017, Edwards 2021, When2Talk, Sensible
-  Agent details, EgoIntrospect); check every arXiv number in section 2
-  against the paper itself.
+- **Before submission:** read in full the related papers that we cite
+  from the abstract only (Kolbeinsson 2017, Edwards 2021, When2Talk,
+  Sensible Agent details, EgoIntrospect).
+  Done 2026-11-19: all 12 arXiv numbers in section 2 match the cited
+  titles in arXiv's own records (EgoServe is the benchmark of the Vinci2
+  paper, now cited that way). WTaG licence: the GitHub repository
+  (sled-group/Watch-Talk-and-Guide) is MIT; the video-only download that
+  we used has no separate data licence stated; only the audio-video
+  version needs a signed agreement. Plan: release only our labels
+  (recording, time, label), no frames, and ask the WTaG authors to
+  confirm before submission.
 
 ## 10. Conclusion
 
