@@ -281,6 +281,13 @@ middle of fine work costs you something.
    it, labels, and sends back one file; `python -m
    scripts.label_agreement` gives agreement and Cohen's kappa. The same
    for `--dataset egoextra` (item 4).
+   First result (2026-11-19), furniture, one checker: agreement 0.68,
+   kappa 0.36; S against the rest kappa 0.37 (0.05 to 0.66). The checker
+   calls S less often (5 against 13 of 60). The furniture effect (0.59)
+   therefore rests on a label with only fair agreement; a second checker
+   is needed to tell whether people agree better with each other.
+   (`reports/egoextra_label_agreement.md`.) No valid cooking check yet:
+   the one cooking file was made on the old, wrong-frame sheet.
 3. **Say why assembly differs from cooking.** Tested (finding 11): the
    length of the action is not the reason; the kind of action is. The
    paper's claim must therefore name the actions (screw, unscrew,

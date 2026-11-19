@@ -30,8 +30,9 @@ precise hand work by the instructor (0.81, interval 0.59 to 1.08),
 while the user's own questions do avoid it (0.66, interval 0.46 to
 0.92). In furniture assembly
 (Ego-EXTRA) a blind labelled sample shows the effect at a smaller size
-(0.59, interval 0.40 to 0.86), with one labeller and two batches that
-differ.
+(0.59, interval 0.40 to 0.86), with one labeller, two batches that
+differ, and only fair agreement with a human checker (kappa 0.37 for
+screw or insert).
 
 Last, we test whether the observation gives a rule for an assistant. In a
 pre-registered rating study, 14 observers rated the same message spoken
@@ -272,8 +273,9 @@ The ratio is the share of a label at onsets over its share at random
 seconds, with a bootstrap interval.
 
 **Limit that applies to all of section 6:** the labeller was the AI
-assistant used in this project, in one pass, with no second rater. A
-human check of a part of the labels is in progress (section 9).
+assistant used in this project, in one pass. A human check of 60 moments
+per dataset is in progress; the first result (furniture, one checker) is
+in section 6.4 and shows only fair agreement.
 
 ### 6.2 Cooking (WTaG): no clear instructor effect, a user effect
 
@@ -314,7 +316,31 @@ the first, and alone it does not show the effect. We use the pooled 0.59
 and state that it is smaller than the 0.34 of HoloAssist and that the two
 batches differ.
 
-### 6.4 Reading
+### 6.4 Agreement with a human checker (furniture, first checker)
+
+A person who did not know the first labels, the kind of each moment or
+the hypothesis labelled 60 furniture moments (40 speech onsets, 20 random
+seconds, drawn at random from the 420) on the same four frames
+(`reports/egoextra_label_agreement.md`).
+
+| Labels | Agreement | Cohen's kappa |
+|---|---|---|
+| S, B, F | 0.68 (0.57 to 0.80) | 0.36 (0.15 to 0.56) |
+| S against the rest | 0.83 (0.73 to 0.92) | 0.37 (0.05 to 0.66) |
+
+This is fair agreement, not good agreement. The checker used S less
+often than the first labeller (5 against 13 of 60 moments). Of the 13
+moments that the first labeller called S, the checker called 4 S, 3 B
+and 6 F. In the moments we inspected the disagreement is about holding
+or aligning a part against inserting it, which four still frames do not
+always show. So the furniture result of section 6.3 depends on a label
+that two labellers do not apply the same way. With 60 moments the
+checker's own labels cannot test the effect (one S at 20 random seconds).
+A second checker will show whether two people agree better with each
+other than with the first labeller; if they do not, the label itself is
+the limit, not the labeller.
+
+### 6.5 Reading
 
 The instructor effect appears where screw and insert actions are common
 (HoloAssist, furniture assembly) and is not testable where they are rare
@@ -410,8 +436,9 @@ wrong action, so nobody knows whether the performer would have fixed it.
   (4.4) reduces this problem and does not remove it.
 - **One labeller outside HoloAssist.** The labels of section 6 are from
   an AI assistant, one pass. A person labels 60 moments of each sample
-  blind (`scripts/label_check_kit.py`); agreement (Cohen's kappa, from
-  `scripts/label_agreement.py`) will be reported here. [TO DO]
+  blind (`scripts/label_check_kit.py`). First furniture checker: kappa
+  0.36 for three labels, 0.37 for S against the rest (section 6.4).
+  [TO DO: second furniture checker; two cooking checkers]
 - **The furniture result is modest.** 212 onsets, two batches that
   differ, interval 0.40 to 0.86.
 - **The model does not transfer.** The hand-state classifier is trained

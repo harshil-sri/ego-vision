@@ -474,4 +474,12 @@ locally as `last_305.pt`). Tests: 128 passed.
   changed (instructor 0.81, 0.59 to 1.08; user questions 0.66, 0.46 to
   0.92). Cooking check sheet rebuilt and republished at the same link.
   Ego-EXTRA sheets checked: not affected.
+- 2026-11-19, first human checker, furniture (60 moments): agreement
+  0.68, kappa 0.36 (three labels); S against the rest kappa 0.37 (0.05
+  to 0.66). The checker uses S less often (5 against 13). Fair, not good
+  agreement (`reports/egoextra_label_agreement.md`, paper section 6.4).
+  A cooking answers file also came back, but it was made on the old
+  sheet (2026-11-14 00:34 IST, before the fix at 12:16 IST), so it does
+  not check the current labels; kept in runs/label_check/answers/ only.
+  Still needed: second furniture checker, two cooking checkers.
 Tests: 132 passed.
