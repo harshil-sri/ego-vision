@@ -1,5 +1,16 @@
 # Rating study: when should the assistant speak?
 
+**Status (2026-11-21).** The first round below (14 raters, closed
+2026-11-13) is the pilot. The second, confirmatory round is in `rate/`,
+pre-registered in `PREREGISTRATION_v2.md` and analysed by
+`scripts/rating_study2_analyze.py`: same clips and design, plus a consent
+screen, no name or contact details, at least 40 new raters, answers sent
+to a collection sheet (`collect/README.md`). Invitation texts:
+`INVITE_v2.md`. The old link (`study/`) now forwards to `rate/`.
+
+The human relabelling of the Ego-EXTRA and WTaG moments is in `label/`
+(encrypted pages; plan in `label/ANALYSIS_PLAN.md`).
+
 A 7-minute online study. Raters watch 20 short clips (plus one practice
 clip) of a person in fine-motor work. An assistant says one sentence in
 each clip. The rater answers one question: "The assistant spoke at a good
