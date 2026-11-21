@@ -1,0 +1,83 @@
+{
+  "videos": 86,
+  "skipped": {
+    "too few labels or no instructor speech": 11
+  },
+  "shifts": 1000,
+  "boots": 2000,
+  "states": {
+    "idle": {
+      "assistant": [
+        0.674,
+        0.61,
+        0.738
+      ],
+      "instructor": [
+        1.466,
+        1.32,
+        1.633
+      ],
+      "assistant minus instructor": [
+        -0.792,
+        -0.964,
+        -0.636
+      ]
+    },
+    "fine": {
+      "assistant": [
+        0.609,
+        0.555,
+        0.673
+      ],
+      "instructor": [
+        0.494,
+        0.385,
+        0.605
+      ],
+      "assistant minus instructor": [
+        0.115,
+        -0.01,
+        0.237
+      ]
+    },
+    "hold/place/inspect": {
+      "assistant": [
+        1.033,
+        0.923,
+        1.151
+      ],
+      "instructor": [
+        1.174,
+        0.979,
+        1.386
+      ],
+      "assistant minus instructor": [
+        -0.141,
+        -0.357,
+        0.067
+      ]
+    },
+    "other action": {
+      "assistant": [
+        1.4,
+        1.325,
+        1.485
+      ],
+      "instructor": [
+        0.761,
+        0.673,
+        0.853
+      ],
+      "assistant minus instructor": [
+        0.639,
+        0.534,
+        0.752
+      ]
+    }
+  },
+  "onsets": {
+    "assistant": 5372,
+    "instructor": 962
+  },
+  "name": "ProAssist"
+}
