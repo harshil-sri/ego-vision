@@ -498,4 +498,18 @@ locally as `last_305.pt`). Tests: 128 passed.
   labels stay public, is the encrypted check page acceptable, which
   licence covers the video-only release. Awaiting reply. Harshil is
   arranging one furniture and two cooking checkers.
+- 2026-11-21, plan changed (publication-plan decisions): the 60-moment
+  checks are replaced by a full human relabelling, and the rating study
+  gets a confirmatory second round.
+  - Relabelling site `study/label/` (12 encrypted pages, 2 people per
+    batch, guide + practice; plan `study/label/ANALYSIS_PLAN.md`,
+    analysis `scripts.relabel_analyze`). Private links:
+    runs/label_check/relabel/links.md.
+  - Rating study round 2 `study/rate/` (consent, anonymous, pilot raters
+    screened out; `study/PREREGISTRATION_v2.md`, analysis
+    `scripts.rating_study2_analyze`). Old `study/` link forwards there.
+  - Collection sheet: `study/collect/` (not deployed yet; until then
+    people send codes and files by hand).
+  - Next: Harshil deploys the collection endpoint, sends invitations,
+    records the first-invitation date in the pre-registration.
 Tests: 132 passed.
