@@ -1,3 +1,5 @@
+/** @OnlyCurrentDoc  (the script may open only the sheet it belongs to) */
+
 /**
  * Collection web app for the rating study (study/rate/) and the labelling pages (study/label/).
  *

@@ -1,5 +1,8 @@
 # Collecting answers automatically
 
+**Set up on 2026-11-21:** sheet "ego-vision responses" in Harshil's personal
+Google account; the web app address is in `study/endpoint.js`.
+
 Without this, raters copy a code and labellers download a file, and both
 send it to you by hand. With it, the pages send the answers to a Google
 Sheet that only you can open. The hand route stays as a backup.
