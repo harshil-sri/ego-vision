@@ -310,9 +310,9 @@ matches the rating study of section 7, where observers did not reward a
 held message. The data cannot show what would have happened without the
 speech.
 
-![Figure 3](figures/fig3_hold_and_cost.png)
+![Figure 2](figures/fig2_hold_and_cost.png)
 
-*Figure 3. (a) While a next-step instruction is pending, the odds that it
+*Figure 2. (a) While a next-step instruction is pending, the odds that it
 starts in a half second of idle hands, by how long the hands have been
 idle, against a pause of 4 s or more. (b) What follows a routine onset
 during fine-motor work (orange) and during other actions (blue),
@@ -401,9 +401,9 @@ interval is a bootstrap over videos (`reports/proassist_baseline.md`).
 This is a comparison of timing only. It does not say which timing users
 prefer, and section 7 found no preference for the held message.
 
-![Figure 4](figures/fig4_proassist.png)
+![Figure 3](figures/fig3_proassist.png)
 
-*Figure 4. Where speech starts, by hand state, on the 86 HoloAssist test
+*Figure 3. Where speech starts, by hand state, on the 86 HoloAssist test
 videos that ProAssist's released outputs cover: the human instructors
 (routine speech), ProAssist, and the generated dialogue it was trained
 on. Bars: 95% intervals over videos.*
@@ -498,9 +498,9 @@ clear outside HoloAssist. The performer's own speech avoids such work in
 all three datasets (0.40 on HoloAssist, 0.57 in furniture assembly, 0.66
 in cooking).
 
-![Figure 2](figures/fig2_across_datasets.png)
+![Figure 4](figures/fig4_across_datasets.png)
 
-*Figure 2. Speech onsets in precise hand work, observed over chance, for
+*Figure 4. Speech onsets in precise hand work, observed over chance, for
 instructors (blue circles; hollow: corrections) and performers (orange
 squares). HoloAssist: labels of all videos, screw, unscrew or insert.
 Ego-EXTRA furniture: blind sample, label S. \*WTaG: blind sample, labels S

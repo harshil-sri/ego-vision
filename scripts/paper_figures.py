@@ -4,10 +4,10 @@
 
 Figures
   1  one HoloAssist recording as a timeline: hand state and routine instructor onsets
-  2  fine-motor ratio across the three datasets and both speakers, with 95% intervals
-  3  (a) held, then released: odds of a pending instruction by time since the hands became free
+  2  (a) held, then released: odds of a pending instruction by time since the hands became free
      (b) what follows speech during fine-motor work against other actions
-  4  ProAssist against the human instructors of the same videos, by hand state
+  3  ProAssist against the human instructors of the same videos, by hand state
+  4  fine-motor ratio across the three datasets and both speakers, with 95% intervals
   5  rating study: mean rating per cell and held minus now (round 2 if its report exists, else the pilot)
 
 Colours: validated categorical palette (dataviz skill, light mode): blue #2a78d6, orange #eb6834,
@@ -196,7 +196,7 @@ def fig2_forest(holo):
     ax.set_xlabel("speech onsets in precise hand work,\nobserved / chance (log scale)")
     ax.text(1.0, ys[-1] - 0.9, "chance", color=CHANCE, fontsize=6.5, ha="center")
     ax.set_ylim(ys[-1] - 1.1, 0.6)
-    save(fig, "fig2_across_datasets")
+    save(fig, "fig4_across_datasets")
 
 
 # --------------------------------------------------------------------------- figure 3
@@ -234,7 +234,7 @@ def fig3_hold_and_cost():
     b.legend(loc="upper right", fontsize=6.5)
     b.set_title("(b) what follows the speech", loc="left")
     fig.tight_layout(w_pad=2.5)
-    save(fig, "fig3_hold_and_cost")
+    save(fig, "fig2_hold_and_cost")
 
 
 # --------------------------------------------------------------------------- figure 4
@@ -256,7 +256,7 @@ def fig4_proassist():
     ax.set_ylabel("speech onsets, observed / chance")
     ax.set_ylim(0.3, 1.9)
     ax.legend(loc="upper center", fontsize=6.5, ncol=1, bbox_to_anchor=(0.5, 1.02))
-    save(fig, "fig4_proassist")
+    save(fig, "fig3_proassist")
 
 
 # --------------------------------------------------------------------------- figure 5
@@ -297,16 +297,16 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--only", type=int, nargs="*")
     args = ap.parse_args()
-    want = set(args.only or [1, 2, 3, 4, 5])
+    want = set(args.only or [1, 2, 3, 4, 5])  # numbers as in the paper
     meta = {}
     if 1 in want:
         meta["fig1"] = fig1_timeline()
     if 2 in want:
-        fig2_forest(holoassist_fine_ci())
-    if 3 in want:
         fig3_hold_and_cost()
-    if 4 in want:
+    if 3 in want:
         fig4_proassist()
+    if 4 in want:
+        fig2_forest(holoassist_fine_ci())
     if 5 in want:
         fig5_rating()
     if meta:
