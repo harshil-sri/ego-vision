@@ -1,0 +1,599 @@
+{
+  "reps": 500,
+  "boot": 2000,
+  "windows_s": {
+    "end_soon": 1.5,
+    "resumed": 10.0,
+    "mistake": 15.0
+  },
+  "variants": {
+    "main": {
+      "videos": 1454,
+      "onsets": 18649,
+      "contexts": {
+        "fine": {
+          "onsets": 910,
+          "null_onsets": 2681.8,
+          "end_soon": {
+            "observed_share": 0.5055,
+            "null_share": 0.3407,
+            "ratio": [
+              1.484,
+              1.379,
+              1.59
+            ]
+          },
+          "resumed": {
+            "observed_share": 0.3066,
+            "null_share": 0.3336,
+            "ratio": [
+              0.919,
+              0.824,
+              1.017
+            ]
+          },
+          "mistake": {
+            "observed_share": 0.167,
+            "null_share": 0.1401,
+            "ratio": [
+              1.192,
+              1.024,
+              1.368
+            ]
+          }
+        },
+        "other action": {
+          "onsets": 9594,
+          "null_onsets": 10448.8,
+          "end_soon": {
+            "observed_share": 0.6159,
+            "null_share": 0.5753,
+            "ratio": [
+              1.071,
+              1.052,
+              1.091
+            ]
+          },
+          "resumed": {
+            "observed_share": 0.1781,
+            "null_share": 0.1963,
+            "ratio": [
+              0.908,
+              0.866,
+              0.948
+            ]
+          },
+          "mistake": {
+            "observed_share": 0.1837,
+            "null_share": 0.1874,
+            "ratio": [
+              0.98,
+              0.938,
+              1.023
+            ]
+          }
+        },
+        "idle": {
+          "onsets": 8145,
+          "null_onsets": 5518.4,
+          "mistake": {
+            "observed_share": 0.1834,
+            "null_share": 0.1814,
+            "ratio": [
+              1.011,
+              0.967,
+              1.058
+            ]
+          }
+        }
+      },
+      "fine_over_other": {
+        "end_soon": [
+          1.386,
+          1.287,
+          1.492
+        ],
+        "resumed": [
+          1.013,
+          0.903,
+          1.132
+        ],
+        "mistake": [
+          1.216,
+          1.043,
+          1.402
+        ]
+      }
+    },
+    "mistake = self-corrected only": {
+      "videos": 1454,
+      "onsets": 18649,
+      "contexts": {
+        "fine": {
+          "onsets": 910,
+          "null_onsets": 2681.8,
+          "end_soon": {
+            "observed_share": 0.5055,
+            "null_share": 0.3407,
+            "ratio": [
+              1.484,
+              1.379,
+              1.59
+            ]
+          },
+          "resumed": {
+            "observed_share": 0.3066,
+            "null_share": 0.3336,
+            "ratio": [
+              0.919,
+              0.824,
+              1.017
+            ]
+          },
+          "mistake": {
+            "observed_share": 0.0714,
+            "null_share": 0.0689,
+            "ratio": [
+              1.037,
+              0.795,
+              1.296
+            ]
+          }
+        },
+        "other action": {
+          "onsets": 9594,
+          "null_onsets": 10448.8,
+          "end_soon": {
+            "observed_share": 0.6159,
+            "null_share": 0.5753,
+            "ratio": [
+              1.071,
+              1.052,
+              1.091
+            ]
+          },
+          "resumed": {
+            "observed_share": 0.1781,
+            "null_share": 0.1963,
+            "ratio": [
+              0.908,
+              0.866,
+              0.948
+            ]
+          },
+          "mistake": {
+            "observed_share": 0.0671,
+            "null_share": 0.0783,
+            "ratio": [
+              0.857,
+              0.797,
+              0.919
+            ]
+          }
+        },
+        "idle": {
+          "onsets": 8145,
+          "null_onsets": 5518.4,
+          "mistake": {
+            "observed_share": 0.0764,
+            "null_share": 0.0767,
+            "ratio": [
+              0.996,
+              0.921,
+              1.072
+            ]
+          }
+        }
+      },
+      "fine_over_other": {
+        "end_soon": [
+          1.386,
+          1.287,
+          1.492
+        ],
+        "resumed": [
+          1.013,
+          0.903,
+          1.132
+        ],
+        "mistake": [
+          1.21,
+          0.922,
+          1.532
+        ]
+      }
+    },
+    "onsets inside a wrong action dropped": {
+      "videos": 1454,
+      "onsets": 18092,
+      "contexts": {
+        "fine": {
+          "onsets": 835,
+          "null_onsets": 2492.4,
+          "end_soon": {
+            "observed_share": 0.5102,
+            "null_share": 0.3392,
+            "ratio": [
+              1.504,
+              1.395,
+              1.61
+            ]
+          },
+          "resumed": {
+            "observed_share": 0.2802,
+            "null_share": 0.3103,
+            "ratio": [
+              0.903,
+              0.796,
+              1.012
+            ]
+          },
+          "mistake": {
+            "observed_share": 0.1473,
+            "null_share": 0.1233,
+            "ratio": [
+              1.195,
+              0.999,
+              1.401
+            ]
+          }
+        },
+        "other action": {
+          "onsets": 9112,
+          "null_onsets": 9647.4,
+          "end_soon": {
+            "observed_share": 0.6238,
+            "null_share": 0.5827,
+            "ratio": [
+              1.071,
+              1.052,
+              1.091
+            ]
+          },
+          "resumed": {
+            "observed_share": 0.1691,
+            "null_share": 0.1811,
+            "ratio": [
+              0.934,
+              0.889,
+              0.979
+            ]
+          },
+          "mistake": {
+            "observed_share": 0.1709,
+            "null_share": 0.1652,
+            "ratio": [
+              1.034,
+              0.987,
+              1.078
+            ]
+          }
+        },
+        "idle": {
+          "onsets": 8145,
+          "null_onsets": 5518.4,
+          "mistake": {
+            "observed_share": 0.1834,
+            "null_share": 0.1814,
+            "ratio": [
+              1.011,
+              0.967,
+              1.058
+            ]
+          }
+        }
+      },
+      "fine_over_other": {
+        "end_soon": [
+          1.405,
+          1.301,
+          1.513
+        ],
+        "resumed": [
+          0.967,
+          0.847,
+          1.097
+        ],
+        "mistake": [
+          1.155,
+          0.959,
+          1.368
+        ]
+      }
+    },
+    "next-step instructions only": {
+      "videos": 1075,
+      "onsets": 5466,
+      "contexts": {
+        "fine": {
+          "onsets": 106,
+          "null_onsets": 624.3,
+          "end_soon": {
+            "observed_share": 0.6415,
+            "null_share": 0.3725,
+            "ratio": [
+              1.722,
+              1.466,
+              1.988
+            ]
+          },
+          "resumed": {
+            "observed_share": 0.1887,
+            "null_share": 0.2933,
+            "ratio": [
+              0.643,
+              0.389,
+              0.915
+            ]
+          },
+          "mistake": {
+            "observed_share": 0.1226,
+            "null_share": 0.1388,
+            "ratio": [
+              0.883,
+              0.374,
+              1.382
+            ]
+          }
+        },
+        "other action": {
+          "onsets": 1895,
+          "null_onsets": 3174.0,
+          "end_soon": {
+            "observed_share": 0.6781,
+            "null_share": 0.5979,
+            "ratio": [
+              1.134,
+              1.09,
+              1.179
+            ]
+          },
+          "resumed": {
+            "observed_share": 0.1303,
+            "null_share": 0.1922,
+            "ratio": [
+              0.678,
+              0.598,
+              0.761
+            ]
+          },
+          "mistake": {
+            "observed_share": 0.1668,
+            "null_share": 0.1777,
+            "ratio": [
+              0.939,
+              0.847,
+              1.034
+            ]
+          }
+        },
+        "idle": {
+          "onsets": 3465,
+          "null_onsets": 1667.7,
+          "mistake": {
+            "observed_share": 0.1784,
+            "null_share": 0.1816,
+            "ratio": [
+              0.982,
+              0.928,
+              1.037
+            ]
+          }
+        }
+      },
+      "fine_over_other": {
+        "end_soon": [
+          1.519,
+          1.29,
+          1.758
+        ],
+        "resumed": [
+          0.948,
+          0.574,
+          1.391
+        ],
+        "mistake": [
+          0.941,
+          0.399,
+          1.494
+        ]
+      }
+    },
+    "follow-ups only": {
+      "videos": 1197,
+      "onsets": 7660,
+      "contexts": {
+        "fine": {
+          "onsets": 455,
+          "null_onsets": 1189.2,
+          "end_soon": {
+            "observed_share": 0.4176,
+            "null_share": 0.3221,
+            "ratio": [
+              1.296,
+              1.161,
+              1.441
+            ]
+          },
+          "resumed": {
+            "observed_share": 0.411,
+            "null_share": 0.3485,
+            "ratio": [
+              1.179,
+              1.053,
+              1.312
+            ]
+          },
+          "mistake": {
+            "observed_share": 0.189,
+            "null_share": 0.1329,
+            "ratio": [
+              1.422,
+              1.182,
+              1.68
+            ]
+          }
+        },
+        "other action": {
+          "onsets": 4574,
+          "null_onsets": 4188.4,
+          "end_soon": {
+            "observed_share": 0.5365,
+            "null_share": 0.5517,
+            "ratio": [
+              0.972,
+              0.946,
+              0.998
+            ]
+          },
+          "resumed": {
+            "observed_share": 0.2127,
+            "null_share": 0.1996,
+            "ratio": [
+              1.066,
+              1.007,
+              1.125
+            ]
+          },
+          "mistake": {
+            "observed_share": 0.197,
+            "null_share": 0.1841,
+            "ratio": [
+              1.07,
+              1.008,
+              1.134
+            ]
+          }
+        },
+        "idle": {
+          "onsets": 2631,
+          "null_onsets": 2282.4,
+          "mistake": {
+            "observed_share": 0.1851,
+            "null_share": 0.1697,
+            "ratio": [
+              1.091,
+              1.01,
+              1.176
+            ]
+          }
+        }
+      },
+      "fine_over_other": {
+        "end_soon": [
+          1.333,
+          1.195,
+          1.482
+        ],
+        "resumed": [
+          1.107,
+          0.98,
+          1.246
+        ],
+        "mistake": [
+          1.329,
+          1.096,
+          1.577
+        ]
+      }
+    },
+    "confirmations only": {
+      "videos": 1236,
+      "onsets": 5523,
+      "contexts": {
+        "fine": {
+          "onsets": 349,
+          "null_onsets": 864.3,
+          "end_soon": {
+            "observed_share": 0.5788,
+            "null_share": 0.3453,
+            "ratio": [
+              1.676,
+              1.517,
+              1.838
+            ]
+          },
+          "resumed": {
+            "observed_share": 0.2063,
+            "null_share": 0.3397,
+            "ratio": [
+              0.607,
+              0.483,
+              0.741
+            ]
+          },
+          "mistake": {
+            "observed_share": 0.1519,
+            "null_share": 0.1511,
+            "ratio": [
+              1.005,
+              0.758,
+              1.251
+            ]
+          }
+        },
+        "other action": {
+          "onsets": 3125,
+          "null_onsets": 3086.4,
+          "end_soon": {
+            "observed_share": 0.6944,
+            "null_share": 0.5847,
+            "ratio": [
+              1.188,
+              1.155,
+              1.22
+            ]
+          },
+          "resumed": {
+            "observed_share": 0.1565,
+            "null_share": 0.1962,
+            "ratio": [
+              0.798,
+              0.733,
+              0.861
+            ]
+          },
+          "mistake": {
+            "observed_share": 0.1744,
+            "null_share": 0.2023,
+            "ratio": [
+              0.862,
+              0.803,
+              0.921
+            ]
+          }
+        },
+        "idle": {
+          "onsets": 2049,
+          "null_onsets": 1572.4,
+          "mistake": {
+            "observed_share": 0.1898,
+            "null_share": 0.1993,
+            "ratio": [
+              0.953,
+              0.881,
+              1.031
+            ]
+          }
+        }
+      },
+      "fine_over_other": {
+        "end_soon": [
+          1.411,
+          1.279,
+          1.555
+        ],
+        "resumed": [
+          0.761,
+          0.596,
+          0.949
+        ],
+        "mistake": [
+          1.166,
+          0.871,
+          1.472
+        ]
+      }
+    }
+  }
+}
