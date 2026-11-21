@@ -1,0 +1,85 @@
+{
+  "rule": "a second with no labelled action is 'idle'; otherwise the verb of the action decides. Verbs outside the 20 most common count as 'other action'.",
+  "verbs": {
+    "grab": {
+      "group": "other action",
+      "actions": 23902
+    },
+    "place": {
+      "group": "hold, place, inspect",
+      "actions": 17973
+    },
+    "insert": {
+      "group": "fine (screw, unscrew, insert)",
+      "actions": 17474
+    },
+    "withdraw": {
+      "group": "other action",
+      "actions": 11872
+    },
+    "unscrew": {
+      "group": "fine (screw, unscrew, insert)",
+      "actions": 8594
+    },
+    "screw": {
+      "group": "fine (screw, unscrew, insert)",
+      "actions": 8234
+    },
+    "rotate": {
+      "group": "other action",
+      "actions": 8035
+    },
+    "lift": {
+      "group": "other action",
+      "actions": 5831
+    },
+    "disassemble": {
+      "group": "other action",
+      "actions": 5781
+    },
+    "align": {
+      "group": "other action",
+      "actions": 5068
+    },
+    "approach": {
+      "group": "other action",
+      "actions": 5009
+    },
+    "inspect": {
+      "group": "hold, place, inspect",
+      "actions": 4067
+    },
+    "hold": {
+      "group": "hold, place, inspect",
+      "actions": 3409
+    },
+    "press": {
+      "group": "other action",
+      "actions": 3197
+    },
+    "open": {
+      "group": "other action",
+      "actions": 2505
+    },
+    "slide": {
+      "group": "other action",
+      "actions": 2480
+    },
+    "drop": {
+      "group": "other action",
+      "actions": 2386
+    },
+    "close": {
+      "group": "other action",
+      "actions": 2262
+    },
+    "assemble": {
+      "group": "other action",
+      "actions": 2260
+    },
+    "pull": {
+      "group": "other action",
+      "actions": 2257
+    }
+  }
+}
