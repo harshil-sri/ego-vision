@@ -27,3 +27,5 @@ glm-build-brief.md
 
 # blind check sheets for a human labeller (dataset frames and the key stay local)
 runs/label_check/
+# shareable demo video (large; made by scripts.demo_video)
+runs/demo/
