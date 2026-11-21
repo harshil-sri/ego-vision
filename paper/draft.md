@@ -20,7 +20,10 @@ performer's own questions start at 0.40 times chance. The effect belongs
 to these three actions, not to precise work in general and not to long
 actions. Urgency changes it: when a mistake is in progress, the
 correction is not delayed by such an action (odds ratio 0.99, 95%
-interval 0.84 to 1.20). A small classifier on frozen video features reads
+interval 0.84 to 1.20). A pending instruction comes most often 1 to 2 s
+after the hands become free. When an instructor does speak during such
+an action, the hands stop sooner, and we find no robust rise in
+mistakes. A small classifier on frozen video features reads
 the hand state well enough to improve the prediction of speech onsets
 (average precision 0.119 to 0.161). A published proactive assistant,
 ProAssist, also speaks less during these actions in its released
@@ -86,7 +89,9 @@ against our prediction.
 
 - A measurement, on 1,568 HoloAssist videos, of how instructor and
   performer speech depend on the labelled hand state, with a test at
-  fixed need that separates routine speech from corrections (section 4).
+  fixed need that separates routine speech from corrections, the timing
+  of a held instruction after the action ends, and what follows in the
+  cases where the instructor speaks during the action (section 4).
 - Evidence that the effect is specific to screw, unscrew and insert
   actions, and tests of the same question on two other datasets with
   blind labels: no clear instructor effect in cooking, a weaker one in
@@ -230,6 +235,68 @@ So at fixed need the pattern has the shape that an interruption-cost
 account predicts: the routine message waits, the urgent one does not.
 This is still an observation. It does not show that speaking during the
 action would harm the performer.
+
+### 4.5 Held, then released
+
+If instructors only had nothing to say during a screw, the pending
+instruction would come at any time after the screw ends. If they hold it,
+it should come soon after the hands become free. We test this inside the
+episodes of 4.4 (a next-step instruction is pending), on the seconds in
+which the hands are idle, at equal time since the step boundary
+(`reports/holoassist_idle_spell.md`). The reference is a hand pause that
+is already 4 s or longer.
+
+| Hands idle for | After a screw, unscrew or insert | After any other action |
+|---|---|---|
+| 0 to 0.5 s | 1.02 (0.48 to 1.99) | 1.36 (1.18 to 1.58) |
+| 0.5 to 1 s | 2.19 (1.34 to 3.48) | 1.66 (1.39 to 1.91) |
+| 1 to 2 s | **3.15** (1.80 to 6.44) | 1.79 (1.53 to 1.95) |
+| 2 to 4 s | 2.03 (1.19 to 4.17) | 1.43 (1.24 to 1.67) |
+
+Each cell is the odds that the instruction starts in that half second.
+After every kind of action the instruction is most likely 1 to 2 s into
+the pause. After a fine-motor action the peak is higher and comes after
+a short delay (no rise in the first half second). The two columns
+overlap, so we do not claim that they differ. The shape is what a held
+message predicts: it waits for the action to end and for a short moment
+after, and then it comes.
+
+### 4.6 What follows when an instructor does speak during the action?
+
+In 910 cases a routine instruction did start during a screw, unscrew or
+insert action. We compare what followed with the same onsets moved by
+the circular shift of 4.1, which lands them in actions in proportion to
+their length (`reports/holoassist_speech_cost.md`).
+
+| Outcome after a routine onset | During fine-motor work | During other actions | Fine over other |
+|---|---|---|---|
+| The action ends within 1.5 s | 1.48 (1.38 to 1.59) | 1.07 (1.05 to 1.09) | 1.39 (1.29 to 1.49) |
+| The same verb and noun start again within 10 s | 0.92 (0.82 to 1.02) | 0.91 (0.87 to 0.95) | 1.01 (0.90 to 1.13) |
+| A wrong action starts within 15 s | 1.19 (1.02 to 1.37) | 0.98 (0.94 to 1.02) | 1.22 (1.04 to 1.40) |
+
+- **The hands stop.** A fine-motor action ends within 1.5 s of the
+  speech more often than chance, far more than other actions do. The
+  labels of the performer's hands around all instructor onsets agree:
+  after a next-step instruction or a confirmation given while the hands
+  are busy, the hands are idle for 0.5 to 0.6 s more in the next 5 s
+  than chance gives; after a follow-up they are not
+  (`reports/holoassist_aftermath.md`). This does not tell which came
+  first: a performer who pauses may be the reason the instructor speaks.
+- **The action is not broken off more often.** It is not resumed more
+  often than chance, and not more often than other actions.
+- **No robust rise in mistakes.** The raw ratio for mistakes is above 1,
+  but it comes from follow-up instructions (1.42, 1.18 to 1.68), which
+  often react to trouble that is already visible. For next-step
+  instructions it is 0.88 (0.37 to 1.38) and for confirmations 1.00
+  (0.76 to 1.25). Counting only mistakes that the performer corrected
+  alone gives 1.04 (0.80 to 1.30). Leaving out onsets that fall inside a
+  wrong action gives 1.16 (0.96 to 1.37) for fine over other.
+
+So in these recordings speech during fine-motor work goes with a pause
+of the hands, and we find no clear sign of a cost beyond that. This
+matches the rating study of section 7, where observers did not reward a
+held message. The data cannot show what would have happened without the
+speech.
 
 ## 5. Can a model read the hand state from video?
 
@@ -525,7 +592,9 @@ wrong action, so nobody knows whether the performer would have fixed it.
 
 Human instructors on HoloAssist start routine speech during screw,
 unscrew and insert actions about one third as often as chance would
-give, and they do not hold back a correction. The same pattern appears,
+give, and they do not hold back a correction. When they do speak during
+such an action, the hands stop, but we find no clear sign of more
+mistakes. The same pattern appears,
 smaller, in a labelled sample of furniture assembly, and not clearly for
 precise hand work in cooking, where only the performer's own questions
 avoid it. A video model reads the hand state well enough to
