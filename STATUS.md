@@ -482,4 +482,18 @@ locally as `last_305.pt`). Tests: 128 passed.
   sheet (2026-11-14 00:34 IST, before the fix at 12:16 IST), so it does
   not check the current labels; kept in runs/label_check/answers/ only.
   Still needed: second furniture checker, two cooking checkers.
+- 2026-11-21, baseline: ProAssist's released evaluation outputs
+  (checkpoint L4096-I1, eval.zip, stored at C:/ssd-data/proassist) give
+  its speech times on 86 HoloAssist test and 87 validation videos. With
+  our hand labels: ProAssist speaks in fine-motor seconds at 0.61 (0.56
+  to 0.67), real instructors in the same videos at 0.49 (0.38 to 0.60);
+  difference +0.12 (-0.01 to +0.25), validation +0.32. In idle time
+  ProAssist 0.68, instructors 1.47 (`reports/proassist_baseline.md`,
+  paper section 5.4). EgoVoice code and weights not public yet.
+- 2026-11-21, reading: Sensible Agent and EgoIntrospect read in full;
+  Kolbeinsson 2017 only from its full abstract (not open access). Paper
+  section 2 corrected: Kolbeinsson compares fine and coarse breakpoints.
+- 2026-11-21, a draft email to the WTaG contact (yuweibao@umich.edu,
+  from the repository README) is in Gmail, not sent. Harshil is
+  arranging one furniture and two cooking checkers.
 Tests: 132 passed.

@@ -288,6 +288,12 @@ middle of fine work costs you something.
    is needed to tell whether people agree better with each other.
    (`reports/egoextra_label_agreement.md`.) No valid cooking check yet:
    the one cooking file was made on the old, wrong-frame sheet.
+   Baseline (2026-11-21): ProAssist's released outputs on HoloAssist
+   speak in fine-motor seconds at 0.61 times chance against 0.49 for the
+   real instructors of the same 86 test videos, and at 0.68 in idle time
+   against 1.47. A published assistant already avoids these actions
+   somewhat, because its generated training dialogue sits at action ends
+   (`reports/proassist_baseline.md`).
 3. **Say why assembly differs from cooking.** Tested (finding 11): the
    length of the action is not the reason; the kind of action is. The
    paper's claim must therefore name the actions (screw, unscrew,

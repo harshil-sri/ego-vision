@@ -72,6 +72,14 @@ paper's main numbers depend on them.
 | 37 | Stratification: checking that an effect is not caused by a third variable | Action length (`8d2052c`): screw/insert avoided at every length (0.46 under 2 s to 0.28 at 10 s and more), other verbs 0.76 to 1.02 | Why could "long actions are avoided" explain the main result, and how does splitting by length rule it out? What does stratification not rule out? | Pearl, "The Book of Why", chapter 4; Rothman et al., chapter on stratified analysis |
 | 38 | Video files: frames, key frames, group of pictures, time stamps, and what a seek really does | The cooking bug: `frame()` against `frames_in_order()` in `scripts/label_check_kit.py` | A seek to 300.25 s returned the frame at 303.99 s. Explain with key frames and missing time stamps. Why does reading in order fix it, and what does it cost? Name a quick test that would have caught the bug before labelling. | FFmpeg wiki, "Seeking"; any introduction to H.264 (I, P and B frames) |
 
+## Added 2026-11-21: the ProAssist baseline
+
+| # | Topic | Where it is used here | Check yourself | External resource |
+|---|---|---|---|---|
+| 39 | Streaming video-language models: frames as tokens, a per-frame "talk or not" decision, the not-talk threshold, a limited context (summarise and drop) | ProAssist, read through its released outputs in `scripts/proassist_baseline.py` | At 2 frames per second and 4,096 tokens, why must the model drop or summarise old frames? What happens to the number of utterances when the not-talk threshold goes from 0.3 to 0.5? | ProAssist paper (arXiv 2506.05904), sections on the model and the streaming evaluation; VideoLLM-online (arXiv 2406.11816) |
+| 40 | Aligning two time axes with a lag scan (a simple cross-correlation) | The check that ProAssist stream time equals HoloAssist video time: 57% of reference turns within 0.5 s of an action end at lag 0, at most 46% at other lags | Why does a sharp peak at lag 0 show the clocks agree? What would a peak at +3 s mean? What would a broad peak with no clear maximum mean? | Any signal-processing text, chapter on cross-correlation; Oppenheim and Willsky, "Signals and Systems" |
+| 41 | Synthetic training data and inherited bias: a model learns the timing of the data it was trained on | ProAssist's generated dialogue sits at action ends (0.58 in fine seconds), and the model ends up at 0.61 | Why does placing generated turns at action ends make a model avoid screw and insert, without any hand input? What would you change in the data generator to make the model speak in idle time as instructors do? | Gebru et al., "Datasheets for datasets" (2021); the ProAssist paper, section on dialogue generation |
+
 Not deep learning, but used here and worth one evening: password-based
 encryption in the browser (`scripts/label_check_publish.py`: PBKDF2,
 AES-GCM, why the passphrase after "#" never reaches the server). MDN, "SubtleCrypto"; OWASP Password Storage Cheat Sheet.
