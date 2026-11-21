@@ -508,8 +508,9 @@ locally as `last_305.pt`). Tests: 128 passed.
   - Rating study round 2 `study/rate/` (consent, anonymous, pilot raters
     screened out; `study/PREREGISTRATION_v2.md`, analysis
     `scripts.rating_study2_analyze`). Old `study/` link forwards there.
-  - Collection sheet: `study/collect/` (not deployed yet; until then
-    people send codes and files by hand).
-  - Next: Harshil deploys the collection endpoint, sends invitations,
-    records the first-invitation date in the pre-registration.
+  - Collection sheet: deployed 2026-11-21 ("ego-vision responses",
+    Harshil's personal Google account; address in `study/endpoint.js`).
+    Tested from the live site; test rows deleted. Hand route stays as backup.
+  - Next: Harshil sends invitations and records the first-invitation
+    date in the pre-registration.
 Tests: 132 passed.
