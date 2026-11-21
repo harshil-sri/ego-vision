@@ -1,0 +1,160 @@
+{
+  "source": "huggingface.co/594zyc/ProAssist-Model-L4096-I1 eval.zip",
+  "threshold": "0.3",
+  "shifts": 1000,
+  "boots": 2000,
+  "test": {
+    "ProAssist speaks": {
+      "n_onsets": 5416,
+      "idle": [
+        0.678,
+        0.615,
+        0.748
+      ],
+      "fine": [
+        0.609,
+        0.557,
+        0.672
+      ],
+      "hold/place/inspect": [
+        1.026,
+        0.908,
+        1.144
+      ],
+      "other action": [
+        1.397,
+        1.327,
+        1.478
+      ]
+    },
+    "ProAssist reference": {
+      "n_onsets": 11903,
+      "idle": [
+        1.372,
+        1.245,
+        1.526
+      ],
+      "fine": [
+        0.577,
+        0.54,
+        0.619
+      ],
+      "hold/place/inspect": [
+        1.007,
+        0.894,
+        1.12
+      ],
+      "other action": [
+        1.088,
+        1.03,
+        1.153
+      ]
+    },
+    "real instructor, routine": {
+      "n_onsets": 988,
+      "idle": [
+        1.474,
+        1.327,
+        1.643
+      ],
+      "fine": [
+        0.489,
+        0.375,
+        0.605
+      ],
+      "hold/place/inspect": [
+        1.192,
+        0.983,
+        1.392
+      ],
+      "other action": [
+        0.763,
+        0.674,
+        0.855
+      ]
+    },
+    "fine: ProAssist minus instructor": [
+      0.12,
+      -0.007,
+      0.254
+    ],
+    "videos": 86
+  },
+  "val": {
+    "ProAssist speaks": {
+      "n_onsets": 5856,
+      "idle": [
+        0.668,
+        0.568,
+        0.803
+      ],
+      "fine": [
+        0.605,
+        0.541,
+        0.676
+      ],
+      "hold/place/inspect": [
+        1.07,
+        0.977,
+        1.175
+      ],
+      "other action": [
+        1.386,
+        1.301,
+        1.484
+      ]
+    },
+    "ProAssist reference": {
+      "n_onsets": 13440,
+      "idle": [
+        1.548,
+        1.383,
+        1.74
+      ],
+      "fine": [
+        0.521,
+        0.474,
+        0.567
+      ],
+      "hold/place/inspect": [
+        0.97,
+        0.868,
+        1.086
+      ],
+      "other action": [
+        1.054,
+        0.992,
+        1.119
+      ]
+    },
+    "real instructor, routine": {
+      "n_onsets": 1071,
+      "idle": [
+        1.696,
+        1.537,
+        1.883
+      ],
+      "fine": [
+        0.288,
+        0.209,
+        0.386
+      ],
+      "hold/place/inspect": [
+        1.174,
+        0.987,
+        1.369
+      ],
+      "other action": [
+        0.79,
+        0.714,
+        0.865
+      ]
+    },
+    "fine: ProAssist minus instructor": [
+      0.318,
+      0.211,
+      0.418
+    ],
+    "videos": 87
+  }
+}
