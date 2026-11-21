@@ -55,8 +55,9 @@ model of dialogue says so (ProAssist; Pro²Assist; TRAFA; EgoVoice;
 EgoServe). Work in human-computer interaction answers from the side of
 the person: an interruption costs less at a task breakpoint (Adamczyk and
 Bailey 2004; Iqbal and Bailey 2008), and in manual assembly a
-notification that arrives inside an action sequence is missed more often
-(Kolbeinsson et al. 2017). The second line of work mostly uses desk
+notification sent at a fine breakpoint, between small steps, is missed
+more often than one sent between larger task units (Kolbeinsson et al.
+2017). The second line of work mostly uses desk
 sensors or pre-defined breakpoints, not a camera on the head.
 
 This paper connects the two with data. Three datasets record a human
@@ -113,12 +114,21 @@ hands as an input is therefore not new.
 
 **Interruption cost.** ProMemAssist (2507.21378) weighs the value of a
 message against a modelled working-memory load and names hand interaction
-as a cue for future work. Sensible Agent (2509.09255) senses whether the
-hands are available and changes the form of a suggestion; it does not
-time the suggestion. EgoIntrospect (2605.17262) asks whether the wearer
-is interruptible, from the wearer's own marks. Kolbeinsson et al. (2017)
-show in an experiment that notifications inside an assembly action
-sequence are missed more often. Edwards et al. (2021, arXiv 2106.02077)
+as a cue for future work. Sensible Agent (2509.09255) uses gaze, ambient
+noise and whether the hands are free to choose how a suggestion is
+given (audio, visual, gesture or nothing); it does not choose when. In
+its study (10 users) this lowered perceived effort against a voice-only
+baseline. EgoIntrospect (2605.17262) records 180 hours from 60 wearers.
+In one of its tasks the wearers marked afterwards the segments in which
+they would not want a proactive suggestion, and a model must judge each
+segment as interruptible or not. The labels are per segment and come
+from the wearer; ours are per moment and come from an instructor's
+behaviour. Kolbeinsson et al. (2017) sent notifications during a
+simulated assembly task at one of two kinds of breakpoint. Participants
+missed more notifications at fine breakpoints (between small steps)
+than at coarse ones (between larger task units); the authors explain
+this by an overlap of the current action with the anticipation of the
+next one. Edwards et al. (2021, arXiv 2106.02077)
 find that people interrupt a busy person (a Tetris player) sooner when
 the matter is urgent, and several of them say they waited for a subtask
 boundary. When2Talk (2609.12503) delays or withholds the speech of an
@@ -452,10 +462,11 @@ wrong action, so nobody knows whether the performer would have fixed it.
   is spoken. That is a new pre-registration.
 - **Baselines.** We do not compare with ProAssist or EgoVoice on onset
   prediction. [TO DO, needs released weights and GPU time]
-- **Before submission:** read in full the related papers that we cite
-  from the abstract only (Kolbeinsson 2017, Sensible Agent details,
-  EgoIntrospect). Edwards 2021 and When2Talk were read in full on
-  2026-11-19; section 2 states what they found.
+- **Related papers read.** Edwards 2021 and When2Talk were read in full
+  on 2026-11-19; Sensible Agent and EgoIntrospect on 2026-11-21.
+  Kolbeinsson 2017 is not open access; section 2 now follows its full
+  abstract (fine against coarse breakpoints), not the paper body.
+  [TO DO: read the Kolbeinsson body through a library login]
   Done 2026-11-19: all 12 arXiv numbers in section 2 match the cited
   titles in arXiv's own records (EgoServe is the benchmark of the Vinci2
   paper, now cited that way). WTaG licence: the GitHub repository
