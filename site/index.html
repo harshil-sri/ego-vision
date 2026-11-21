@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hands Before Words</title>
+<meta name="description" content="When should an assistant on smart glasses speak? Human instructors wait while the hands screw or insert. Observers do not reward an assistant that does the same.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink2: #52514e; --muted: #8a8984; --rule: #e4e3df;
+  --blue: #2a78d6; --orange: #eb6834; --violet: #6250d6; --idle: #efeee9; --hold: #c9c8c2; --other: #dddcd7;
+  --code: #f0efec;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d0d0d; --surface: #1a1a19; --ink: #f0efec; --ink2: #c3c2b7; --muted: #8f8e88; --rule: #383835;
+    --blue: #3987e5; --orange: #d95926; --violet: #9085e9; --idle: #242422; --hold: #5a5954; --other: #3d3d3a;
+    --code: #242422;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 Inter, system-ui, sans-serif; }
+main { max-width: 820px; margin: 0 auto; padding: 56px 16px 80px; }
+h1 { font: 650 clamp(30px, 5.2vw, 46px)/1.08 Fraunces, Georgia, serif; letter-spacing: -0.015em; margin: 0 0 18px; }
+h2 { font: 650 24px/1.2 Fraunces, Georgia, serif; margin: 64px 0 14px; }
+h3 { font: 600 16px/1.3 Inter, sans-serif; margin: 28px 0 6px; }
+p { margin: 0 0 14px; color: var(--ink); }
+.lede { font-size: 19px; color: var(--ink2); max-width: 680px; }
+.author { color: var(--ink2); margin: 0 0 22px; font-size: 15px; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; }
+.links a, .links span { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 999px;
+  border: 1px solid var(--rule); color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 500; background: var(--surface); }
+.links a:hover { border-color: var(--ink2); }
+.links span { color: var(--muted); }
+a { color: var(--blue); }
+.findings { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 8px 0 0; }
+.finding { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 16px 14px; }
+.finding .num { font: 650 30px/1 Fraunces, Georgia, serif; display: block; margin-bottom: 8px; }
+.finding p { font-size: 14px; color: var(--ink2); margin: 0; }
+@media (max-width: 680px) { .findings { grid-template-columns: 1fr; } }
+
+/* demo */
+.demo { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; margin-top: 18px; }
+.demo video { display: block; width: 100%; height: auto; background: #000; aspect-ratio: 16 / 9; }
+.stage { position: relative; }
+.subs { position: absolute; left: 12px; right: 12px; bottom: 52px; display: flex; flex-direction: column; gap: 6px;
+  align-items: flex-start; pointer-events: none; }
+.sub { background: rgba(11, 11, 11, 0.78); color: #fff; border-radius: 8px; padding: 6px 10px 7px; font-size: 15px;
+  line-height: 1.35; max-width: 92%; }
+.sub b { display: block; font-size: 10.5px; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 1px; }
+.sub.inst b { color: #8fbcf1; } .sub.pa b { color: #b4abf2; }
+@media (max-width: 560px) { .sub { font-size: 13px; } .subs { bottom: 44px; } }
+.tl { padding: 14px 16px 12px; }
+.tl canvas { display: block; width: 100%; height: 168px; cursor: pointer; touch-action: none; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px; color: var(--ink2); margin-top: 8px; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 5px; }
+.legend i.tick { width: 3px; border-radius: 1px; height: 13px; }
+.cap { font-size: 13.5px; color: var(--ink2); margin: 10px 0 0; }
+.ctrl { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+.ctrl button { font: 500 13px Inter, sans-serif; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--rule);
+  background: var(--bg); color: var(--ink); cursor: pointer; }
+.ctrl button:hover { border-color: var(--ink2); }
+.ctrl .time { font: 12.5px "JetBrains Mono", monospace; color: var(--muted); }
+
+figure { margin: 22px 0 8px; }
+figure img { display: block; width: 100%; height: auto; border-radius: 8px; background: #fcfcfb; border: 1px solid var(--rule); }
+figcaption { font-size: 13.5px; color: var(--ink2); margin-top: 8px; }
+pre { background: var(--code); border-radius: 8px; padding: 14px 16px; overflow-x: auto; font: 13px/1.55 "JetBrains Mono", monospace; }
+code { font-family: "JetBrains Mono", monospace; font-size: 0.9em; }
+.note { border-left: 3px solid var(--orange); padding: 2px 0 2px 14px; color: var(--ink2); }
+footer { margin-top: 64px; padding-top: 18px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Hands before words: when should an assistant on smart glasses speak?</h1>
+  <p class="author">Harshil &middot; preprint in preparation, December 2026</p>
+  <p class="lede">Human instructors who watch through a head-worn camera rarely start talking while the
+    hands screw, unscrew or insert a part. We measure this on three datasets, read it from video,
+    and test whether an assistant that waits in the same way is judged to speak at a better moment.
+    It is not.</p>
+  <div class="links">
+    <span>Paper (arXiv, soon)</span>
+    <a href="https://github.com/harshil-sri/ego-vision">Code</a>
+    <a href="https://github.com/harshil-sri/ego-vision/tree/main/release">Labels and audit tool</a>
+  </div>
+
+  <div class="findings">
+    <div class="finding"><span class="num">0.34&times;</span><p>Routine instructor speech starts during screw, unscrew and insert actions at a third of the chance rate (HoloAssist, 1,454 videos).</p></div>
+    <div class="finding"><span class="num">0.99</span><p>Odds ratio for a correction during such an action: when a mistake is in progress, the instructor does not wait.</p></div>
+    <div class="finding"><span class="num">&minus;0.24</span><p>Observers did not rate a held routine message higher (5-point scale, pre-registered pilot, 14 raters). A held warning was rated clearly lower.</p></div>
+  </div>
+
+  <h2>One minute, three timelines</h2>
+  <p>A performer works through a task in HoloAssist while an instructor watches the head-camera view and
+    talks. Below the video: what the hands are doing, what a video model reads from the frames, and when
+    the instructor and a published assistant (ProAssist) start to speak. Click the timeline to jump.</p>
+  <div class="demo" id="demo">
+    <div class="stage">
+      <video id="vid" src="media/demo.mp4" controls playsinline preload="metadata" muted></video>
+      <div class="subs" id="subs" aria-live="polite"></div>
+    </div>
+    <div class="tl">
+      <canvas id="tl" aria-label="Timeline of hand state, model output and speech starts for the clip"></canvas>
+      <div class="legend">
+        <span><i style="background:var(--orange)"></i>screw, unscrew, insert</span>
+        <span><i style="background:var(--hold)"></i>hold, place, inspect</span>
+        <span><i style="background:var(--other)"></i>other action</span>
+        <span><i style="background:var(--idle);border:1px solid var(--rule)"></i>idle</span>
+        <span><i class="tick" style="background:var(--blue)"></i>instructor starts</span>
+        <span><i class="tick" style="background:var(--violet)"></i>ProAssist starts</span>
+      </div>
+      <div class="ctrl"><button id="play" type="button">Play</button><span class="time" id="time">0:00 / 1:00</span></div>
+      <p class="cap" id="cap">The model curve comes from a classifier that never saw this recording session.</p>
+    </div>
+  </div>
+
+  <h2>What we found</h2>
+  <h3>Instructors hold routine speech, then release it</h3>
+  <p>While a next-step instruction is pending, it is most likely to start 1 to 2 seconds after the hands
+    become free. After a screw or insert the rise comes a little later and is higher. When an instructor
+    does speak during the action, the hands stop sooner, but we find no robust rise in mistakes.</p>
+  <figure><img src="figures/fig2_hold_and_cost.png" alt="Left: odds that a pending instruction starts, by how long the hands have been idle; highest at 1 to 2 seconds, more so after a screw or insert. Right: after speech during fine-motor work the hands stop sooner; resumption and mistakes are near chance." loading="lazy">
+    <figcaption>(a) Odds that a pending instruction starts, by time since the hands became free.
+      (b) What follows routine speech that does start during fine-motor work. Bars: 95% intervals over videos.</figcaption></figure>
+
+  <h3>A published assistant waits too, but not like a person</h3>
+  <p>ProAssist already speaks less during screw and insert actions, because its training dialogue is
+    placed at action ends. Its clearest difference from people is idle time: instructors talk most when
+    the hands are idle; ProAssist talks least.</p>
+  <figure><img src="figures/fig3_proassist.png" alt="Speech starts by hand state for human instructors, ProAssist, and ProAssist's training dialogue." loading="lazy">
+    <figcaption>Speech starts by hand state on the 86 HoloAssist test videos covered by ProAssist's released outputs.</figcaption></figure>
+
+  <h3>Outside HoloAssist the picture is mixed</h3>
+  <p>The instructor effect appears, smaller, in furniture assembly (Ego-EXTRA), and is not clear in cooking
+    (WTaG), where screw and insert actions are rare. The performer's own questions avoid precise hand work
+    in all three datasets.</p>
+  <figure><img src="figures/fig4_across_datasets.png" alt="Forest plot of the fine-motor ratio for instructors and performers across HoloAssist, Ego-EXTRA and WTaG." loading="lazy">
+    <figcaption>Speech starts in precise hand work, observed over chance. The Ego-EXTRA and WTaG values come
+      from blind samples and will be replaced by two-person human labels.</figcaption></figure>
+
+  <h3>Waiting is not rated better</h3>
+  <p>In a pre-registered study, observers rated the same message spoken during the action or held until the
+    hands were free. They did not prefer the held routine message, and they rated a held warning clearly
+    lower. A confirmatory round with 40 or more new raters is running.</p>
+  <figure><img src="figures/fig5_rating.png" alt="Rating study: held routine messages are not rated higher; held warnings are rated lower." loading="lazy">
+    <figcaption>Pilot round (14 raters). Bars: 95% intervals from resampling raters.</figcaption></figure>
+  <p class="note">So we report a description of human instructors and a negative result for the rule
+    that seems to follow from it. We do not claim that an assistant should wait.</p>
+
+  <h2>Test your own assistant</h2>
+  <p>If your assistant runs on HoloAssist videos, write the times at which it starts to speak to a CSV and
+    compare it with the human instructors of the same videos:</p>
+  <pre>python -m scripts.timing_audit --speech my_assistant.csv --name "My assistant"</pre>
+  <p>The tool needs only the HoloAssist annotation file. It reproduces the ProAssist numbers above from
+    ProAssist's released outputs. The hand labels of our Ego-EXTRA and WTaG samples (times and labels, no
+    frames) are in the <a href="https://github.com/harshil-sri/ego-vision/tree/main/release">release folder</a>.</p>
+
+  <h2>Cite</h2>
+  <pre id="bib">@misc{harshil2026hands,
+  title  = {Instructors stay quiet during screw and insert actions.
+            Observers do not reward an assistant that does the same.},
+  author = {Harshil},
+  year   = {2026},
+  note   = {Preprint in preparation}
+}</pre>
+
+  <footer>
+    Video: HoloAssist (Wang et al., ICCV 2023), released under
+    <a href="https://cdla.dev/permissive-2-0/">CDLA-Permissive-2.0</a>. ProAssist speech times: the released
+    evaluation outputs of ProAssist (Zhang et al., 2025). Ego-EXTRA and WTaG frames are not shown on this page.
+  </footer>
+</main>
+
+<script>
+(() => {
+  const vid = document.getElementById("vid"), cv = document.getElementById("tl"), ctx = cv.getContext("2d");
+  const playBtn = document.getElementById("play"), timeEl = document.getElementById("time"), cap = document.getElementById("cap");
+  let D = null;
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const fmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+  const ROWS = { inst: [6, 30], pa: [36, 60], hand: [72, 104], model: [112, 160] };
+  const LABEL_W = 92;
+
+  function draw() {
+    const dpr = window.devicePixelRatio || 1, w = cv.clientWidth, h = cv.clientHeight;
+    if (cv.width !== Math.round(w * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    if (!D) return;
+    const narrow = w < 480, lw = narrow ? 0 : LABEL_W, pw = w - lw;
+    const X = t => lw + (t / D.duration_s) * pw;
+    const col = { idle: css("--idle"), fine: css("--orange"), hold: css("--hold"), other: css("--other") };
+    ctx.font = "12px Inter, sans-serif"; ctx.textBaseline = "middle"; ctx.fillStyle = css("--ink2");
+    if (!narrow) {
+      ctx.fillText("instructor", 0, (ROWS.inst[0] + ROWS.inst[1]) / 2);
+      ctx.fillText("ProAssist", 0, (ROWS.pa[0] + ROWS.pa[1]) / 2);
+      ctx.fillText("hands (labels)", 0, (ROWS.hand[0] + ROWS.hand[1]) / 2);
+      ctx.fillText("model: fine?", 0, (ROWS.model[0] + ROWS.model[1]) / 2);
+    }
+    for (const [s, e, g] of D.segments) {       // hand state, with a 1px gap between segments
+      ctx.fillStyle = col[g];
+      ctx.fillRect(X(s), ROWS.hand[0], Math.max(1, X(e) - X(s) - 1), ROWS.hand[1] - ROWS.hand[0]);
+    }
+    const [m0, m1] = ROWS.model;                 // model probability of fine-motor work
+    ctx.strokeStyle = css("--rule"); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(lw, m1 + 0.5); ctx.lineTo(w, m1 + 0.5); ctx.stroke();
+    ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(lw, (m0 + m1) / 2); ctx.lineTo(w, (m0 + m1) / 2); ctx.stroke(); ctx.setLineDash([]);
+    ctx.strokeStyle = css("--orange"); ctx.lineWidth = 2; ctx.lineJoin = "round"; ctx.beginPath();
+    D.p_fine.forEach(([t, p], i) => { const x = X(t), y = m1 - p * (m1 - m0); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+    ctx.stroke();
+    const ticks = (arr, [y0, y1], c) => { ctx.fillStyle = c; for (const t of arr) ctx.fillRect(X(t) - 1.25, y0, 2.5, y1 - y0); };
+    ticks(D.instructor, ROWS.inst, css("--blue"));
+    ticks(D.proassist, ROWS.pa, css("--violet"));
+    const x = X(Math.min(vid.currentTime || 0, D.duration_s));   // playhead
+    ctx.fillStyle = css("--ink"); ctx.fillRect(x - 1, 0, 2, h);
+    subtitles(vid.currentTime || 0);
+  }
+
+  const subsEl = document.getElementById("subs");
+  let lastSubs = "";
+  function subtitles(t) {
+    const on = [
+      ...D.instructor_text.filter(([s, e]) => s <= t && t < Math.max(e, s + 1.5)).map(([, , x]) => ["inst", "INSTRUCTOR", x]),
+      ...D.proassist_text.filter(([s]) => s <= t && t < s + 3).map(([, x]) => ["pa", "PROASSIST", x])];
+    const key = JSON.stringify(on);
+    if (key === lastSubs) return;
+    lastSubs = key;
+    subsEl.replaceChildren(...on.map(([cls, who, text]) => {
+      const d = document.createElement("div"), b = document.createElement("b");
+      d.className = `sub ${cls}`; b.textContent = who;
+      d.append(b, document.createTextNode(text.replace("*unintelligible*", "[unclear]")));
+      return d;
+    }));
+  }
+
+  function seek(ev) {
+    if (!D) return;
+    const r = cv.getBoundingClientRect(), lw = cv.clientWidth < 480 ? 0 : LABEL_W;
+    const f = (ev.clientX - r.left - lw) / (r.width - lw);
+    vid.currentTime = Math.max(0, Math.min(D.duration_s - 0.05, f * D.duration_s));
+    draw();
+  }
+  cv.addEventListener("pointerdown", seek);
+  playBtn.addEventListener("click", () => vid.paused ? vid.play() : vid.pause());
+  vid.addEventListener("play", () => playBtn.textContent = "Pause");
+  vid.addEventListener("pause", () => playBtn.textContent = "Play");
+  vid.addEventListener("timeupdate", () => { timeEl.textContent = `${fmt(vid.currentTime)} / ${fmt(D ? D.duration_s : 60)}`; });
+  const loop = () => { draw(); requestAnimationFrame(loop); };
+  window.addEventListener("resize", draw);
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", draw);
+  fetch("media/demo.json").then(r => r.json()).then(d => {
+    D = d;
+    cap.textContent = `HoloAssist video ${d.video}, from ${fmt(d.start_s)}. The video has no sound; the captions are the ` +
+      `instructor's transcribed words and the words ProAssist generated. The model curve comes from a hand-state classifier ` +
+      `trained on every recording session except this one (${d.held_out_session}). Dashed line: probability 0.5.`;
+    requestAnimationFrame(loop);
+  }).catch(() => { cap.textContent = "The demo data could not be loaded."; });
+})();
+</script>
+</body>
+</html>
