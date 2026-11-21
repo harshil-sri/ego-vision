@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Hand labelling</title>
+<style>
+  :root { --bg:#f6f5f1; --card:#fff; --ink:#1d1d1b; --mute:#66645e; --line:#dcd9d0; --accent:#1f5fbf; --accent-ink:#fff;
+          --S:#b8541b; --B:#6b4fbf; --F:#2f7d4f; --ok:#2a7a3e; --bad:#b3261e; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#161614; --card:#201f1c; --ink:#eceae4; --mute:#a3a097; --line:#3a3833; --accent:#7fb0ff; --accent-ink:#0d1b33;
+            --S:#f0915a; --B:#a993f0; --F:#6cc792; --ok:#6cc792; --bad:#ff8a80; }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width:900px; margin:0 auto; padding:16px 16px 48px; }
+  h1 { font-size:1.35rem; margin:6px 0 12px; } h2 { font-size:1.1rem; margin:18px 0 8px; }
+  p { margin:0 0 12px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px; }
+  .mute { color:var(--mute); font-size:.92rem; }
+  button { font:inherit; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink); padding:10px 16px; cursor:pointer; }
+  button.primary { background:var(--accent); color:var(--accent-ink); border-color:var(--accent); font-weight:600; }
+  button:disabled { opacity:.45; cursor:default; }
+  button:focus-visible, input:focus-visible { outline:3px solid var(--accent); outline-offset:2px; }
+  input[type=text] { font:inherit; width:100%; padding:10px; border-radius:8px; border:1px solid var(--line); background:var(--card); color:var(--ink); }
+  label.chk { display:flex; gap:8px; align-items:flex-start; margin:10px 0; }
+  .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:14px; }
+  .bar { height:6px; background:var(--line); border-radius:3px; margin:0 0 14px; overflow:hidden; }
+  .bar i { display:block; height:100%; background:var(--accent); width:0; transition:width .2s; }
+  /* the 4 frames: one image, shown as 4 cells (1 x 4 on wide screens, 2 x 2 on narrow ones) */
+  .frames { display:grid; grid-template-columns:repeat(4,1fr); gap:4px; }
+  @media (max-width:640px) { .frames { grid-template-columns:repeat(2,1fr); } }
+  .cell { position:relative; background-repeat:no-repeat; background-size:400% 100%; border-radius:6px; background-color:#000; }
+  .cell span { position:absolute; left:4px; top:4px; background:rgba(0,0,0,.7); color:#fff; font-size:.75rem; padding:1px 6px; border-radius:4px; }
+  .cell.last { outline:3px solid var(--accent); outline-offset:-3px; }
+  .choices { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:14px; }
+  .choices button { padding:12px 8px; text-align:left; border-width:2px; min-height:92px; }
+  .choices button b { font-size:1.25rem; display:block; }
+  .choices button small { color:var(--mute); display:block; line-height:1.3; }
+  .choices button[data-l=S] b { color:var(--S); } .choices button[data-l=B] b { color:var(--B); } .choices button[data-l=F] b { color:var(--F); }
+  .choices button.on { border-color:var(--accent); background:color-mix(in srgb, var(--accent) 12%, var(--card)); }
+  @media (max-width:520px) { .choices button small { display:none; } .choices button { min-height:0; text-align:center; } }
+  .def { border-left:4px solid var(--line); padding:4px 0 4px 12px; margin:10px 0; }
+  .def.S { border-color:var(--S); } .def.B { border-color:var(--B); } .def.F { border-color:var(--F); }
+  .ex { margin:10px 0 16px; } .ex p { margin:6px 0 0; }
+  .tag { font-weight:700; } .tag.S { color:var(--S); } .tag.B { color:var(--B); } .tag.F { color:var(--F); }
+  .fb { margin-top:12px; padding:10px 12px; border-radius:8px; border:1px solid var(--line); }
+  .fb.ok { border-color:var(--ok); } .fb.bad { border-color:var(--bad); }
+  .code { word-break:break-all; font:12px/1.4 ui-monospace, Consolas, monospace; background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:10px; max-height:120px; overflow:auto; }
+  .top { display:flex; justify-content:space-between; align-items:center; gap:10px; }
+  .link { background:none; border:none; color:var(--accent); padding:0; text-decoration:underline; }
+  dialog { max-width:860px; width:calc(100% - 24px); border:1px solid var(--line); border-radius:12px; background:var(--card); color:var(--ink); padding:16px; }
+  dialog::backdrop { background:rgba(0,0,0,.5); }
+</style>
+</head>
+<body>
+<main>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="card" id="app"></div>
+  <p class="mute" style="margin-top:14px">Pictures: __CREDIT__. They are shown only for this labelling. Please do not save or share them.</p>
+</main>
+<dialog id="dlg"><div id="dlgbody"></div><div class="row"><button class="primary" id="dlgclose">Close</button></div></dialog>
+<script src="../endpoint.js"></script>
+<script>
+const D = __DATA__;
+const ENDPOINT = (window.STUDY_ENDPOINT || "").trim();
+const app = document.getElementById("app"), bar = document.getElementById("bar");
+const KEY = `relabel-${D.ds}-${D.batch}`, PKEY = `relabel-practice-${D.ds}`;
+const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } },
+                set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const el = html => { app.innerHTML = html; window.scrollTo(0, 0); };
+const rid = () => Array.from(crypto.getRandomValues(new Uint8Array(6)), b => b.toString(36).padStart(2, "0")).join("").slice(0, 10);
+
+let me = store.get("relabel-labeller") || { id: rid(), name: "", ack: true };
+let st = store.get(KEY) || { v: D.version, ds: D.ds, batch: D.batch, run: rid(), t0: null, practice: [], answers: {}, k: 0 };
+const save = () => { store.set(KEY, st); store.set("relabel-labeller", me); };
+
+function frames(src, aspect) {
+  const lab = ["−1.75 s", "−1.25 s", "−0.75 s", "the moment"];
+  return `<div class="frames">${[0, 1, 2, 3].map(j =>
+    `<div class="cell${j === 3 ? " last" : ""}" style="background-image:url(${src});background-position:${j * 100 / 3}% 0;aspect-ratio:${aspect}"><span>${lab[j]}</span></div>`).join("")}</div>`;
+}
+function defs() {
+  return ["S", "B", "F"].map(l => `<div class="def ${l}"><span class="tag ${l}">${l}</span> ${esc(D.defs[l])}</div>`).join("");
+}
+function guideHTML() {
+  let h = `<h1>How to label</h1>
+    <p>Each moment shows <b>4 pictures</b> from the person's head camera, 0.5 s apart. The <b>last picture</b> (blue frame)
+    is the moment. Look at all four to see what the hands are <b>doing</b> at the last picture, then choose one label:</p>${defs()}
+    <p class="mute">Two rules: (1) Label what the hands are <b>doing</b>, not what they are holding. A screwdriver that is only held is F.
+    (2) If the action has just ended or is about to start, but is not happening at the last picture, choose by what is happening at the last picture.</p>
+    <h2>Examples</h2>`;
+  for (const x of D.guide) h += `<div class="ex">${frames(x.img, D.aspect)}<p><span class="tag ${x.label}">${x.label}</span> ${esc(x.why)}</p></div>`;
+  return h;
+}
+function showGuide() { document.getElementById("dlgbody").innerHTML = guideHTML(); document.getElementById("dlg").showModal(); }
+document.getElementById("dlgclose").onclick = () => document.getElementById("dlg").close();
+
+function choices(cur) {
+  return `<div class="choices" id="ch">${["S", "B", "F"].map((l, i) =>
+    `<button data-l="${l}" class="${cur === l ? "on" : ""}"><b>${i + 1} · ${l}</b><small>${esc(D.short[l])}</small></button>`).join("")}</div>`;
+}
+let onKey = null;
+document.addEventListener("keydown", e => {
+  const t = e.target instanceof Element ? e.target : null;
+  if (!onKey || e.ctrlKey || e.metaKey || e.altKey || (t && t.matches("input,textarea"))) return;
+  if (t && t.matches("button") && (e.key === "Enter" || e.key === " ")) return;  // the button handles these itself
+  onKey(e);
+});
+const keyLabel = e => ({ "1": "S", "2": "B", "3": "F", s: "S", b: "B", f: "F" }[e.key.toLowerCase()]);
+
+function welcome() {
+  onKey = null;
+  const n = D.items.length, done = Object.keys(st.answers).length;
+  el(`<h1>Label what the hands are doing</h1>
+    <p>Thank you for helping! This is part ${D.batch} of ${D.nb} for the <b>${esc(D.task)}</b> videos.
+    You will see <b>${n} moments</b> from a head camera. For each one you choose one of three labels.
+    It takes about <b>${Math.round(n * 7 / 60) + 3} minutes</b>, including a short guide and 6 practice moments.</p>
+    <p>Your labels are used in a research paper on when an AI assistant should speak to a person who is working with their hands.
+    Another person labels the same moments, so please work on your own and do not discuss the moments with anyone.</p>
+    <p>You can stop at any time. Your answers are kept in this browser, and the link opens where you stopped.</p>
+    <label for="nm"><b>Your full name</b></label>
+    <input type="text" id="nm" maxlength="80" autocomplete="name" value="${esc(me.name)}">
+    <label class="chk"><input type="checkbox" id="ack" ${me.ack ? "checked" : ""}> <span>Thank me by name in the paper's acknowledgements.
+    <span class="mute">Your name is never published with your labels. Only the paper's author sees which labels are yours.</span></span></label>
+    <div class="row"><button class="primary" id="go" disabled>${done ? `Continue (${done} of ${n} done)` : "Start"}</button></div>`);
+  const nm = document.getElementById("nm"), go = document.getElementById("go");
+  const chk = () => { go.disabled = nm.value.trim().split(/\s+/).length < 2; };
+  nm.oninput = chk; chk();
+  go.onclick = () => {
+    me.name = nm.value.trim(); me.ack = document.getElementById("ack").checked;
+    st.t0 = st.t0 || new Date().toISOString(); save();
+    if (done) label(); else guide();
+  };
+}
+
+function guide() {
+  onKey = null;
+  const practised = store.get(PKEY);
+  el(`${guideHTML()}<div class="row"><button class="primary" id="go">Start the practice (6 moments)</button>
+      ${practised ? `<button id="skip">Skip the practice (you did it before)</button>` : ""}</div>`);
+  document.getElementById("go").onclick = () => practice(0);
+  if (practised) document.getElementById("skip").onclick = () => label();
+}
+
+function practice(i) {
+  if (i >= D.practice.length) {
+    const right = st.practice.filter(p => p.ok).length;
+    store.set(PKEY, true); save();
+    el(`<h1>Practice done: ${right} of ${D.practice.length} right</h1>
+      <p>${right >= 5 ? "Well done." : "That is normal at the start. Read the three labels once more before you go on."}</p>${defs()}
+      <p>Now the real moments. There is no feedback from here on. Go with your best judgement; if you are not sure, choose the label that fits best.
+      You can use the keys <b>1</b>, <b>2</b>, <b>3</b> (or S, B, F) instead of clicking.</p>
+      <div class="row"><button class="primary" id="go">Start labelling</button></div>`);
+    document.getElementById("go").onclick = () => label();
+    return;
+  }
+  const x = D.practice[i];
+  bar.style.width = "0%";
+  el(`<div class="top"><p class="mute">Practice ${i + 1} of ${D.practice.length}</p><button class="link" id="g">Show the guide</button></div>
+    ${frames(x.img, D.aspect)}<p style="margin-top:12px"><b>What are the hands doing at the last picture?</b></p>
+    ${choices()}<div id="fb"></div>`);
+  document.getElementById("g").onclick = showGuide;
+  let answered = false;
+  const pick = l => {
+    if (answered) return; answered = true;
+    const ok = l === x.label;
+    st.practice[i] = { l, ok }; save();
+    document.querySelectorAll("#ch button").forEach(b => b.classList.toggle("on", b.dataset.l === l));
+    document.getElementById("fb").innerHTML = `<div class="fb ${ok ? "ok" : "bad"}"><b>${ok ? "Right." : `The answer is <span class="tag ${x.label}">${x.label}</span>.`}</b> ${esc(x.why)}</div>
+      <div class="row"><button class="primary" id="nx">Next</button></div>`;
+    document.getElementById("nx").onclick = () => practice(i + 1);
+    onKey = e => { if (e.key === "Enter") practice(i + 1); };
+  };
+  document.getElementById("ch").onclick = e => { const b = e.target.closest("button"); if (b) pick(b.dataset.l); };
+  onKey = e => { const l = keyLabel(e); if (l) pick(l); };
+}
+
+function label() {
+  const n = D.items.length;
+  if (st.k >= n) return finish();
+  const x = D.items[st.k], cur = st.answers[x.n] && st.answers[x.n].l;
+  bar.style.width = (100 * Object.keys(st.answers).length / n) + "%";
+  el(`<div class="top"><p class="mute">Moment ${st.k + 1} of ${n}</p><button class="link" id="g">Show the guide</button></div>
+    ${frames(x.img, D.aspect)}<p style="margin-top:12px"><b>What are the hands doing at the last picture?</b></p>
+    ${choices(cur)}
+    <div class="row"><button id="back" ${st.k ? "" : "disabled"}>Back</button></div>`);
+  document.getElementById("g").onclick = showGuide;
+  const shown = performance.now();
+  const pick = l => {
+    st.answers[x.n] = { l, ms: Math.round(performance.now() - shown) };
+    st.k++; save(); label();
+  };
+  document.getElementById("ch").onclick = e => { const b = e.target.closest("button"); if (b) pick(b.dataset.l); };
+  document.getElementById("back").onclick = () => { st.k = Math.max(0, st.k - 1); save(); label(); };
+  onKey = e => { const l = keyLabel(e); if (l) pick(l); else if (e.key === "Backspace" && st.k) { st.k--; save(); label(); } };
+}
+
+async function send(result) {
+  if (!ENDPOINT) return "none";
+  try {
+    const r = await fetch(ENDPOINT, { method: "POST", body: JSON.stringify(result) });
+    const j = await r.json(); return j && j.ok ? "sent" : "maybe";
+  } catch (e) {
+    try { await fetch(ENDPOINT, { method: "POST", mode: "no-cors", body: JSON.stringify(result) }); return "maybe"; } catch (e2) { return "failed"; }
+  }
+}
+
+async function finish() {
+  onKey = null;
+  bar.style.width = "100%";
+  const result = { kind: "labels", v: D.version, ds: D.ds, batch: D.batch, run: st.run, labeller: me.id, name: me.name, ack: me.ack,
+                   t0: st.t0, t1: new Date().toISOString(), ua: navigator.userAgent.slice(0, 120),
+                   practice: st.practice, answers: D.items.map(x => ({ n: x.n, ...(st.answers[x.n] || {}) })) };
+  el(`<h1>Sending your labels…</h1>`);
+  const how = st.sent || await send(result);
+  if (how === "sent") { st.sent = "sent"; save(); }
+  const code = btoa(unescape(encodeURIComponent(JSON.stringify(result))));
+  el(`<h1>Thank you, ${esc(me.name.split(" ")[0])}!</h1>
+    ${how === "sent" ? `<p>Your labels have been sent. You can close this page.</p>`
+      : `<p><b>One more step:</b> please download the file below and send it to the person who invited you${how === "maybe" ? " (it was probably sent, but this makes sure)" : ""}.</p>`}
+    <div class="row"><button class="${how === "sent" ? "" : "primary"}" id="dl">Download my labels</button><button id="cp">Copy as text</button>
+    <button id="back">Go back and change an answer</button></div>
+    <p class="mute" id="msg" style="margin-top:10px"></p>`);
+  document.getElementById("dl").onclick = () => {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([JSON.stringify(result)], { type: "application/json" }));
+    a.download = `labels-${D.ds}-${D.batch}-${me.id}.json`; a.click();
+    document.getElementById("msg").textContent = "Saved as " + a.download + ". Please send this file.";
+  };
+  document.getElementById("cp").onclick = async () => {
+    try { await navigator.clipboard.writeText(code); document.getElementById("msg").textContent = "Copied. Paste it in a message."; }
+    catch (e) { document.getElementById("msg").textContent = "Copying is blocked here. Please use Download."; }
+  };
+  document.getElementById("back").onclick = () => { st.sent = null; st.k = D.items.length - 1; save(); label(); };
+}
+
+welcome();
+</script>
+</body>
+</html>

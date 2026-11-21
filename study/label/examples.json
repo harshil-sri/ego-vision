@@ -1,0 +1,158 @@
+{
+ "egoextra": {
+  "guide": [
+   {
+    "recording": "03_019",
+    "t_s": 229.97,
+    "label": "S",
+    "why": "A screwdriver is turning a screw into the panel."
+   },
+   {
+    "recording": "03_007",
+    "t_s": 1428.82,
+    "label": "S",
+    "why": "Wooden dowels are being pushed into holes in the edge of the board."
+   },
+   {
+    "recording": "01_014",
+    "t_s": 806.9,
+    "label": "B",
+    "why": "The hands are fitting the tyre onto the rim: precise work, but no screw and nothing goes into a hole."
+   },
+   {
+    "recording": "01_002",
+    "t_s": 869.16,
+    "label": "B",
+    "why": "Pliers or cutters are in use on the bike."
+   },
+   {
+    "recording": "03_045",
+    "t_s": 1180.67,
+    "label": "F",
+    "why": "The hand reaches for a tool. Reaching and picking up are F."
+   },
+   {
+    "recording": "03_051",
+    "t_s": 457.24,
+    "label": "F",
+    "why": "The hands hold and move boards. Holding and carrying are F."
+   }
+  ],
+  "practice": [
+   {
+    "recording": "03_029",
+    "t_s": 416.04,
+    "label": "S",
+    "why": "A screwdriver is turning a screw in the frame."
+   },
+   {
+    "recording": "01_032",
+    "t_s": 177.95,
+    "label": "S",
+    "why": "A cap or lid is being twisted. Turning a cap counts as S."
+   },
+   {
+    "recording": "01_021",
+    "t_s": 160.7,
+    "label": "B",
+    "why": "The thumbs push the tyre onto the rim: fitting a tyre is B."
+   },
+   {
+    "recording": "01_035",
+    "t_s": 427.69,
+    "label": "B",
+    "why": "The hands work the tyre onto the wheel: precise work, no screw, so B."
+   },
+   {
+    "recording": "03_060",
+    "t_s": 149.2,
+    "label": "F",
+    "why": "The person looks at the parts. No hand is working: F."
+   },
+   {
+    "recording": "03_055",
+    "t_s": 114.6,
+    "label": "F",
+    "why": "The hands only hold the frame still. Holding is F."
+   }
+  ]
+ },
+ "wtag": {
+  "guide": [
+   {
+    "recording": "T30",
+    "t_s": 419.93,
+    "label": "S",
+    "why": "Toothpicks are being pushed into the wrap. Pushing something in is S."
+   },
+   {
+    "recording": "T29",
+    "t_s": 380.85,
+    "label": "S",
+    "why": "A bottle cap is being twisted open. Twisting a lid or cap is S."
+   },
+   {
+    "recording": "T50",
+    "t_s": 135.29,
+    "label": "B",
+    "why": "A knife spreads peanut butter: precise work, so B."
+   },
+   {
+    "recording": "T29",
+    "t_s": 416.89,
+    "label": "B",
+    "why": "A whisk stirs the batter: B."
+   },
+   {
+    "recording": "T41",
+    "t_s": 298.9,
+    "label": "F",
+    "why": "The person looks at the table. No hand is working: F."
+   },
+   {
+    "recording": "T43",
+    "t_s": 446.05,
+    "label": "F",
+    "why": "The hand reaches for a box. Reaching and picking up are F."
+   }
+  ],
+  "practice": [
+   {
+    "recording": "T40",
+    "t_s": 743.8,
+    "label": "S",
+    "why": "Toothpicks are being pushed into the wrap: S."
+   },
+   {
+    "recording": "T30",
+    "t_s": 572.34,
+    "label": "S",
+    "why": "A toothpick is being pushed into a wrap slice: S."
+   },
+   {
+    "recording": "T16",
+    "t_s": 374.18,
+    "label": "B",
+    "why": "Batter is being poured from the bowl: pouring is B."
+   },
+   {
+    "recording": "T47",
+    "t_s": 598.11,
+    "label": "B",
+    "why": "A knife cuts the wrap into pieces: cutting is B."
+   },
+   {
+    "recording": "T42",
+    "t_s": 684.04,
+    "label": "F",
+    "why": "The hand only holds the coffee cone still. Holding is F."
+   },
+   {
+    "recording": "T30",
+    "t_s": 467.38,
+    "label": "F",
+    "why": "The person looks around the table. No hand is working: F."
+   }
+  ]
+ }
+}

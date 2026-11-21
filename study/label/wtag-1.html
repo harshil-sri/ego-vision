@@ -1,0 +1,24 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Hand labelling</title></head>
+<body style="font-family:system-ui,sans-serif;max-width:640px;margin:40px auto;padding:0 16px">
+<p id="m">Loading the pictures (about 5 MB). This can take some seconds.</p>
+<script>
+const SALT="+E0mW9/No5r0vAezheLV2g==", ROUNDS=600000, DATA="wtag-1.bin";
+const b=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+(async()=>{
+  const m=document.getElementById('m'), pass=decodeURIComponent(location.hash.slice(1));
+  if(!pass){m.textContent='This link is not complete. Please open the full link from the message you received.';return;}
+  let buf;
+  try{ buf=new Uint8Array(await (await fetch(DATA)).arrayBuffer()); }
+  catch(e){m.textContent='The pictures could not be loaded. Please check the internet connection and reload.';return;}
+  try{
+    const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pass),'PBKDF2',false,['deriveKey']);
+    const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b(SALT),iterations:ROUNDS,hash:'SHA-256'},km,
+      {name:'AES-GCM',length:256},false,['decrypt']);
+    const html=new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:buf.slice(0,12)},key,buf.slice(12)));
+    document.open();document.write(html);document.close();
+  }catch(e){m.textContent='The page could not be opened. Please copy the full link from the message again.';}
+})();
+</script>
+</body></html>
