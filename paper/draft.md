@@ -105,6 +105,11 @@ against our prediction.
   (section 7).
 - A separate evaluation of when an assistant should stay silent on a
   mistake (section 8).
+- A timing audit that compares the speech starts of any assistant on
+  HoloAssist with the human instructors of the same videos (it
+  reproduces our ProAssist result from ProAssist's released outputs),
+  and the two-person hand labels of our Ego-EXTRA and WTaG samples
+  (times and labels only; `release/`).
 
 ## 2. Related work
 

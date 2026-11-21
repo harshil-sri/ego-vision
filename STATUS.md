@@ -513,4 +513,27 @@ locally as `last_305.pt`). Tests: 128 passed.
     Tested from the live site; test rows deleted. Hand route stays as backup.
   - Next: Harshil sends invitations and records the first-invitation
     date in the pre-registration.
-Tests: 132 passed.
+- 2026-11-22, paper strengthened while the labels and ratings come in:
+  - Cost of speaking (`scripts.holoassist_speech_cost`, paper 4.6): after
+    routine speech during fine-motor work the action ends within 1.5 s
+    more often (1.48; 1.39 times the ratio for other actions); it is not
+    resumed more; mistakes within 15 s 1.19 (1.02 to 1.37), but this
+    comes from follow-ups (1.42) and is not robust (self-corrected only
+    1.04; onsets in wrong actions dropped: fine/other 1.16, 0.96 to 1.37).
+  - Held then released (paper 4.5, existing `reports/holoassist_idle_spell.md`)
+    and the hands-stop result of `reports/holoassist_aftermath.md` are now
+    in the draft.
+  - Five figures (`scripts.paper_figures` -> `paper/figures/`), placed in
+    the draft. HoloAssist fine ratios now have video-bootstrap intervals
+    (`reports/holoassist_fine_ci.json`).
+  - Timing audit (`scripts.timing_audit`) for any assistant's speech on
+    HoloAssist; reproduces the ProAssist baseline
+    (`reports/timing_audit_proassist.md`). Release folder `release/`
+    with data card; licence still to be chosen.
+  - Project page `site/` (served at /ego-vision/site/, not linked: it
+    explains the rating study's comparison, so it stays unlinked until
+    round-2 collection closes; then move it to the site root). Demo:
+    HoloAssist R061-15July-ATV from 2:59, held-out-session model curve,
+    transcript captions. Shareable video: `runs/demo/demo_timeline.mp4`
+    (`scripts.demo_video`, not in git).
+Tests: 135 passed.
