@@ -1,0 +1,31 @@
+{
+  "shifts": 300,
+  "boot": 2000,
+  "instructor starts, routine": {
+    "videos": 1454,
+    "onsets": 910,
+    "ratio": [
+      0.34,
+      0.316,
+      0.365
+    ]
+  },
+  "instructor starts, correction": {
+    "videos": 993,
+    "onsets": 520,
+    "ratio": [
+      0.593,
+      0.543,
+      0.646
+    ]
+  },
+  "performer asks a question": {
+    "videos": 269,
+    "onsets": 45,
+    "ratio": [
+      0.4,
+      0.296,
+      0.52
+    ]
+  }
+}
