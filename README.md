@@ -124,3 +124,13 @@ presentation mode, `?` help. Webcam must be MJPEG (WSL2 requirement).
 ```bash
 bash scripts/check_all.sh
 ```
+
+## Licence
+
+- Code: MIT (`LICENSE`).
+- Hand labels in `release/`: CC BY 4.0 (`release/LICENSE`).
+- Neither licence covers third-party data. Video, frames and annotations
+  of EPIC-KITCHENS-100, HoloAssist (CDLA-Permissive-2.0), Ego-EXTRA and
+  WTaG keep their own terms; the rating-study clips in `study/clips/` are
+  cut from HoloAssist and stay under CDLA-Permissive-2.0. Model weights
+  keep their own licences (see DECISIONS_NEEDED.md D7).

@@ -529,7 +529,7 @@ locally as `last_305.pt`). Tests: 128 passed.
   - Timing audit (`scripts.timing_audit`) for any assistant's speech on
     HoloAssist; reproduces the ProAssist baseline
     (`reports/timing_audit_proassist.md`). Release folder `release/`
-    with data card; licence still to be chosen.
+    with data card. Licences (chosen 2026-11-22): code MIT, labels CC BY 4.0.
   - Project page `site/` (served at /ego-vision/site/, not linked: it
     explains the rating study's comparison, so it stays unlinked until
     round-2 collection closes; then move it to the site root). Demo:

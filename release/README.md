@@ -53,7 +53,10 @@ checks it on the real labels.
 
 ## Licences
 
+- **Labels in this folder:** [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+  (full text: `LICENSE` in this folder). Use them freely; cite the paper.
+- **Code** (`scripts/`, `src/`, `tests/`): MIT (`LICENSE` at the
+  repository root).
 - The underlying videos belong to their datasets and keep their own terms:
-  HoloAssist, Ego-EXTRA, WTaG. Get them from their authors.
-- Our labels and code: **licence to be chosen by the author before
-  release** (proposal: CC BY 4.0 for the labels, MIT for the code).
+  HoloAssist (CDLA-Permissive-2.0), Ego-EXTRA, WTaG. Get them from their
+  authors. Our labels give recording ids and times only.
