@@ -493,7 +493,9 @@ locally as `last_305.pt`). Tests: 128 passed.
 - 2026-11-21, reading: Sensible Agent and EgoIntrospect read in full;
   Kolbeinsson 2017 only from its full abstract (not open access). Paper
   section 2 corrected: Kolbeinsson compares fine and coarse breakpoints.
-- 2026-11-21, a draft email to the WTaG contact (yuweibao@umich.edu,
-  from the repository README) is in Gmail, not sent. Harshil is
+- 2026-11-21, email sent from Harshil's college address to the WTaG
+  contact (yuweibao@umich.edu, from the repository README): may the 417
+  labels stay public, is the encrypted check page acceptable, which
+  licence covers the video-only release. Awaiting reply. Harshil is
   arranging one furniture and two cooking checkers.
 Tests: 132 passed.

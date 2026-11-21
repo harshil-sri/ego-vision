@@ -518,8 +518,8 @@ wrong action, so nobody knows whether the performer would have fixed it.
   (sled-group/Watch-Talk-and-Guide) is MIT; the video-only download that
   we used has no separate data licence stated; only the audio-video
   version needs a signed agreement. Plan: release only our labels
-  (recording, time, label), no frames, and ask the WTaG authors to
-  confirm before submission.
+  (recording, time, label), no frames. The WTaG contact was asked on
+  2026-11-21. [TO DO: record the reply]
 
 ## 10. Conclusion
 
