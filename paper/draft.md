@@ -194,8 +194,20 @@ utterances and breaks the link to the hands. We repeat this 1,000 to
 
 Each cell is observed over expected. For the fine column, 95% of the
 shifts lie between 0.85 and 1.16 in every row
-(`reports/holoassist_student_speech.md`). Both sides of the conversation
+(`reports/holoassist_student_speech.md`). Resampling videos gives
+95% intervals for the fine column of 0.32 to 0.37 (routine), 0.54 to 0.65
+(correction) and 0.30 to 0.52 (performer questions)
+(`reports/holoassist_fine_ci.json`). Both sides of the conversation
 start to speak less during fine-motor actions.
+
+![Figure 1](figures/fig1_timeline.png)
+
+*Figure 1. One minute of a HoloAssist recording (R090-28July-ATV, from
+54 s). Bottom: the labelled hand state. Top: the starts of routine
+instructor speech. Most starts fall in the pauses between screw, unscrew
+and insert actions. The window was chosen by a fixed rule
+(`scripts/paper_figures.py`) as an illustration; the numbers in the text
+come from all videos.*
 
 ### 4.3 The effect belongs to three actions
 
@@ -298,6 +310,15 @@ matches the rating study of section 7, where observers did not reward a
 held message. The data cannot show what would have happened without the
 speech.
 
+![Figure 3](figures/fig3_hold_and_cost.png)
+
+*Figure 3. (a) While a next-step instruction is pending, the odds that it
+starts in a half second of idle hands, by how long the hands have been
+idle, against a pause of 4 s or more. (b) What follows a routine onset
+during fine-motor work (orange) and during other actions (blue),
+observed over circular-shift chance. Bars: 95% intervals over
+videos.*
+
 ## 5. Can a model read the hand state from video?
 
 ### 5.1 Method
@@ -379,6 +400,13 @@ interval is a bootstrap over videos (`reports/proassist_baseline.md`).
 
 This is a comparison of timing only. It does not say which timing users
 prefer, and section 7 found no preference for the held message.
+
+![Figure 4](figures/fig4_proassist.png)
+
+*Figure 4. Where speech starts, by hand state, on the 86 HoloAssist test
+videos that ProAssist's released outputs cover: the human instructors
+(routine speech), ProAssist, and the generated dialogue it was trained
+on. Bars: 95% intervals over videos.*
 
 ## 6. Outside HoloAssist: two samples with blind labels
 
@@ -470,6 +498,16 @@ clear outside HoloAssist. The performer's own speech avoids such work in
 all three datasets (0.40 on HoloAssist, 0.57 in furniture assembly, 0.66
 in cooking).
 
+![Figure 2](figures/fig2_across_datasets.png)
+
+*Figure 2. Speech onsets in precise hand work, observed over chance, for
+instructors (blue circles; hollow: corrections) and performers (orange
+squares). HoloAssist: labels of all videos, screw, unscrew or insert.
+Ego-EXTRA furniture: blind sample, label S. \*WTaG: blind sample, labels S
+or B, because S alone is too rare to test. Bars: 95% intervals. The
+Ego-EXTRA and WTaG values will be replaced by the two-labeller human
+labels.*
+
 ## 7. Does the observation give a rule? A pre-registered rating study
 
 ### 7.1 Design
@@ -511,6 +549,12 @@ from 10,000 resamples of raters.
 
 By the pre-registration, the failure of H1 counts against the rule.
 Observers do not prefer a routine message after the fine-motor work.
+
+![Figure 5](figures/fig5_rating.png)
+
+*Figure 5. Rating study. (a) Mean rating per cell. (b) Held minus now per
+message type. Bars: 95% intervals from resampling raters. The figure
+script uses the second round when its report exists.*
 
 ### 7.3 Limits of the study
 
